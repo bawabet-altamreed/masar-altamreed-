@@ -1,687 +1,528 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>إدارة المدرسين | مسار التمريض</title>
 
-    <style>
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
 
-        body {
-            font-family: Tahoma, Arial, sans-serif;
-            background: #f5f7fb;
-            color: #172033;
-        }
+<title>إدارة المدرسين | مسار التمريض</title>
 
-        .topbar {
-            height: 70px;
-            background: #fff;
-            border-bottom: 1px solid #e6eaf0;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 0 25px;
-            position: sticky;
-            top: 0;
-            z-index: 10;
-        }
+<style>
 
-        .brand {
-            display: flex;
-            align-items: center;
-            gap: 11px;
-        }
+*{
+box-sizing:border-box;
+margin:0;
+padding:0;
+}
 
-        .logo {
-            width: 43px;
-            height: 43px;
-            border-radius: 13px;
-            background: linear-gradient(135deg, #1769aa, #0d3f68);
-            color: white;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 21px;
-        }
+body{
+font-family:Tahoma,Arial,sans-serif;
+background:#f5f7fb;
+color:#172033;
+}
 
-        .brand h1 {
-            font-size: 18px;
-            color: #12395b;
-        }
+.topbar{
+height:72px;
+background:#fff;
+border-bottom:1px solid #e7ebf2;
+display:flex;
+align-items:center;
+justify-content:space-between;
+padding:0 25px;
+}
 
-        .brand span {
-            display: block;
-            color: #98a2b3;
-            font-size: 10px;
-            margin-top: 3px;
-        }
+.brand{
+display:flex;
+align-items:center;
+gap:12px;
+}
 
-        .back {
-            text-decoration: none;
-            color: #1769aa;
-            background: #eef6ff;
-            padding: 9px 13px;
-            border-radius: 10px;
-            font-size: 13px;
-            font-weight: bold;
-        }
+.logo{
+width:44px;
+height:44px;
+border-radius:13px;
+background:linear-gradient(135deg,#1769aa,#0d3f68);
+color:#fff;
+display:flex;
+align-items:center;
+justify-content:center;
+font-size:22px;
+}
 
-        .container {
-            max-width: 1250px;
-            margin: auto;
-            padding: 25px;
-        }
+.brand h1{
+font-size:19px;
+color:#12395b;
+}
 
-        .page-title {
-            margin-bottom: 22px;
-        }
+.brand span{
+display:block;
+color:#98a2b3;
+font-size:11px;
+}
 
-        .page-title h2 {
-            font-size: 25px;
-            margin-bottom: 7px;
-        }
+.back{
+text-decoration:none;
+color:#1769aa;
+background:#eef6ff;
+padding:10px 14px;
+border-radius:10px;
+font-size:12px;
+font-weight:bold;
+}
 
-        .page-title p {
-            color: #7b8798;
-            font-size: 13px;
-        }
+.container{
+max-width:1250px;
+margin:auto;
+padding:25px;
+}
 
-        .grid {
-            display: grid;
-            grid-template-columns: 370px 1fr;
-            gap: 20px;
-            align-items: start;
-        }
+.title{
+margin-bottom:20px;
+}
 
-        .card {
-            background: #fff;
-            border: 1px solid #e5eaf0;
-            border-radius: 18px;
-            padding: 21px;
-            box-shadow: 0 5px 20px rgba(20,45,75,.04);
-        }
+.title h2{
+font-size:25px;
+margin-bottom:7px;
+}
 
-        .card h3 {
-            font-size: 17px;
-            margin-bottom: 18px;
-        }
+.title p{
+color:#7b8798;
+font-size:13px;
+}
 
-        .form-group {
-            margin-bottom: 14px;
-        }
+.grid{
+display:grid;
+grid-template-columns:370px 1fr;
+gap:20px;
+}
 
-        label {
-            display: block;
-            font-size: 12px;
-            font-weight: bold;
-            color: #344054;
-            margin-bottom: 7px;
-        }
+.card{
+background:#fff;
+border:1px solid #e5eaf0;
+border-radius:18px;
+padding:21px;
+}
 
-        input,
-        select {
-            width: 100%;
-            height: 45px;
-            border: 1px solid #dce3ec;
-            border-radius: 11px;
-            background: #fafbfd;
-            padding: 0 12px;
-            outline: none;
-            font-family: inherit;
-            color: #172033;
-        }
+.form-group{
+margin-bottom:14px;
+}
 
-        input:focus,
-        select:focus {
-            border-color: #1769aa;
-            background: #fff;
-            box-shadow: 0 0 0 3px rgba(23,105,170,.08);
-        }
+label{
+display:block;
+font-size:12px;
+font-weight:bold;
+margin-bottom:7px;
+color:#344054;
+}
 
-        .permissions {
-            display: grid;
-            gap: 9px;
-        }
+input{
+width:100%;
+height:45px;
+border:1px solid #dce3ec;
+border-radius:11px;
+padding:0 12px;
+font-family:inherit;
+outline:none;
+}
 
-        .permission {
-            display: flex;
-            align-items: center;
-            gap: 9px;
-            background: #f8fafc;
-            padding: 10px;
-            border-radius: 10px;
-            cursor: pointer;
-            font-size: 12px;
-        }
+.stages{
+display:grid;
+gap:7px;
+}
 
-        .permission input {
-            width: 17px;
-            height: 17px;
-        }
+.stage{
+display:flex;
+align-items:center;
+gap:8px;
+background:#f8fafc;
+padding:10px;
+border-radius:9px;
+font-size:12px;
+}
 
-        .primary-btn {
-            width: 100%;
-            height: 47px;
-            border: none;
-            border-radius: 11px;
-            background: linear-gradient(135deg,#1769aa,#0d4f80);
-            color: #fff;
-            font-family: inherit;
-            font-weight: bold;
-            cursor: pointer;
-            margin-top: 8px;
-        }
+.stage input{
+width:17px;
+height:17px;
+}
 
-        .primary-btn:disabled {
-            opacity: .6;
-            cursor: not-allowed;
-        }
+.permissions{
+display:grid;
+gap:7px;
+}
 
-        .message {
-            display: none;
-            padding: 11px;
-            border-radius: 10px;
-            margin-bottom: 14px;
-            font-size: 12px;
-            line-height: 1.7;
-            text-align: center;
-        }
+.permission{
+display:flex;
+align-items:center;
+gap:8px;
+background:#f8fafc;
+padding:10px;
+border-radius:9px;
+font-size:12px;
+}
 
-        .message.success {
-            display: block;
-            background: #ecfdf3;
-            color: #087443;
-        }
+.permission input{
+width:17px;
+height:17px;
+}
 
-        .message.error {
-            display: block;
-            background: #fff1f1;
-            color: #b42318;
-        }
+.btn{
+width:100%;
+height:47px;
+border:0;
+border-radius:11px;
+background:linear-gradient(135deg,#1769aa,#0d4f80);
+color:#fff;
+font-family:inherit;
+font-weight:bold;
+cursor:pointer;
+}
 
-        .toolbar {
-            margin-bottom: 17px;
-        }
+.message{
+display:none;
+padding:11px;
+border-radius:10px;
+margin-bottom:14px;
+font-size:12px;
+text-align:center;
+}
 
-        .search {
-            width: 100%;
-        }
+.message.success{
+display:block;
+background:#ecfdf3;
+color:#087443;
+}
 
-        .teachers-list {
-            overflow-x: auto;
-        }
+.message.error{
+display:block;
+background:#fff1f1;
+color:#b42318;
+}
 
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            min-width: 800px;
-        }
+.search{
+width:100%;
+height:45px;
+margin-bottom:15px;
+border:1px solid #dce3ec;
+border-radius:11px;
+padding:0 12px;
+font-family:inherit;
+}
 
-        th {
-            background: #f7f9fc;
-            color: #667085;
-            font-size: 11px;
-            padding: 12px 9px;
-            text-align: right;
-        }
+.table-wrap{
+overflow-x:auto;
+}
 
-        td {
-            padding: 13px 9px;
-            border-bottom: 1px solid #edf0f4;
-            font-size: 12px;
-            vertical-align: top;
-        }
+table{
+width:100%;
+min-width:850px;
+border-collapse:collapse;
+}
 
-        .teacher-name {
-            font-weight: bold;
-        }
+th{
+background:#f7f9fc;
+color:#667085;
+font-size:11px;
+padding:12px;
+text-align:right;
+}
 
-        .teacher-code {
-            color: #1769aa;
-            font-family: monospace;
-            font-weight: bold;
-        }
+td{
+padding:12px;
+border-bottom:1px solid #edf0f4;
+font-size:12px;
+}
 
-        .badge {
-            display: inline-block;
-            padding: 5px 9px;
-            border-radius: 20px;
-            font-size: 10px;
-            font-weight: bold;
-            margin: 2px;
-        }
+.badge{
+display:inline-block;
+padding:5px 9px;
+border-radius:20px;
+font-size:10px;
+font-weight:bold;
+margin:2px;
+background:#eef6ff;
+color:#1769aa;
+}
 
-        .enabled {
-            background: #eaf8f0;
-            color: #087443;
-        }
+.active{
+background:#eaf8f0;
+color:#087443;
+}
 
-        .disabled {
-            background: #fff1f1;
-            color: #b42318;
-        }
+.inactive{
+background:#fff1f1;
+color:#b42318;
+}
 
-        .permission-badge {
-            background: #eef6ff;
-            color: #1769aa;
-        }
+.action{
+border:0;
+padding:7px 9px;
+border-radius:8px;
+font-family:inherit;
+font-size:11px;
+cursor:pointer;
+}
 
-        .stage-badge {
-            background: #f3efff;
-            color: #6941c6;
-        }
+.toggle{
+background:#eef6ff;
+color:#1769aa;
+}
 
-        .action-btn {
-            border: none;
-            padding: 7px 9px;
-            border-radius: 8px;
-            cursor: pointer;
-            font-family: inherit;
-            font-size: 11px;
-            margin: 2px;
-        }
+.delete{
+background:#fff1f1;
+color:#b42318;
+}
 
-        .toggle-btn {
-            background: #eef6ff;
-            color: #1769aa;
-        }
+.empty{
+text-align:center;
+padding:40px;
+color:#98a2b3;
+}
 
-        .delete-btn {
-            background: #fff1f1;
-            color: #b42318;
-        }
+@media(max-width:900px){
 
-        .empty {
-            text-align: center;
-            padding: 45px 15px;
-            color: #98a2b3;
-            font-size: 13px;
-        }
+.grid{
+grid-template-columns:1fr;
+}
 
-        .count {
-            color: #98a2b3;
-            font-size: 11px;
-        }
+}
 
-        .select-hint {
-            color: #98a2b3;
-            font-size: 10px;
-            margin-top: 7px;
-        }
+</style>
 
-        @media (max-width: 900px) {
-            .grid {
-                grid-template-columns: 1fr;
-            }
-        }
-
-        @media (max-width: 600px) {
-            .container {
-                padding: 16px 11px;
-            }
-
-            .topbar {
-                padding: 0 12px;
-            }
-
-            .brand span {
-                display: none;
-            }
-
-            .card {
-                padding: 16px;
-            }
-        }
-    </style>
 </head>
 
 <body>
 
 <header class="topbar">
 
-    <div class="brand">
+<div class="brand">
 
-        <div class="logo">🩺</div>
+<div class="logo">🩺</div>
 
-        <div>
-            <h1>مسار التمريض</h1>
-            <span>Masar Al-Tamreed</span>
-        </div>
+<div>
+<h1>مسار التمريض</h1>
+<span>Masar Al-Tamreed</span>
+</div>
 
-    </div>
+</div>
 
-    <a href="dashboard.html" class="back">
-        ← لوحة الإدارة
-    </a>
+<a href="dashboard.html" class="back">
+← لوحة الإدارة
+</a>
 
 </header>
 
 
 <main class="container">
 
-    <div class="page-title">
+<div class="title">
 
-        <h2>إدارة المدرسين 👨‍🏫</h2>
+<h2>👨‍🏫 إدارة المدرسين</h2>
 
-        <p>
-            إضافة المدرسين وتحديد المراحل والصلاحيات الخاصة بهم
-        </p>
+<p>
+إضافة المدرسين وربطهم بالمراحل والصلاحيات
+</p>
 
-    </div>
+</div>
 
 
-    <div class="grid">
+<div class="grid">
 
 
-        <!-- إضافة مدرس -->
+<section class="card">
 
-        <section class="card">
+<h3 style="margin-bottom:18px">
+➕ إضافة مدرس
+</h3>
 
-            <h3>➕ إضافة مدرس</h3>
+<div id="message" class="message"></div>
 
-            <div id="message" class="message"></div>
+<form id="teacherForm">
 
-            <form id="teacherForm">
 
+<div class="form-group">
 
-                <div class="form-group">
+<label>اسم المدرس</label>
 
-                    <label for="name">
-                        اسم المدرس
-                    </label>
+<input
+id="name"
+placeholder="د. أحمد محمد"
+required
+>
 
-                    <input
-                        id="name"
-                        type="text"
-                        placeholder="مثال: د. أحمد محمد"
-                        required
-                    >
+</div>
 
-                </div>
 
+<div class="form-group">
 
-                <div class="form-group">
+<label>كود المدرس</label>
 
-                    <label for="code">
-                        كود المدرس
-                    </label>
+<input
+id="code"
+placeholder="TCH001"
+required
+>
 
-                    <input
-                        id="code"
-                        type="text"
-                        placeholder="مثال: TCH001"
-                        autocomplete="off"
-                        required
-                    >
+</div>
 
-                </div>
 
+<div class="form-group">
 
-                <!-- المراحل -->
+<label>
+المراحل التي يدرسها المدرس
+</label>
 
-                <div class="form-group">
+<div class="stages">
 
-                    <label>
-                        المراحل التي يدرسها المدرس
-                    </label>
 
-                    <div class="permissions">
+<label class="stage">
+<input type="checkbox" value="first_secondary_nursing">
+الأول الثانوي التمريض
+</label>
 
-                        <label class="permission">
+<label class="stage">
+<input type="checkbox" value="second_secondary_nursing">
+الثاني الثانوي التمريض
+</label>
 
-                            <input
-                                type="checkbox"
-                                value="first_secondary_nursing"
-                                class="stage-input"
-                            >
+<label class="stage">
+<input type="checkbox" value="third_secondary_nursing">
+الثالث الثانوي التمريض
+</label>
 
-                            الأول الثانوي التمريض
+<label class="stage">
+<input type="checkbox" value="first_institute_nursing">
+الأول معهد التمريض
+</label>
 
-                        </label>
+<label class="stage">
+<input type="checkbox" value="second_institute_nursing">
+الثاني معهد التمريض
+</label>
 
+</div>
 
-                        <label class="permission">
+</div>
 
-                            <input
-                                type="checkbox"
-                                value="second_secondary_nursing"
-                                class="stage-input"
-                            >
 
-                            الثاني الثانوي التمريض
+<div class="form-group">
 
-                        </label>
+<label>
+الصلاحيات
+</label>
 
+<div class="permissions">
 
-                        <label class="permission">
+<label class="permission">
+<input type="checkbox" value="lectures">
+إدارة المحاضرات
+</label>
 
-                            <input
-                                type="checkbox"
-                                value="third_secondary_nursing"
-                                class="stage-input"
-                            >
+<label class="permission">
+<input type="checkbox" value="schedule">
+إدارة الجدول
+</label>
 
-                            الثالث الثانوي التمريض
+<label class="permission">
+<input type="checkbox" value="students">
+مشاهدة الطلاب
+</label>
 
-                        </label>
+<label class="permission">
+<input type="checkbox" value="exams">
+إدارة الاختبارات
+</label>
 
+<label class="permission">
+<input type="checkbox" value="files">
+إدارة الملفات
+</label>
 
-                        <label class="permission">
+</div>
 
-                            <input
-                                type="checkbox"
-                                value="first_institute_nursing"
-                                class="stage-input"
-                            >
+</div>
 
-                            الأول معهد التمريض
 
-                        </label>
+<button
+id="saveBtn"
+class="btn"
+type="submit"
+>
 
+إضافة المدرس
 
-                        <label class="permission">
+</button>
 
-                            <input
-                                type="checkbox"
-                                value="second_institute_nursing"
-                                class="stage-input"
-                            >
+</form>
 
-                            الثاني معهد التمريض
+</section>
 
-                        </label>
 
-                    </div>
+<section class="card">
 
-                    <div class="select-hint">
-                        يمكنك اختيار أكثر من مرحلة للمدرس نفسه.
-                    </div>
+<div style="
+display:flex;
+justify-content:space-between;
+margin-bottom:17px;
+">
 
-                </div>
+<h3>
+👨‍🏫 المدرسون
+</h3>
 
+<span
+id="count"
+style="color:#98a2b3;font-size:11px"
+>
+0 مدرس
+</span>
 
-                <!-- الصلاحيات -->
+</div>
 
-                <div class="form-group">
 
-                    <label>
-                        صلاحيات المدرس
-                    </label>
+<input
+id="search"
+class="search"
+placeholder="🔍 ابحث باسم المدرس أو الكود..."
+>
 
-                    <div class="permissions">
 
+<div class="table-wrap">
 
-                        <label class="permission">
+<table>
 
-                            <input
-                                type="checkbox"
-                                value="lectures"
-                                class="permission-input"
-                            >
+<thead>
 
-                            إدارة المحاضرات
+<tr>
 
-                        </label>
+<th>المدرس</th>
+<th>الكود</th>
+<th>المراحل</th>
+<th>الصلاحيات</th>
+<th>الحالة</th>
+<th>إجراء</th>
 
+</tr>
 
-                        <label class="permission">
+</thead>
 
-                            <input
-                                type="checkbox"
-                                value="schedule"
-                                class="permission-input"
-                            >
+<tbody id="teachersTable">
 
-                            إدارة الجدول
+<tr>
+<td colspan="6" class="empty">
+جاري التحميل...
+</td>
+</tr>
 
-                        </label>
+</tbody>
 
+</table>
 
-                        <label class="permission">
+</div>
 
-                            <input
-                                type="checkbox"
-                                value="students"
-                                class="permission-input"
-                            >
+</section>
 
-                            مشاهدة الطلاب
-
-                        </label>
-
-
-                        <label class="permission">
-
-                            <input
-                                type="checkbox"
-                                value="exams"
-                                class="permission-input"
-                            >
-
-                            إدارة الاختبارات
-
-                        </label>
-
-
-                        <label class="permission">
-
-                            <input
-                                type="checkbox"
-                                value="files"
-                                class="permission-input"
-                            >
-
-                            إدارة الملفات
-
-                        </label>
-
-
-                    </div>
-
-                </div>
-
-
-                <button
-                    id="saveBtn"
-                    class="primary-btn"
-                    type="submit"
-                >
-                    إضافة المدرس
-                </button>
-
-
-            </form>
-
-        </section>
-
-
-        <!-- قائمة المدرسين -->
-
-        <section class="card">
-
-
-            <div style="
-                display:flex;
-                justify-content:space-between;
-                align-items:center;
-                margin-bottom:17px;
-            ">
-
-                <h3 style="margin:0;">
-                    👨‍🏫 المدرسون
-                </h3>
-
-                <span id="count" class="count">
-                    0 مدرس
-                </span>
-
-            </div>
-
-
-            <div class="toolbar">
-
-                <input
-                    id="search"
-                    class="search"
-                    type="search"
-                    placeholder="🔍 ابحث باسم المدرس أو الكود..."
-                >
-
-            </div>
-
-
-            <div class="teachers-list">
-
-                <table>
-
-                    <thead>
-
-                        <tr>
-
-                            <th>المدرس</th>
-
-                            <th>الكود</th>
-
-                            <th>المراحل</th>
-
-                            <th>الصلاحيات</th>
-
-                            <th>الحالة</th>
-
-                            <th>إجراء</th>
-
-                        </tr>
-
-                    </thead>
-
-
-                    <tbody id="teachersTable">
-
-                        <tr>
-
-                            <td
-                                colspan="6"
-                                class="empty"
-                            >
-                                جاري تحميل المدرسين...
-                            </td>
-
-                        </tr>
-
-                    </tbody>
-
-                </table>
-
-            </div>
-
-        </section>
-
-    </div>
+</div>
 
 </main>
 
@@ -689,744 +530,406 @@
 <script type="module">
 
 import {
-    auth,
-    db
+db
 } from "../src/firebase/config.js";
 
-
 import {
-    onAuthStateChanged
-} from "https://www.gstatic.com/firebasejs/12.18.0/firebase-auth.js";
-
-
-import {
-    collection,
-    doc,
-    getDocs,
-    setDoc,
-    deleteDoc,
-    updateDoc,
-    serverTimestamp
+collection,
+doc,
+getDocs,
+setDoc,
+deleteDoc,
+updateDoc,
+serverTimestamp
 } from "https://www.gstatic.com/firebasejs/12.18.0/firebase-firestore.js";
 
-
-const ADMIN_UID =
-    "nDhRZ5jHk4W03RLUyKvcDvc5sMy2";
-
-
-const form =
-    document.getElementById("teacherForm");
+import {
+protectAdminPage
+} from "../src/firebase/admin-guard.js";
 
 
-const table =
-    document.getElementById("teachersTable");
+const form=document.getElementById("teacherForm");
+const table=document.getElementById("teachersTable");
+const search=document.getElementById("search");
+const message=document.getElementById("message");
+const saveBtn=document.getElementById("saveBtn");
+const count=document.getElementById("count");
+
+let teachers=[];
 
 
-const search =
-    document.getElementById("search");
+const stageNames={
 
-
-const message =
-    document.getElementById("message");
-
-
-const saveBtn =
-    document.getElementById("saveBtn");
-
-
-const count =
-    document.getElementById("count");
-
-
-let teachers = [];
-
-
-const stageNames = {
-
-    first_secondary_nursing:
-        "الأول الثانوي التمريض",
-
-    second_secondary_nursing:
-        "الثاني الثانوي التمريض",
-
-    third_secondary_nursing:
-        "الثالث الثانوي التمريض",
-
-    first_institute_nursing:
-        "الأول معهد التمريض",
-
-    second_institute_nursing:
-        "الثاني معهد التمريض"
+first_secondary_nursing:"الأول الثانوي",
+second_secondary_nursing:"الثاني الثانوي",
+third_secondary_nursing:"الثالث الثانوي",
+first_institute_nursing:"الأول معهد",
+second_institute_nursing:"الثاني معهد"
 
 };
 
 
-const permissionNames = {
+const permissionNames={
 
-    lectures:
-        "المحاضرات",
-
-    schedule:
-        "الجدول",
-
-    students:
-        "الطلاب",
-
-    exams:
-        "الاختبارات",
-
-    files:
-        "الملفات"
+lectures:"المحاضرات",
+schedule:"الجدول",
+students:"الطلاب",
+exams:"الاختبارات",
+files:"الملفات"
 
 };
 
 
-function escapeHtml(value) {
+function escapeHtml(v){
 
-    return String(value ?? "")
-        .replaceAll("&", "&amp;")
-        .replaceAll("<", "&lt;")
-        .replaceAll(">", "&gt;")
-        .replaceAll('"', "&quot;")
-        .replaceAll("'", "&#039;");
-
-}
-
-
-function showMessage(text, type) {
-
-    message.textContent = text;
-
-    message.className =
-        "message " + type;
+return String(v??"")
+.replaceAll("&","&amp;")
+.replaceAll("<","&lt;")
+.replaceAll(">","&gt;")
+.replaceAll('"',"&quot;")
+.replaceAll("'","&#039;");
 
 }
 
 
-function hideMessage() {
+function msg(text,type="error"){
 
-    message.textContent = "";
-
-    message.className =
-        "message";
+message.textContent=text;
+message.className="message "+type;
 
 }
 
 
-function renderTeachers(list = teachers) {
+async function load(){
 
-    count.textContent =
-        `${list.length} مدرس`;
+const snapshot=
+await getDocs(collection(db,"users"));
 
+teachers=
+snapshot.docs
+.map(x=>({id:x.id,data:x.data()}))
+.filter(x=>x.data.role==="teacher");
 
-    if (!list.length) {
-
-        table.innerHTML = `
-            <tr>
-                <td colspan="6" class="empty">
-                    لا يوجد مدرسون حاليًا
-                </td>
-            </tr>
-        `;
-
-        return;
-
-    }
-
-
-    table.innerHTML =
-        list.map(item => {
-
-            const data =
-                item.data;
-
-
-            const permissions =
-                Array.isArray(data.permissions)
-                    ? data.permissions
-                    : [];
-
-
-            const stages =
-                Array.isArray(data.stages)
-                    ? data.stages
-                    : [];
-
-
-            const permissionHTML =
-                permissions.length
-                    ? permissions.map(permission => `
-
-                        <span class="badge permission-badge">
-                            ${escapeHtml(
-                                permissionNames[permission] || permission
-                            )}
-                        </span>
-
-                    `).join("")
-                    : "—";
-
-
-            const stageHTML =
-                stages.length
-                    ? stages.map(stage => `
-
-                        <span class="badge stage-badge">
-                            ${escapeHtml(
-                                stageNames[stage] || stage
-                            )}
-                        </span>
-
-                    `).join("")
-                    : "—";
-
-
-            return `
-
-                <tr>
-
-                    <td>
-
-                        <div class="teacher-name">
-                            ${escapeHtml(
-                                data.name || "بدون اسم"
-                            )}
-                        </div>
-
-                    </td>
-
-
-                    <td>
-
-                        <span class="teacher-code">
-                            ${escapeHtml(item.id)}
-                        </span>
-
-                    </td>
-
-
-                    <td>
-                        ${stageHTML}
-                    </td>
-
-
-                    <td>
-                        ${permissionHTML}
-                    </td>
-
-
-                    <td>
-
-                        <span class="badge ${
-                            data.isActive === false
-                                ? "disabled"
-                                : "enabled"
-                        }">
-
-                            ${
-                                data.isActive === false
-                                    ? "موقوف"
-                                    : "فعال"
-                            }
-
-                        </span>
-
-                    </td>
-
-
-                    <td>
-
-
-                        <button
-                            class="action-btn toggle-btn"
-                            data-action="toggle"
-                            data-id="${escapeHtml(item.id)}"
-                        >
-
-                            ${
-                                data.isActive === false
-                                    ? "تفعيل"
-                                    : "إيقاف"
-                            }
-
-                        </button>
-
-
-                        <button
-                            class="action-btn delete-btn"
-                            data-action="delete"
-                            data-id="${escapeHtml(item.id)}"
-                        >
-
-                            حذف
-
-                        </button>
-
-
-                    </td>
-
-                </tr>
-
-            `;
-
-        }).join("");
-
-
-    document
-        .querySelectorAll("[data-action]")
-        .forEach(button => {
-
-            button.addEventListener(
-                "click",
-                () => {
-
-                    const id =
-                        button.dataset.id;
-
-
-                    if (
-                        button.dataset.action ===
-                        "toggle"
-                    ) {
-
-                        toggleTeacher(id);
-
-                    }
-
-
-                    if (
-                        button.dataset.action ===
-                        "delete"
-                    ) {
-
-                        deleteTeacher(id);
-
-                    }
-
-                }
-            );
-
-        });
+render(teachers);
 
 }
 
 
-async function loadTeachers() {
+function render(list){
 
-    try {
+count.textContent=`${list.length} مدرس`;
 
-        const snapshot =
-            await getDocs(
-                collection(db, "users")
-            );
+if(!list.length){
 
+table.innerHTML=`
+<tr>
+<td colspan="6" class="empty">
+لا يوجد مدرسون
+</td>
+</tr>
+`;
 
-        teachers =
-            snapshot.docs
-                .map(item => ({
-
-                    id:
-                        item.id,
-
-                    data:
-                        item.data()
-
-                }))
-                .filter(item =>
-                    item.data.role ===
-                    "teacher"
-                );
-
-
-        renderTeachers();
-
-
-    } catch (error) {
-
-        console.error(error);
-
-
-        table.innerHTML = `
-
-            <tr>
-
-                <td
-                    colspan="6"
-                    class="empty"
-                >
-
-                    تعذر تحميل المدرسين
-
-                </td>
-
-            </tr>
-
-        `;
-
-    }
+return;
 
 }
 
 
-form.addEventListener(
-    "submit",
-    async event => {
+table.innerHTML=list.map(item=>{
 
-        event.preventDefault();
+const d=item.data;
 
-        hideMessage();
+const stages=
+Array.isArray(d.stages)
+?d.stages
+:(d.stage?[d.stage]:[]);
 
-
-        const name =
-            document
-                .getElementById("name")
-                .value
-                .trim();
+const permissions=
+Array.isArray(d.permissions)
+?d.permissions:[];
 
 
-        const code =
-            document
-                .getElementById("code")
-                .value
-                .trim()
-                .toUpperCase();
+return `
+
+<tr>
+
+<td>
+<strong>
+${escapeHtml(d.name||"بدون اسم")}
+</strong>
+</td>
+
+<td>
+${escapeHtml(item.id)}
+</td>
+
+<td>
+
+${
+stages.map(s=>`
+<span class="badge">
+${escapeHtml(stageNames[s]||s)}
+</span>
+`).join("")
+}
+
+</td>
+
+<td>
+
+${
+permissions.map(p=>`
+<span class="badge">
+${escapeHtml(permissionNames[p]||p)}
+</span>
+`).join("")
+}
+
+</td>
+
+<td>
+
+<span class="badge ${
+d.isActive===false
+?"inactive"
+:"active"
+}">
+
+${
+d.isActive===false
+?"موقوف"
+:"فعال"
+}
+
+</span>
+
+</td>
+
+<td>
+
+<button
+class="action toggle"
+data-action="toggle"
+data-id="${escapeHtml(item.id)}"
+>
+
+${
+d.isActive===false
+?"تفعيل"
+:"إيقاف"
+}
+
+</button>
+
+<button
+class="action delete"
+data-action="delete"
+data-id="${escapeHtml(item.id)}"
+>
+حذف
+</button>
+
+</td>
+
+</tr>
+
+`;
+
+}).join("");
 
 
-        const stages =
-            [
-                ...document.querySelectorAll(
-                    ".stage-input:checked"
-                )
-            ]
-            .map(input =>
-                input.value
-            );
+document.querySelectorAll("[data-action]")
+.forEach(btn=>{
+
+btn.onclick=()=>{
+
+if(btn.dataset.action==="toggle")
+toggle(btn.dataset.id);
+
+if(btn.dataset.action==="delete")
+remove(btn.dataset.id);
+
+};
+
+});
+
+}
 
 
-        const permissions =
-            [
-                ...document.querySelectorAll(
-                    ".permission-input:checked"
-                )
-            ]
-            .map(input =>
-                input.value
-            );
+form.addEventListener("submit",async e=>{
+
+e.preventDefault();
+
+const name=document.getElementById("name").value.trim();
+
+const code=document.getElementById("code").value.trim().toUpperCase();
 
 
-        if (
-            !name ||
-            !code ||
-            stages.length === 0
-        ) {
-
-            showMessage(
-                "من فضلك أدخل اسم المدرس واختر مرحلة واحدة على الأقل.",
-                "error"
-            );
-
-            return;
-
-        }
+const stages=
+[...document.querySelectorAll(".stage input:checked")]
+.map(x=>x.value);
 
 
-        saveBtn.disabled = true;
-
-        saveBtn.textContent =
-            "جاري الحفظ...";
-
-
-        try {
+const permissions=
+[...document.querySelectorAll(".permission input:checked")]
+.map(x=>x.value);
 
 
-            await setDoc(
-                doc(
-                    db,
-                    "users",
-                    code
-                ),
-                {
+if(!name||!code){
 
-                    name,
+msg("أكمل بيانات المدرس.");
+return;
 
-                    role:
-                        "teacher",
-
-                    stages,
-
-                    permissions,
-
-                    isActive:
-                        true,
-
-                    createdAt:
-                        serverTimestamp(),
-
-                    updatedAt:
-                        serverTimestamp()
-
-                }
-            );
+}
 
 
-            showMessage(
-                "تم إضافة المدرس بنجاح ✅",
-                "success"
-            );
+if(!stages.length){
+
+msg("اختر مرحلة واحدة على الأقل.");
+return;
+
+}
 
 
-            form.reset();
+saveBtn.disabled=true;
+saveBtn.textContent="جاري الحفظ...";
 
 
-            await loadTeachers();
+try{
 
+await setDoc(
+doc(db,"users",code),
+{
 
-        } catch (error) {
+name,
+role:"teacher",
 
-            console.error(error);
+stages,
 
+permissions,
 
-            showMessage(
-                "حدث خطأ أثناء إضافة المدرس: " +
-                error.message,
-                "error"
-            );
+isActive:true,
 
-        } finally {
+createdAt:serverTimestamp(),
+updatedAt:serverTimestamp()
 
-            saveBtn.disabled = false;
-
-            saveBtn.textContent =
-                "إضافة المدرس";
-
-        }
-
-    }
+}
 );
 
 
-search.addEventListener(
-    "input",
-    () => {
+msg("تم إضافة المدرس بنجاح ✅","success");
 
-        const value =
-            search.value
-                .trim()
-                .toLowerCase();
+form.reset();
+
+await load();
 
 
-        if (!value) {
+}catch(error){
 
-            renderTeachers();
+console.error(error);
 
-            return;
+msg("حدث خطأ: "+error.message);
 
-        }
+}finally{
 
+saveBtn.disabled=false;
+saveBtn.textContent="إضافة المدرس";
 
-        const filtered =
-            teachers.filter(item => {
+}
 
-                const name =
-                    String(
-                        item.data.name || ""
-                    ).toLowerCase();
+});
 
 
-                const code =
-                    item.id.toLowerCase();
+async function toggle(id){
 
+const teacher=
+teachers.find(x=>x.id===id);
 
-                return (
-                    name.includes(value) ||
-                    code.includes(value)
-                );
+if(!teacher)return;
 
-            });
+await updateDoc(
+doc(db,"users",id),
+{
 
+isActive:
+teacher.data.isActive===false,
 
-        renderTeachers(filtered);
+updatedAt:serverTimestamp()
 
-    }
+}
 );
 
-
-async function toggleTeacher(id) {
-
-    const teacher =
-        teachers.find(
-            item =>
-                item.id === id
-        );
-
-
-    if (!teacher) {
-
-        return;
-
-    }
-
-
-    try {
-
-        await updateDoc(
-            doc(
-                db,
-                "users",
-                id
-            ),
-            {
-
-                isActive:
-                    teacher.data.isActive === false,
-
-                updatedAt:
-                    serverTimestamp()
-
-            }
-        );
-
-
-        await loadTeachers();
-
-
-    } catch (error) {
-
-        console.error(error);
-
-
-        showMessage(
-            "تعذر تغيير حالة المدرس.",
-            "error"
-        );
-
-    }
+await load();
 
 }
 
 
-async function deleteTeacher(id) {
+async function remove(id){
 
-    const confirmed =
-        confirm(
-            "هل أنت متأكد من حذف هذا المدرس؟"
-        );
+if(!confirm("هل تريد حذف المدرس؟"))
+return;
 
+await deleteDoc(
+doc(db,"users",id)
+);
 
-    if (!confirmed) {
-
-        return;
-
-    }
-
-
-    try {
-
-        await deleteDoc(
-            doc(
-                db,
-                "users",
-                id
-            )
-        );
-
-
-        showMessage(
-            "تم حذف المدرس بنجاح.",
-            "success"
-        );
-
-
-        await loadTeachers();
-
-
-    } catch (error) {
-
-        console.error(error);
-
-
-        showMessage(
-            "تعذر حذف المدرس.",
-            "error"
-        );
-
-    }
+await load();
 
 }
 
 
-onAuthStateChanged(
-    auth,
-    async user => {
+search.addEventListener("input",()=>{
 
-        if (!user) {
+const value=
+search.value.trim().toLowerCase();
 
-            window.location.href =
-                "../login.html";
+if(!value){
 
-            return;
+render(teachers);
+return;
 
-        }
+}
 
-
-        if (
-            user.uid !==
-            ADMIN_UID
-        ) {
-
-            document.body.innerHTML = `
-
-                <div style="
-                    min-height:100vh;
-                    display:flex;
-                    align-items:center;
-                    justify-content:center;
-                    text-align:center;
-                    font-family:Tahoma,Arial;
-                    background:#f5f7fb;
-                    padding:20px;
-                ">
-
-                    <div>
-
-                        <div style="
-                            font-size:50px;
-                            margin-bottom:10px;
-                        ">
-                            🔒
-                        </div>
-
-
-                        <h2>
-                            غير مصرح بالدخول
-                        </h2>
-
-
-                        <p style="
-                            color:#777;
-                            margin-top:10px;
-                        ">
-
-                            هذه الصفحة مخصصة لإدارة
-                            مسار التمريض.
-
-                        </p>
-
-                    </div>
-
-                </div>
-
-            `;
-
-            return;
-
-        }
-
-
-        await loadTeachers();
-
-    }
+render(
+teachers.filter(x=>
+String(x.data.name||"")
+.toLowerCase()
+.includes(value)
+||
+x.id.toLowerCase().includes(value)
+)
 );
+
+});
+
+
+protectAdminPage({
+
+onAuthorized(){
+load();
+},
+
+onUnauthorized(){
+document.body.innerHTML=`
+<div style="
+min-height:100vh;
+display:flex;
+align-items:center;
+justify-content:center;
+text-align:center;
+font-family:Tahoma;
+">
+<div>
+<div style="font-size:50px">🔒</div>
+<h2>غير مصرح بالدخول</h2>
+<p style="color:#777">
+هذه الصفحة للإدارة فقط.
+</p>
+</div>
+</div>
+`;
+}
+
+});
 
 </script>
 
