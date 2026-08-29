@@ -413,57 +413,37 @@
 
 </div>
 
-
-
 <script type="module">
-
 
 import {
     auth,
     db
 } from "./src/firebase/config.js";
 
-
 import {
     signInAnonymously
 } from "https://www.gstatic.com/firebasejs/12.18.0/firebase-auth.js";
 
-
 import {
     doc,
     getDoc,
-    updateDoc
+    setDoc,
+    updateDoc,
+    serverTimestamp
 } from "https://www.gstatic.com/firebasejs/12.18.0/firebase-firestore.js";
 
 
-
-const form =
-    document.getElementById("loginForm");
-
-
-const codeInput =
-    document.getElementById("code");
-
-
-const passwordInput =
-    document.getElementById("password");
-
-
-const loginBtn =
-    document.getElementById("loginBtn");
-
-
-const message =
-    document.getElementById("message");
-
+const form = document.getElementById("loginForm");
+const codeInput = document.getElementById("code");
+const passwordInput = document.getElementById("password");
+const loginBtn = document.getElementById("loginBtn");
+const message = document.getElementById("message");
 
 
 function showMessage(text, type = "error") {
 
     message.textContent = text;
-
-    message.className =
-        "message " + type;
+    message.className = "message " + type;
 
 }
 
@@ -471,402 +451,300 @@ function showMessage(text, type = "error") {
 function clearMessage() {
 
     message.textContent = "";
-
-    message.className =
-        "message";
+    message.className = "message";
 
 }
 
 
+form.addEventListener("submit", async (event) => {
 
-/*
-|--------------------------------------------------------------------------
-| التحقق من التاريخ
-|--------------------------------------------------------------------------
-*/
+    event.preventDefault();
 
-function isSubscriptionValid(data) {
+    clearMessage();
 
-    if (data.status !== "active") {
+    const code =
+        codeInput.value.trim().toUpperCase();
 
-        return {
-            valid: false,
-            message: "هذا الاشتراك غير فعال حاليًا."
-        };
-
-    }
+    const password =
+        passwordInput.value.trim();
 
 
-    const today =
-        new Date();
+    if (!code || !password) {
 
-
-    today.setHours(
-        0,
-        0,
-        0,
-        0
-    );
-
-
-    if (data.startDate) {
-
-        const startDate =
-            new Date(data.startDate);
-
-        startDate.setHours(
-            0,
-            0,
-            0,
-            0
+        showMessage(
+            "من فضلك أدخل كود الاشتراك وكلمة المرور."
         );
 
-
-        if (today < startDate) {
-
-            return {
-                valid: false,
-                message: "لم يبدأ الاشتراك بعد."
-            };
-
-        }
-
+        return;
     }
 
 
-    if (data.endDate) {
-
-        const endDate =
-            new Date(data.endDate);
-
-        endDate.setHours(
-            23,
-            59,
-            59,
-            999
-        );
+    loginBtn.disabled = true;
+    loginBtn.textContent = "جاري التحقق...";
 
 
-        if (today > endDate) {
+    try {
 
-            return {
-                valid: false,
-                message: "انتهى الاشتراك. يرجى التواصل مع الإدارة."
-            };
+        /*
+         * 1
+         * Anonymous Authentication
+         */
 
-        }
+        if (!auth.currentUser) {
 
-    }
-
-
-    return {
-        valid: true
-    };
-
-}
-
-
-
-/*
-|--------------------------------------------------------------------------
-| تسجيل الدخول
-|--------------------------------------------------------------------------
-*/
-
-form.addEventListener(
-    "submit",
-    async event => {
-
-        event.preventDefault();
-
-        clearMessage();
-
-
-        const code =
-            codeInput.value
-                .trim()
-                .toUpperCase();
-
-
-        const password =
-            passwordInput.value.trim();
-
-
-        if (!code || !password) {
-
-            showMessage(
-                "من فضلك أدخل كود الاشتراك وكلمة المرور."
-            );
-
-            return;
+            await signInAnonymously(auth);
 
         }
 
 
-        loginBtn.disabled = true;
-
-        loginBtn.textContent =
-            "جاري التحقق...";
-
-
-        try {
-
-
-            /*
-             * 1
-             * Anonymous Authentication
-             */
-
-            if (!auth.currentUser) {
-
-                await signInAnonymously(auth);
-
-            }
-
-
-            const uid =
-                auth.currentUser.uid;
-
-
-            console.log(
-                "Anonymous UID:",
-                uid
-            );
-
-
-            /*
-             * 2
-             * قراءة الاشتراك
-             *
-             * subscriptions/ST001
-             */
-
-            const subscriptionRef =
-                doc(
-                    db,
-                    "subscriptions",
-                    code
-                );
-
-
-            const subscriptionSnap =
-                await getDoc(
-                    subscriptionRef
-                );
-
-
-            if (!subscriptionSnap.exists()) {
-
-                showMessage(
-                    "كود الاشتراك غير صحيح."
-                );
-
-                return;
-
-            }
-
-
-            const subscription =
-                subscriptionSnap.data();
-
-
-            /*
-             * 3
-             * التحقق من كلمة المرور
-             */
-
-            if (
-                subscription.password !==
-                password
-            ) {
-
-                showMessage(
-                    "كلمة المرور غير صحيحة."
-                );
-
-                return;
-
-            }
-
-
-            /*
-             * 4
-             * التحقق من حالة الاشتراك والتاريخ
-             */
-
-            const validation =
-                isSubscriptionValid(
-                    subscription
-                );
-
-
-            if (!validation.valid) {
-
-                showMessage(
-                    validation.message
-                );
-
-                return;
-
-            }
-
-
-            /*
-             * 5
-             * التأكد من وجود studentId
-             */
-
-            if (!subscription.studentId) {
-
-                showMessage(
-                    "هذا الاشتراك غير مرتبط بطالب حتى الآن."
-                );
-
-                return;
-
-            }
-
-
-            /*
-             * 6
-             * قراءة بيانات الطالب
-             */
-
-            const studentRef =
-                doc(
-                    db,
-                    "students",
-                    subscription.studentId
-                );
-
-
-            const studentSnap =
-                await getDoc(
-                    studentRef
-                );
-
-
-            if (!studentSnap.exists()) {
-
-                showMessage(
-                    "بيانات الطالب غير موجودة."
-                );
-
-                return;
-
-            }
-
-
-            const student =
-                studentSnap.data();
-
-
-            /*
-             * 7
-             * ربط Anonymous UID بالطالب
-             */
-
-            if (
-                student.uid &&
-                student.uid !== uid
-            ) {
-
-                showMessage(
-                    "هذا الحساب مرتبط بجهاز آخر."
-                );
-
-                return;
-
-            }
-
-
-            /*
-             * 8
-             * حفظ UID لأول دخول
-             */
-
-            if (!student.uid) {
-
-                await updateDoc(
-                    studentRef,
-                    {
-                        uid: uid
-                    }
-                );
-
-            }
-
-
-            /*
-             * 9
-             * حفظ معلومات الجلسة
-             *
-             * ليست مصدر الحماية.
-             * Firebase هو المصدر الأساسي.
-             */
-
-            sessionStorage.setItem(
-                "studentCode",
+        const uid =
+            auth.currentUser.uid;
+
+
+        /*
+         * 2
+         * البحث عن الاشتراك
+         */
+
+        const subscriptionRef =
+            doc(
+                db,
+                "subscriptions",
                 code
             );
 
 
-            sessionStorage.setItem(
-                "studentId",
-                subscription.studentId
-            );
+        const subscriptionSnapshot =
+            await getDoc(subscriptionRef);
 
 
-            /*
-             * 10
-             * نجاح
-             */
+        if (!subscriptionSnapshot.exists()) {
 
             showMessage(
-                `مرحبًا ${student.name || "بالطالب"} 👋 جاري الدخول...`,
-                "success"
+                "كود الاشتراك غير صحيح."
             );
 
-
-            /*
-             * 11
-             * الانتقال إلى Dashboard
-             */
-
-            setTimeout(
-                () => {
-
-                    window.location.href =
-                        "./student/dashboard.html";
-
-                },
-                700
-            );
+            return;
+        }
 
 
-        } catch (error) {
+        const subscription =
+            subscriptionSnapshot.data();
 
-            console.error(
-                "Login error:",
-                error
-            );
 
+        /*
+         * 3
+         * التحقق من كلمة المرور
+         */
+
+        if (
+            subscription.password !== password
+        ) {
 
             showMessage(
-                "حدث خطأ أثناء تسجيل الدخول. حاول مرة أخرى."
+                "كلمة المرور غير صحيحة."
             );
 
-        } finally {
+            return;
+        }
 
-            loginBtn.disabled = false;
 
-            loginBtn.textContent =
-                "تسجيل الدخول";
+        /*
+         * 4
+         * التحقق من حالة الاشتراك
+         */
+
+        if (
+            subscription.status !== "active"
+        ) {
+
+            showMessage(
+                "هذا الاشتراك غير فعال حاليًا."
+            );
+
+            return;
+        }
+
+
+        /*
+         * 5
+         * التحقق من تاريخ الانتهاء
+         */
+
+        if (subscription.endDate) {
+
+            const today =
+                new Date();
+
+            const endDate =
+                new Date(
+                    subscription.endDate + "T23:59:59"
+                );
+
+
+            if (today > endDate) {
+
+                showMessage(
+                    "انتهى اشتراكك. يرجى التواصل مع الإدارة."
+                );
+
+                return;
+            }
 
         }
 
+
+        /*
+         * 6
+         * معرفة الطالب
+         */
+
+        const studentId =
+            subscription.studentId || code;
+
+
+        const studentRef =
+            doc(
+                db,
+                "students",
+                studentId
+            );
+
+
+        const studentSnapshot =
+            await getDoc(studentRef);
+
+
+        if (!studentSnapshot.exists()) {
+
+            showMessage(
+                "بيانات الطالب غير موجودة."
+            );
+
+            return;
+        }
+
+
+        const student =
+            studentSnapshot.data();
+
+
+        /*
+         * 7
+         * التأكد من أن الطالب فعال
+         */
+
+        if (student.isActive === false) {
+
+            showMessage(
+                "حساب الطالب موقوف حاليًا."
+            );
+
+            return;
+        }
+
+
+        /*
+         * 8
+         * إنشاء / تحديث users
+         */
+
+        const userRef =
+            doc(
+                db,
+                "users",
+                uid
+            );
+
+
+        await setDoc(
+            userRef,
+            {
+
+                uid: uid,
+
+                role: "student",
+
+                studentId: studentId,
+
+                subscriptionCode: code,
+
+                name:
+                    student.name || "طالب",
+
+                stage:
+                    student.stage || "",
+
+                isActive: true,
+
+                updatedAt:
+                    serverTimestamp(),
+
+                createdAt:
+                    serverTimestamp()
+
+            },
+            {
+                merge: true
+            }
+        );
+
+
+        /*
+         * 9
+         * ربط Anonymous UID بالاشتراك
+         */
+
+        await updateDoc(
+            subscriptionRef,
+            {
+
+                uid: uid,
+
+                studentId: studentId,
+
+                updatedAt:
+                    serverTimestamp()
+
+            }
+        );
+
+
+        /*
+         * 10
+         * الدخول للطالب
+         */
+
+        showMessage(
+            `مرحبًا ${student.name || "بك"} 👋`,
+            "success"
+        );
+
+
+        setTimeout(() => {
+
+            window.location.href =
+                "./student/dashboard.html";
+
+        }, 700);
+
+
+    } catch (error) {
+
+        console.error(error);
+
+        showMessage(
+            "حدث خطأ أثناء تسجيل الدخول. حاول مرة أخرى."
+        );
+
+    } finally {
+
+        loginBtn.disabled = false;
+        loginBtn.textContent = "تسجيل الدخول";
+
     }
-);
+
+});
 
 
 </script>
