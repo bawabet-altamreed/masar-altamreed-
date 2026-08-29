@@ -8,6 +8,7 @@
     <title>لوحة الطالب | مسار التمريض</title>
 
     <style>
+
         * {
             box-sizing: border-box;
             margin: 0;
@@ -66,7 +67,7 @@
         }
 
         .welcome {
-            background: #1769aa;
+            background: linear-gradient(135deg, #1769aa, #0d4f80);
             color: #ffffff;
             padding: 28px;
             border-radius: 18px;
@@ -74,7 +75,7 @@
         }
 
         .welcome small {
-            opacity: 0.85;
+            opacity: .85;
         }
 
         .welcome h1 {
@@ -85,7 +86,7 @@
         .stage {
             margin-top: 10px;
             font-size: 15px;
-            opacity: 0.9;
+            opacity: .92;
         }
 
         .cards {
@@ -147,6 +148,16 @@
             color: #718096;
         }
 
+        .error-box {
+            background: #fff1f1;
+            color: #b42318;
+            border: 1px solid #ffd4d4;
+            border-radius: 14px;
+            padding: 20px;
+            text-align: center;
+            line-height: 1.8;
+        }
+
         @media (max-width: 750px) {
 
             .cards {
@@ -166,363 +177,551 @@
                 width: 100%;
             }
         }
+
     </style>
+
 </head>
 
 <body>
 
-    <header>
+<header>
 
-        <div class="header-content">
+    <div class="header-content">
 
-            <div class="brand">
-                مسار التمريض
-                <span>Masar Al-Tamreed</span>
+        <div class="brand">
+
+            مسار التمريض
+
+            <span>
+                Masar Al-Tamreed
+            </span>
+
+        </div>
+
+        <button
+            class="logout"
+            id="logoutButton"
+        >
+            تسجيل الخروج
+        </button>
+
+    </div>
+
+</header>
+
+
+<main>
+
+    <div
+        class="loading"
+        id="loading"
+    >
+        جاري تحميل بيانات الطالب...
+    </div>
+
+
+    <div
+        id="dashboard"
+        style="display:none;"
+    >
+
+        <section class="welcome">
+
+            <small>
+                مرحبًا بك في مسار التمريض 👋
+            </small>
+
+            <h1 id="studentName">
+                الطالب
+            </h1>
+
+            <div
+                class="stage"
+                id="studentStage"
+            >
+                المرحلة الدراسية
             </div>
 
-            <button
-                class="logout"
-                id="logoutButton"
+        </section>
+
+
+        <section class="cards">
+
+            <div class="card">
+
+                <div class="card-icon">
+                    📅
+                </div>
+
+                <h3>
+                    جدول المحاضرات
+                </h3>
+
+                <p>
+                    تابع مواعيد المحاضرات الخاصة بمرحلتك.
+                </p>
+
+            </div>
+
+
+            <div class="card">
+
+                <div class="card-icon">
+                    🎥
+                </div>
+
+                <h3>
+                    المحاضرات
+                </h3>
+
+                <p>
+                    شاهد المحاضرات المتاحة لمرحلتك الدراسية فقط.
+                </p>
+
+            </div>
+
+
+            <div class="card">
+
+                <div class="card-icon">
+                    🏆
+                </div>
+
+                <h3>
+                    الترتيب
+                </h3>
+
+                <p>
+                    تابع ترتيبك ومستواك الدراسي.
+                </p>
+
+            </div>
+
+
+            <div class="card">
+
+                <div class="card-icon">
+                    📚
+                </div>
+
+                <h3>
+                    الملفات التعليمية
+                </h3>
+
+                <p>
+                    الوصول إلى الملفات التعليمية الخاصة بمرحلتك.
+                </p>
+
+            </div>
+
+
+            <div class="card">
+
+                <div class="card-icon">
+                    📊
+                </div>
+
+                <h3>
+                    تقدمي الدراسي
+                </h3>
+
+                <p>
+                    تابع تقدمك ونتائجك داخل المنصة.
+                </p>
+
+            </div>
+
+
+            <div class="card">
+
+                <div class="card-icon">
+                    👤
+                </div>
+
+                <h3>
+                    ملفي الشخصي
+                </h3>
+
+                <p>
+                    عرض بيانات حسابك واشتراكك.
+                </p>
+
+            </div>
+
+        </section>
+
+
+        <section class="subscription">
+
+            <h2>
+                حالة الاشتراك
+            </h2>
+
+            <span
+                class="status"
+                id="subscriptionStatus"
             >
-                تسجيل الخروج
-            </button>
+                Active
+            </span>
 
-        </div>
+        </section>
 
-    </header>
+    </div>
 
 
-    <main>
+    <div
+        id="errorBox"
+        style="display:none;"
+        class="error-box"
+    ></div>
 
-        <div
-            class="loading"
-            id="loading"
-        >
-            جاري تحميل بيانات الطالب...
-        </div>
+</main>
 
 
-        <div id="dashboard" style="display:none;">
+<script type="module">
 
-            <section class="welcome">
+import {
+    auth,
+    db
+} from "../src/firebase/config.js";
 
-                <small>
-                    مرحبًا بك في مسار التمريض
-                </small>
 
-                <h1 id="studentName">
-                    الطالب
-                </h1>
+import {
+    onAuthStateChanged,
+    signOut
+} from "https://www.gstatic.com/firebasejs/12.18.0/firebase-auth.js";
 
-                <div
-                    class="stage"
-                    id="studentStage"
-                >
-                    المرحلة الدراسية
-                </div>
 
-            </section>
+import {
+    doc,
+    getDoc
+} from "https://www.gstatic.com/firebasejs/12.18.0/firebase-firestore.js";
 
 
-            <section class="cards">
+const loading =
+    document.getElementById("loading");
 
-                <div class="card">
+const dashboard =
+    document.getElementById("dashboard");
 
-                    <div class="card-icon">
-                        📅
-                    </div>
+const errorBox =
+    document.getElementById("errorBox");
 
-                    <h3>
-                        جدول المحاضرات
-                    </h3>
+const studentName =
+    document.getElementById("studentName");
 
-                    <p>
-                        تابع مواعيد المحاضرات القادمة.
-                    </p>
+const studentStage =
+    document.getElementById("studentStage");
 
-                </div>
+const subscriptionStatus =
+    document.getElementById("subscriptionStatus");
 
+const logoutButton =
+    document.getElementById("logoutButton");
 
-                <div class="card">
 
-                    <div class="card-icon">
-                        🎥
-                    </div>
+const stageNames = {
 
-                    <h3>
-                        المحاضرات
-                    </h3>
+    first_secondary_nursing:
+        "الأول الثانوي التمريض",
 
-                    <p>
-                        شاهد المحاضرات المتاحة لك حسب مرحلتك الدراسية.
-                    </p>
+    second_secondary_nursing:
+        "الثاني الثانوي التمريض",
 
-                </div>
+    third_secondary_nursing:
+        "الثالث الثانوي التمريض",
 
+    first_institute_nursing:
+        "الأول معهد التمريض",
 
-                <div class="card">
+    second_institute_nursing:
+        "الثاني معهد التمريض"
 
-                    <div class="card-icon">
-                        📝
-                    </div>
+};
 
-                    <h3>
-                        الاختبارات
-                    </h3>
 
-                    <p>
-                        ادخل الاختبارات المتاحة وتابع نتائجك.
-                    </p>
+function showError(text) {
 
-                </div>
+    loading.style.display = "none";
 
+    dashboard.style.display = "none";
 
-                <div class="card">
+    errorBox.style.display = "block";
 
-                    <div class="card-icon">
-                        🏆
-                    </div>
+    errorBox.innerHTML = text;
 
-                    <h3>
-                        الترتيب
-                    </h3>
+}
 
-                    <p>
-                        تابع ترتيبك ومستواك الدراسي.
-                    </p>
 
-                </div>
-
-
-                <div class="card">
-
-                    <div class="card-icon">
-                        📚
-                    </div>
-
-                    <h3>
-                        الملفات التعليمية
-                    </h3>
-
-                    <p>
-                        الوصول إلى الملفات التي يتيحها المدرسون.
-                    </p>
-
-                </div>
-
-
-                <div class="card">
-
-                    <div class="card-icon">
-                        📊
-                    </div>
-
-                    <h3>
-                        تقدمي الدراسي
-                    </h3>
-
-                    <p>
-                        تابع تقدمك ونتائجك داخل المنصة.
-                    </p>
-
-                </div>
-
-            </section>
-
-
-            <section class="subscription">
-
-                <h2>
-                    حالة الاشتراك
-                </h2>
-
-                <span
-                    class="status"
-                    id="subscriptionStatus"
-                >
-                    Active
-                </span>
-
-            </section>
-
-        </div>
-
-    </main>
-
-
-    <script type="module">
-
-        import {
-            auth,
-            db
-        } from "../src/firebase/config.js";
-
-        import {
-            onAuthStateChanged,
-            signOut
-        } from "https://www.gstatic.com/firebasejs/12.18.0/firebase-auth.js";
-
-        import {
-            doc,
-            getDoc
-        } from "https://www.gstatic.com/firebasejs/12.18.0/firebase-firestore.js";
-
-
-        const loading =
-            document.getElementById("loading");
-
-        const dashboard =
-            document.getElementById("dashboard");
-
-        const studentName =
-            document.getElementById("studentName");
-
-        const studentStage =
-            document.getElementById("studentStage");
-
-        const logoutButton =
-            document.getElementById("logoutButton");
-
+onAuthStateChanged(
+    auth,
+    async (user) => {
 
         /*
-         * التأكد من وجود Firebase User
+         * لا يوجد Anonymous User
          */
 
-        onAuthStateChanged(auth, async (user) => {
+        if (!user) {
 
-            if (!user) {
+            window.location.href =
+                "../login.html";
 
-                window.location.href =
-                    "../login.html";
+            return;
+
+        }
+
+
+        try {
+
+            console.log(
+                "Student UID:",
+                user.uid
+            );
+
+
+            /*
+             * أولًا:
+             * نقرأ users/{UID}
+             */
+
+            const userRef =
+                doc(
+                    db,
+                    "users",
+                    user.uid
+                );
+
+
+            const userSnapshot =
+                await getDoc(userRef);
+
+
+            if (!userSnapshot.exists()) {
+
+                showError(`
+                    <strong>
+                        لم يتم العثور على حساب الطالب.
+                    </strong>
+                    <br>
+                    ارجع إلى صفحة تسجيل الدخول وحاول مرة أخرى.
+                `);
 
                 return;
-            }
-
-
-            try {
-
-                /*
-                 * قراءة بيانات المستخدم
-                 */
-
-                const userRef =
-                    doc(
-                        db,
-                        "users",
-                        user.uid
-                    );
-
-                const userSnapshot =
-                    await getDoc(userRef);
-
-
-                if (!userSnapshot.exists()) {
-
-                    window.location.href =
-                        "../login.html";
-
-                    return;
-                }
-
-
-                const userData =
-                    userSnapshot.data();
-
-
-                /*
-                 * التأكد أن الحساب Student
-                 */
-
-                if (
-                    userData.role !== "student" ||
-                    userData.isActive !== true
-                ) {
-
-                    window.location.href =
-                        "../login.html";
-
-                    return;
-                }
-
-
-                /*
-                 * جلب بيانات الطالب
-                 */
-
-                const studentRef =
-                    doc(
-                        db,
-                        "students",
-                        userData.studentId
-                    );
-
-                const studentSnapshot =
-                    await getDoc(studentRef);
-
-
-                if (!studentSnapshot.exists()) {
-
-                    window.location.href =
-                        "../login.html";
-
-                    return;
-                }
-
-
-                const student =
-                    studentSnapshot.data();
-
-
-                /*
-                 * عرض بيانات الطالب
-                 */
-
-                studentName.textContent =
-                    student.name || "الطالب";
-
-
-                studentStage.textContent =
-                    "المرحلة: " +
-                    (student.stage || "غير محددة");
-
-
-                loading.style.display =
-                    "none";
-
-                dashboard.style.display =
-                    "block";
-
-
-            } catch (error) {
-
-                console.error(error);
-
-                loading.textContent =
-                    "حدث خطأ أثناء تحميل البيانات.";
 
             }
 
-        });
+
+            const userData =
+                userSnapshot.data();
 
 
-        /*
-         * تسجيل الخروج
-         */
+            console.log(
+                "User Data:",
+                userData
+            );
 
-        logoutButton.addEventListener(
-            "click",
-            async () => {
 
-                await signOut(auth);
+            /*
+             * التأكد من نوع الحساب
+             */
 
-                window.location.href =
-                    "../login.html";
+            if (
+                userData.role !== "student"
+            ) {
+
+                showError(
+                    "هذا الحساب ليس حساب طالب."
+                );
+
+                return;
 
             }
-        );
 
-    </script>
+
+            /*
+             * التأكد من أن الحساب فعال
+             */
+
+            if (
+                userData.isActive === false
+            ) {
+
+                showError(
+                    "حساب الطالب موقوف حاليًا."
+                );
+
+                return;
+
+            }
+
+
+            /*
+             * الحصول على Student ID
+             */
+
+            const studentId =
+                userData.studentId;
+
+
+            if (!studentId) {
+
+                showError(
+                    "حساب الطالب غير مرتبط ببيانات طالب."
+                );
+
+                return;
+
+            }
+
+
+            /*
+             * قراءة students/{studentId}
+             */
+
+            const studentRef =
+                doc(
+                    db,
+                    "students",
+                    studentId
+                );
+
+
+            const studentSnapshot =
+                await getDoc(studentRef);
+
+
+            if (!studentSnapshot.exists()) {
+
+                showError(
+                    "بيانات الطالب غير موجودة."
+                );
+
+                return;
+
+            }
+
+
+            const student =
+                studentSnapshot.data();
+
+
+            console.log(
+                "Student Data:",
+                student
+            );
+
+
+            /*
+             * التأكد من حالة الطالب
+             */
+
+            if (
+                student.isActive === false
+            ) {
+
+                showError(
+                    "حساب الطالب موقوف حاليًا."
+                );
+
+                return;
+
+            }
+
+
+            /*
+             * عرض الاسم
+             */
+
+            studentName.textContent =
+                student.name ||
+                userData.name ||
+                "الطالب";
+
+
+            /*
+             * عرض المرحلة
+             */
+
+            const stage =
+                student.stage ||
+                userData.stage ||
+                "";
+
+
+            studentStage.textContent =
+                "المرحلة: " +
+                (
+                    stageNames[stage] ||
+                    stage ||
+                    "غير محددة"
+                );
+
+
+            /*
+             * عرض حالة الاشتراك
+             */
+
+            subscriptionStatus.textContent =
+                "الاشتراك فعال ✓";
+
+
+            loading.style.display =
+                "none";
+
+            errorBox.style.display =
+                "none";
+
+            dashboard.style.display =
+                "block";
+
+
+        } catch (error) {
+
+            console.error(
+                "Dashboard Error:",
+                error
+            );
+
+
+            showError(`
+                حدث خطأ أثناء تحميل بيانات الطالب.
+                <br><br>
+                <small>
+                    ${error.message}
+                </small>
+            `);
+
+        }
+
+    }
+);
+
+
+/*
+ * تسجيل الخروج
+ */
+
+logoutButton.addEventListener(
+    "click",
+    async () => {
+
+        try {
+
+            await signOut(auth);
+
+            window.location.href =
+                "../login.html";
+
+        } catch (error) {
+
+            console.error(error);
+
+        }
+
+    }
+);
+
+</script>
 
 </body>
-
 </html>
