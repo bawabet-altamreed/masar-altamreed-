@@ -1,48 +1,432 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
+
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>مسار التمريض | تسجيل الدخول</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>تسجيل الدخول | مسار التمريض</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Arial, Tahoma, sans-serif;
+            min-height: 100vh;
+            background: #f4f8fc;
+            color: #172033;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            padding: 20px;
+        }
+
+        .login-container {
+            width: 100%;
+            max-width: 430px;
+        }
+
+        .brand {
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        .brand h1 {
+            color: #1769aa;
+            font-size: 32px;
+            margin-bottom: 8px;
+        }
+
+        .brand p {
+            color: #718096;
+            font-size: 15px;
+        }
+
+        .login-card {
+            background: #ffffff;
+            border-radius: 20px;
+            padding: 35px 30px;
+
+            box-shadow: 0 10px 35px rgba(30, 60, 90, 0.08);
+            border: 1px solid #e7edf4;
+        }
+
+        .card-title {
+            text-align: center;
+            margin-bottom: 28px;
+        }
+
+        .card-title h2 {
+            font-size: 23px;
+            color: #12395b;
+            margin-bottom: 8px;
+        }
+
+        .card-title p {
+            color: #8a94a6;
+            font-size: 14px;
+        }
+
+        .form-group {
+            margin-bottom: 18px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: #344054;
+            font-size: 14px;
+            font-weight: bold;
+        }
+
+        .input-wrapper {
+            position: relative;
+        }
+
+        .input-icon {
+            position: absolute;
+            right: 14px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 18px;
+        }
+
+        input {
+            width: 100%;
+            height: 52px;
+
+            border: 1px solid #d8e0ea;
+            border-radius: 11px;
+
+            padding: 0 45px 0 14px;
+
+            font-size: 16px;
+            outline: none;
+
+            transition: 0.2s;
+            background: #fbfdff;
+        }
+
+        input:focus {
+            border-color: #1769aa;
+            box-shadow: 0 0 0 3px rgba(23, 105, 170, 0.1);
+            background: #ffffff;
+        }
+
+        .login-button {
+            width: 100%;
+            height: 53px;
+
+            border: none;
+            border-radius: 11px;
+
+            background: #1769aa;
+            color: #ffffff;
+
+            font-size: 17px;
+            font-weight: bold;
+
+            cursor: pointer;
+
+            margin-top: 8px;
+
+            transition: 0.2s;
+        }
+
+        .login-button:hover {
+            opacity: 0.92;
+            transform: translateY(-1px);
+        }
+
+        .login-button:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .message {
+            display: none;
+
+            margin-top: 17px;
+            padding: 13px;
+
+            border-radius: 10px;
+
+            text-align: center;
+            font-size: 14px;
+            line-height: 1.6;
+        }
+
+        .message.error {
+            display: block;
+            background: #fff1f1;
+            color: #c62828;
+            border: 1px solid #ffd4d4;
+        }
+
+        .help-box {
+            margin-top: 22px;
+            padding: 16px;
+
+            background: #f3f8fc;
+            border-radius: 12px;
+
+            text-align: center;
+        }
+
+        .help-box p {
+            color: #667085;
+            font-size: 13px;
+            line-height: 1.8;
+        }
+
+        .whatsapp {
+            display: inline-block;
+            margin-top: 6px;
+
+            color: #1769aa;
+            font-weight: bold;
+            text-decoration: none;
+            direction: ltr;
+        }
+
+        .footer {
+            text-align: center;
+            margin-top: 22px;
+
+            color: #98a2b3;
+            font-size: 12px;
+        }
+
+        @media (max-width: 480px) {
+
+            .login-card {
+                padding: 28px 20px;
+            }
+
+            .brand h1 {
+                font-size: 28px;
+            }
+        }
+    </style>
 </head>
+
 
 <body>
 
-  <h1>مسار التمريض</h1>
+    <div class="login-container">
 
-  <button id="testAuth">اختبار الاتصال بـ Firebase</button>
+        <div class="brand">
+            <h1>مسار التمريض</h1>
+            <p>Masar Al-Tamreed</p>
+        </div>
 
-  <p id="result"></p>
 
-  <script type="module">
-    import { createAnonymousSession } from "./src/firebase/auth.js";
+        <div class="login-card">
 
-    const button = document.getElementById("testAuth");
-    const result = document.getElementById("result");
+            <div class="card-title">
 
-    button.addEventListener("click", async () => {
+                <h2>بوابة التمريض</h2>
 
-      result.textContent = "جاري الاتصال...";
+                <p>
+                    سجل الدخول للمتابعة
+                </p>
 
-      try {
+            </div>
 
-        const user = await createAnonymousSession();
 
-        result.textContent =
-          "تم الاتصال بنجاح ✅ UID: " + user.uid;
+            <form id="loginForm">
 
-        console.log("Firebase User:", user);
+                <div class="form-group">
 
-      } catch (error) {
+                    <label for="subscriptionCode">
+                        كود الاشتراك
+                    </label>
 
-        result.textContent =
-          "حدث خطأ ❌ راجع Console";
+                    <div class="input-wrapper">
 
-        console.error(error);
-      }
+                        <span class="input-icon">🔑</span>
 
-    });
-  </script>
+                        <input
+                            type="text"
+                            id="subscriptionCode"
+                            placeholder="أدخل كود الاشتراك"
+                            autocomplete="off"
+                            required
+                        >
+
+                    </div>
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label for="password">
+                        كلمة المرور
+                    </label>
+
+                    <div class="input-wrapper">
+
+                        <span class="input-icon">🔒</span>
+
+                        <input
+                            type="password"
+                            id="password"
+                            placeholder="أدخل كلمة المرور"
+                            autocomplete="current-password"
+                            required
+                        >
+
+                    </div>
+
+                </div>
+
+
+                <button
+                    type="submit"
+                    class="login-button"
+                    id="loginButton"
+                >
+                    تسجيل الدخول
+                </button>
+
+            </form>
+
+
+            <div
+                id="message"
+                class="message"
+            ></div>
+
+
+            <div class="help-box">
+
+                <p>
+                    إذا لم يكن لديك كود اشتراك،
+                    تواصل مع إدارة مسار التمريض.
+                </p>
+
+                <a
+                    class="whatsapp"
+                    href="https://wa.me/201222736904"
+                    target="_blank"
+                    rel="noopener"
+                >
+                    واتساب الإدارة: 01222736904
+                </a>
+
+            </div>
+
+        </div>
+
+
+        <div class="footer">
+            © 2026 مسار التمريض | Masar Al-Tamreed
+        </div>
+
+    </div>
+
+
+    <!-- Firebase Login -->
+    <script type="module">
+
+        import {
+            createAnonymousSession
+        } from "./src/firebase/auth.js";
+
+
+        const loginForm =
+            document.getElementById("loginForm");
+
+        const loginButton =
+            document.getElementById("loginButton");
+
+        const message =
+            document.getElementById("message");
+
+
+        function showError(text) {
+
+            message.textContent = text;
+
+            message.className =
+                "message error";
+        }
+
+
+        loginForm.addEventListener("submit", async (event) => {
+
+            event.preventDefault();
+
+            message.className = "message";
+            message.textContent = "";
+
+            loginButton.disabled = true;
+            loginButton.textContent = "جاري التحقق...";
+
+
+            try {
+
+                /*
+                 * المرحلة الحالية:
+                 * إنشاء Anonymous Firebase Session فقط.
+                 *
+                 * التحقق من:
+                 * كود الاشتراك
+                 * كلمة المرور
+                 * حالة الاشتراك
+                 * تاريخ البداية والنهاية
+                 *
+                 * سيتم إضافته في المرحلة القادمة
+                 * بطريقة آمنة.
+                 */
+
+                const user =
+                    await createAnonymousSession();
+
+
+                console.log(
+                    "Anonymous Firebase UID:",
+                    user.uid
+                );
+
+
+                /*
+                 * مؤقتًا للاختبار فقط
+                 */
+
+                showError(
+                    "تم الاتصال بـ Firebase بنجاح، وسيتم تفعيل التحقق من بيانات الاشتراك في الخطوة التالية."
+                );
+
+
+            } catch (error) {
+
+                console.error(error);
+
+                showError(
+                    "تعذر الاتصال بالخادم. حاول مرة أخرى."
+                );
+
+            } finally {
+
+                loginButton.disabled = false;
+
+                loginButton.textContent =
+                    "تسجيل الدخول";
+            }
+
+        });
+
+    </script>
 
 </body>
+
 </html>
