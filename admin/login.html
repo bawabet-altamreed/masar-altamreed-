@@ -1,0 +1,849 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>دخول الإدارة | مسار التمريض</title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            min-height: 100vh;
+            font-family: Tahoma, Arial, sans-serif;
+
+            background:
+                radial-gradient(
+                    circle at top right,
+                    #dff5ff 0%,
+                    transparent 35%
+                ),
+                radial-gradient(
+                    circle at bottom left,
+                    #e8e3ff 0%,
+                    transparent 35%
+                ),
+                #f5f7fb;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            padding: 20px;
+        }
+
+        .wrapper {
+            width: 100%;
+            max-width: 430px;
+        }
+
+        .brand {
+            text-align: center;
+            margin-bottom: 22px;
+        }
+
+        .logo {
+            width: 82px;
+            height: 82px;
+
+            margin: 0 auto 14px;
+
+            border-radius: 24px;
+
+            background:
+                linear-gradient(
+                    145deg,
+                    #1769aa,
+                    #0d3f68
+                );
+
+            color: #fff;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            font-size: 38px;
+
+            box-shadow:
+                0 15px 35px rgba(23,105,170,.22);
+        }
+
+        .brand h1 {
+            color: #12395b;
+            font-size: 27px;
+            margin-bottom: 6px;
+        }
+
+        .brand p {
+            color: #7b8798;
+            font-size: 14px;
+        }
+
+        .admin-label {
+            display: inline-block;
+
+            margin-top: 10px;
+
+            background: #eef6ff;
+            color: #1769aa;
+
+            padding: 7px 12px;
+
+            border-radius: 20px;
+
+            font-size: 11px;
+            font-weight: bold;
+        }
+
+        .card {
+            background: rgba(255,255,255,.97);
+
+            border: 1px solid #e5eaf0;
+
+            border-radius: 25px;
+
+            padding: 28px 22px;
+
+            box-shadow:
+                0 20px 55px rgba(20,45,75,.10);
+        }
+
+        .welcome {
+            margin-bottom: 23px;
+        }
+
+        .welcome h2 {
+            color: #172033;
+            font-size: 21px;
+            margin-bottom: 7px;
+        }
+
+        .welcome p {
+            color: #7b8798;
+            font-size: 13px;
+            line-height: 1.7;
+        }
+
+        .input-group {
+            margin-bottom: 16px;
+        }
+
+        label {
+            display: block;
+
+            color: #344054;
+
+            font-size: 13px;
+
+            font-weight: bold;
+
+            margin-bottom: 8px;
+        }
+
+        .input-box {
+            position: relative;
+        }
+
+        .icon {
+            position: absolute;
+
+            right: 14px;
+            top: 50%;
+
+            transform: translateY(-50%);
+
+            font-size: 18px;
+        }
+
+        input {
+            width: 100%;
+
+            height: 54px;
+
+            border: 1px solid #dce3ec;
+
+            border-radius: 14px;
+
+            background: #f9fbfd;
+
+            padding:
+                0 47px
+                0 14px;
+
+            outline: none;
+
+            color: #172033;
+
+            font-size: 15px;
+
+            font-family: inherit;
+
+            transition: .2s;
+        }
+
+        input:focus {
+            border-color: #1769aa;
+
+            background: #fff;
+
+            box-shadow:
+                0 0 0 4px rgba(23,105,170,.08);
+        }
+
+        .password-toggle {
+            position: absolute;
+
+            left: 12px;
+            top: 50%;
+
+            transform: translateY(-50%);
+
+            border: none;
+
+            background: transparent;
+
+            cursor: pointer;
+
+            font-size: 17px;
+        }
+
+        .login-btn {
+            width: 100%;
+
+            height: 54px;
+
+            border: none;
+
+            border-radius: 14px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #1769aa,
+                    #0d4f80
+                );
+
+            color: #fff;
+
+            font-family: inherit;
+
+            font-size: 16px;
+
+            font-weight: bold;
+
+            cursor: pointer;
+
+            margin-top: 7px;
+
+            transition: .2s;
+        }
+
+        .login-btn:hover {
+            transform: translateY(-1px);
+        }
+
+        .login-btn:disabled {
+            opacity: .65;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .message {
+            display: none;
+
+            margin-top: 15px;
+
+            padding: 12px 14px;
+
+            border-radius: 12px;
+
+            font-size: 13px;
+
+            line-height: 1.7;
+
+            text-align: center;
+        }
+
+        .message.error {
+            display: block;
+
+            background: #fff1f1;
+
+            color: #b42318;
+
+            border: 1px solid #ffd4d4;
+        }
+
+        .message.success {
+            display: block;
+
+            background: #ecfdf3;
+
+            color: #087443;
+
+            border: 1px solid #c7f0d8;
+        }
+
+        .security {
+            margin-top: 20px;
+
+            padding: 14px;
+
+            border-radius: 13px;
+
+            background: #f5f9fc;
+
+            text-align: center;
+        }
+
+        .security p {
+            color: #667085;
+
+            font-size: 12px;
+
+            line-height: 1.8;
+        }
+
+        .footer {
+            text-align: center;
+
+            margin-top: 20px;
+
+            color: #98a2b3;
+
+            font-size: 12px;
+        }
+
+        @media (max-width: 480px) {
+
+            .card {
+                padding: 24px 18px;
+            }
+
+            .brand h1 {
+                font-size: 24px;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<div class="wrapper">
+
+
+    <div class="brand">
+
+        <div class="logo">
+            🩺
+        </div>
+
+        <h1>
+            مسار التمريض
+        </h1>
+
+        <p>
+            Masar Al-Tamreed
+        </p>
+
+        <span class="admin-label">
+            👑 بوابة الإدارة
+        </span>
+
+    </div>
+
+
+    <div class="card">
+
+
+        <div class="welcome">
+
+            <h2>
+                تسجيل دخول الإدارة
+            </h2>
+
+            <p>
+                هذه الصفحة مخصصة لإدارة منصة مسار التمريض.
+                استخدم البريد الإلكتروني وكلمة المرور الخاصة بحساب الإدارة.
+            </p>
+
+        </div>
+
+
+        <form id="loginForm">
+
+
+            <div class="input-group">
+
+                <label for="email">
+                    البريد الإلكتروني
+                </label>
+
+                <div class="input-box">
+
+                    <span class="icon">
+                        📧
+                    </span>
+
+                    <input
+                        id="email"
+                        type="email"
+                        placeholder="admin@example.com"
+                        autocomplete="username"
+                        required
+                    >
+
+                </div>
+
+            </div>
+
+
+            <div class="input-group">
+
+                <label for="password">
+                    كلمة المرور
+                </label>
+
+                <div class="input-box">
+
+                    <span class="icon">
+                        🔒
+                    </span>
+
+                    <input
+                        id="password"
+                        type="password"
+                        placeholder="أدخل كلمة المرور"
+                        autocomplete="current-password"
+                        required
+                    >
+
+                    <button
+                        type="button"
+                        class="password-toggle"
+                        id="passwordToggle"
+                        aria-label="إظهار كلمة المرور"
+                    >
+                        👁️
+                    </button>
+
+                </div>
+
+            </div>
+
+
+            <button
+                type="submit"
+                class="login-btn"
+                id="loginBtn"
+            >
+                دخول الإدارة
+            </button>
+
+
+            <div
+                id="message"
+                class="message"
+            ></div>
+
+
+        </form>
+
+
+        <div class="security">
+
+            <p>
+                🔐 الدخول محمي بواسطة Firebase Authentication
+                <br>
+                هذه الصفحة مخصصة لحساب الإدارة فقط.
+            </p>
+
+        </div>
+
+
+    </div>
+
+
+    <div class="footer">
+
+        © 2026 مسار التمريض | Masar Al-Tamreed
+
+    </div>
+
+
+</div>
+
+
+
+<script type="module">
+
+
+import {
+    auth
+} from "../src/firebase/config.js";
+
+
+import {
+    signInWithEmailAndPassword,
+    onAuthStateChanged
+} from "https://www.gstatic.com/firebasejs/12.18.0/firebase-auth.js";
+
+
+
+/*
+ * UID حساب الإدارة
+ */
+
+const ADMIN_UID =
+    "KjLk1k4hcBTecAZlyJ2YvLFHhD43";
+
+
+
+const form =
+    document.getElementById("loginForm");
+
+
+const emailInput =
+    document.getElementById("email");
+
+
+const passwordInput =
+    document.getElementById("password");
+
+
+const loginBtn =
+    document.getElementById("loginBtn");
+
+
+const message =
+    document.getElementById("message");
+
+
+const passwordToggle =
+    document.getElementById("passwordToggle");
+
+
+
+/*
+ * عرض الرسائل
+ */
+
+function showMessage(
+    text,
+    type = "error"
+) {
+
+    message.textContent = text;
+
+    message.className =
+        "message " + type;
+
+}
+
+
+
+/*
+ * إخفاء الرسالة
+ */
+
+function clearMessage() {
+
+    message.textContent = "";
+
+    message.className =
+        "message";
+
+}
+
+
+
+/*
+ * إظهار / إخفاء كلمة المرور
+ */
+
+passwordToggle.addEventListener(
+    "click",
+    () => {
+
+        if (
+            passwordInput.type ===
+            "password"
+        ) {
+
+            passwordInput.type =
+                "text";
+
+            passwordToggle.textContent =
+                "🙈";
+
+        } else {
+
+            passwordInput.type =
+                "password";
+
+            passwordToggle.textContent =
+                "👁️";
+
+        }
+
+    }
+);
+
+
+
+/*
+ * لو الإدارة مسجلة دخول بالفعل
+ * يتم تحويلها مباشرة للوحة التحكم
+ */
+
+onAuthStateChanged(
+    auth,
+    user => {
+
+        if (!user) {
+            return;
+        }
+
+
+        if (
+            user.uid ===
+            ADMIN_UID
+        ) {
+
+            window.location.href =
+                "./dashboard.html";
+
+        }
+
+    }
+);
+
+
+
+/*
+ * تسجيل الدخول
+ */
+
+form.addEventListener(
+    "submit",
+    async event => {
+
+        event.preventDefault();
+
+        clearMessage();
+
+
+        const email =
+            emailInput.value
+                .trim();
+
+
+        const password =
+            passwordInput.value;
+
+
+        if (
+            !email ||
+            !password
+        ) {
+
+            showMessage(
+                "من فضلك أدخل البريد الإلكتروني وكلمة المرور."
+            );
+
+            return;
+
+        }
+
+
+        loginBtn.disabled = true;
+
+        loginBtn.textContent =
+            "جاري التحقق...";
+
+
+        try {
+
+
+            /*
+             * تسجيل الدخول في Firebase
+             */
+
+            const result =
+                await signInWithEmailAndPassword(
+                    auth,
+                    email,
+                    password
+                );
+
+
+            const user =
+                result.user;
+
+
+            /*
+             * التحقق من أن الحساب
+             * هو حساب الإدارة
+             */
+
+            if (
+                user.uid !==
+                ADMIN_UID
+            ) {
+
+                /*
+                 * الحساب صحيح في Firebase
+                 * لكنه ليس حساب الإدارة
+                 */
+
+                await auth.signOut();
+
+
+                showMessage(
+                    "هذا الحساب ليس حساب الإدارة المصرح له بالدخول."
+                );
+
+                return;
+
+            }
+
+
+            /*
+             * تم تسجيل الدخول بنجاح
+             */
+
+            showMessage(
+                "تم تسجيل دخول الإدارة بنجاح ✅",
+                "success"
+            );
+
+
+            loginBtn.textContent =
+                "جاري فتح لوحة الإدارة...";
+
+
+            /*
+             * الانتقال إلى لوحة التحكم
+             */
+
+            setTimeout(
+                () => {
+
+                    window.location.href =
+                        "./dashboard.html";
+
+                },
+                500
+            );
+
+
+        } catch (error) {
+
+            console.error(
+                "Admin login error:",
+                error
+            );
+
+
+            let errorMessage =
+                "حدث خطأ أثناء تسجيل الدخول.";
+
+
+            switch (
+                error.code
+            ) {
+
+                case
+                "auth/invalid-credential":
+
+                    errorMessage =
+                        "البريد الإلكتروني أو كلمة المرور غير صحيحة.";
+
+                    break;
+
+
+                case
+                "auth/user-not-found":
+
+                    errorMessage =
+                        "لا يوجد حساب بهذا البريد الإلكتروني.";
+
+                    break;
+
+
+                case
+                "auth/wrong-password":
+
+                    errorMessage =
+                        "كلمة المرور غير صحيحة.";
+
+                    break;
+
+
+                case
+                "auth/invalid-email":
+
+                    errorMessage =
+                        "البريد الإلكتروني غير صحيح.";
+
+                    break;
+
+
+                case
+                "auth/too-many-requests":
+
+                    errorMessage =
+                        "تمت محاولات كثيرة. حاول مرة أخرى لاحقًا.";
+
+                    break;
+
+
+                case
+                "auth/network-request-failed":
+
+                    errorMessage =
+                        "تأكد من اتصال الإنترنت وحاول مرة أخرى.";
+
+                    break;
+
+            }
+
+
+            showMessage(
+                errorMessage
+            );
+
+
+        } finally {
+
+            loginBtn.disabled =
+                false;
+
+            loginBtn.textContent =
+                "دخول الإدارة";
+
+        }
+
+    }
+);
+
+
+</script>
+
+
+</body>
+
+</html>
