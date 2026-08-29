@@ -1,0 +1,1333 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>إدارة الطلاب | مسار التمريض</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Tahoma, Arial, sans-serif;
+            background: #f5f7fb;
+            color: #172033;
+        }
+
+        .topbar {
+            height: 70px;
+            background: #fff;
+            border-bottom: 1px solid #e6eaf0;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 25px;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 11px;
+        }
+
+        .logo {
+            width: 43px;
+            height: 43px;
+            border-radius: 13px;
+            background: linear-gradient(135deg, #1769aa, #0d3f68);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 21px;
+        }
+
+        .brand h1 {
+            font-size: 18px;
+            color: #12395b;
+        }
+
+        .brand span {
+            display: block;
+            color: #98a2b3;
+            font-size: 10px;
+            margin-top: 3px;
+        }
+
+        .back {
+            text-decoration: none;
+            color: #1769aa;
+            background: #eef6ff;
+            padding: 9px 13px;
+            border-radius: 10px;
+            font-size: 13px;
+            font-weight: bold;
+        }
+
+        .container {
+            max-width: 1250px;
+            margin: auto;
+            padding: 25px;
+        }
+
+        .page-title {
+            margin-bottom: 22px;
+        }
+
+        .page-title h2 {
+            font-size: 25px;
+            margin-bottom: 7px;
+        }
+
+        .page-title p {
+            color: #7b8798;
+            font-size: 13px;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: 360px 1fr;
+            gap: 20px;
+            align-items: start;
+        }
+
+        .card {
+            background: #fff;
+            border: 1px solid #e5eaf0;
+            border-radius: 18px;
+            padding: 21px;
+            box-shadow: 0 5px 20px rgba(20, 45, 75, .04);
+        }
+
+        .card h3 {
+            font-size: 17px;
+            margin-bottom: 18px;
+        }
+
+        .form-group {
+            margin-bottom: 14px;
+        }
+
+        label {
+            display: block;
+            font-size: 12px;
+            font-weight: bold;
+            color: #344054;
+            margin-bottom: 7px;
+        }
+
+        input,
+        select {
+            width: 100%;
+            height: 45px;
+            border: 1px solid #dce3ec;
+            border-radius: 11px;
+            background: #fafbfd;
+            padding: 0 12px;
+            outline: none;
+            font-family: inherit;
+            color: #172033;
+        }
+
+        input:focus,
+        select:focus {
+            border-color: #1769aa;
+            background: #fff;
+            box-shadow: 0 0 0 3px rgba(23, 105, 170, .08);
+        }
+
+        .date-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 8px;
+        }
+
+        .primary-btn {
+            width: 100%;
+            height: 47px;
+            border: none;
+            border-radius: 11px;
+            background: linear-gradient(135deg, #1769aa, #0d4f80);
+            color: #fff;
+            font-family: inherit;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 5px;
+        }
+
+        .primary-btn:disabled {
+            opacity: .6;
+            cursor: not-allowed;
+        }
+
+        .message {
+            display: none;
+            padding: 11px;
+            border-radius: 10px;
+            margin-bottom: 14px;
+            font-size: 12px;
+            line-height: 1.7;
+            text-align: center;
+        }
+
+        .message.success {
+            display: block;
+            background: #ecfdf3;
+            color: #087443;
+        }
+
+        .message.error {
+            display: block;
+            background: #fff1f1;
+            color: #b42318;
+        }
+
+        .toolbar {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 17px;
+        }
+
+        .search {
+            flex: 1;
+        }
+
+        .students-list {
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 720px;
+        }
+
+        th {
+            background: #f7f9fc;
+            color: #667085;
+            font-size: 11px;
+            padding: 12px 9px;
+            text-align: right;
+        }
+
+        td {
+            padding: 13px 9px;
+            border-bottom: 1px solid #edf0f4;
+            font-size: 12px;
+        }
+
+        .student-name {
+            font-weight: bold;
+            color: #172033;
+        }
+
+        .student-code {
+            color: #1769aa;
+            font-family: monospace;
+            font-weight: bold;
+        }
+
+        .stage {
+            color: #667085;
+            line-height: 1.6;
+        }
+
+        .status {
+            display: inline-block;
+            padding: 5px 9px;
+            border-radius: 20px;
+            font-size: 10px;
+            font-weight: bold;
+        }
+
+        .active {
+            background: #eaf8f0;
+            color: #087443;
+        }
+
+        .suspended {
+            background: #fff1f1;
+            color: #b42318;
+        }
+
+        .expired {
+            background: #fff7e6;
+            color: #a15c00;
+        }
+
+        .empty {
+            text-align: center;
+            padding: 45px 15px;
+            color: #98a2b3;
+            font-size: 13px;
+        }
+
+        .delete-btn {
+            border: none;
+            background: #fff1f1;
+            color: #b42318;
+            padding: 7px 9px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-family: inherit;
+            font-size: 11px;
+        }
+
+        .count {
+            color: #98a2b3;
+            font-size: 11px;
+        }
+
+        @media (max-width: 900px) {
+            .grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .container {
+                padding: 16px 11px;
+            }
+
+            .topbar {
+                padding: 0 12px;
+            }
+
+            .brand span {
+                display: none;
+            }
+
+            .back {
+                font-size: 11px;
+            }
+
+            .card {
+                padding: 16px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<header class="topbar">
+
+    <div class="brand">
+
+        <div class="logo">🩺</div>
+
+        <div>
+            <h1>مسار التمريض</h1>
+            <span>Masar Al-Tamreed</span>
+        </div>
+
+    </div>
+
+    <a href="dashboard.html" class="back">
+        ← لوحة الإدارة
+    </a>
+
+</header>
+
+
+<main class="container">
+
+    <div class="page-title">
+
+        <h2>إدارة الطلاب 👨‍🎓</h2>
+
+        <p>
+            إنشاء وإدارة حسابات واشتراكات طلاب مسار التمريض
+        </p>
+
+    </div>
+
+
+    <div class="grid">
+
+
+        <!-- إضافة طالب -->
+
+        <section class="card">
+
+            <h3>
+                ➕ إضافة طالب جديد
+            </h3>
+
+            <div id="message" class="message"></div>
+
+
+            <form id="studentForm">
+
+                <div class="form-group">
+
+                    <label for="name">
+                        اسم الطالب
+                    </label>
+
+                    <input
+                        id="name"
+                        type="text"
+                        placeholder="مثال: أحمد محمد"
+                        required
+                    >
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label for="code">
+                        كود الاشتراك
+                    </label>
+
+                    <input
+                        id="code"
+                        type="text"
+                        placeholder="مثال: MT20260001"
+                        autocomplete="off"
+                        required
+                    >
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label for="password">
+                        كلمة المرور
+                    </label>
+
+                    <input
+                        id="password"
+                        type="password"
+                        placeholder="كلمة مرور الطالب"
+                        required
+                    >
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label for="stage">
+                        المرحلة الدراسية
+                    </label>
+
+                    <select id="stage" required>
+
+                        <option value="">
+                            اختر المرحلة
+                        </option>
+
+                        <option value="first_secondary_nursing">
+                            الصف الأول الثانوي التمريض
+                        </option>
+
+                        <option value="second_secondary_nursing">
+                            الصف الثاني الثانوي التمريض
+                        </option>
+
+                        <option value="third_secondary_nursing">
+                            الصف الثالث الثانوي التمريض
+                        </option>
+
+                        <option value="first_institute_nursing">
+                            الصف الأول معهد التمريض
+                        </option>
+
+                        <option value="second_institute_nursing">
+                            الصف الثاني معهد التمريض
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label>
+                        فترة الاشتراك
+                    </label>
+
+                    <div class="date-row">
+
+                        <input
+                            id="startDate"
+                            type="date"
+                            required
+                        >
+
+                        <input
+                            id="endDate"
+                            type="date"
+                            required
+                        >
+
+                    </div>
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label for="status">
+                        حالة الاشتراك
+                    </label>
+
+                    <select id="status">
+
+                        <option value="active">
+                            فعال
+                        </option>
+
+                        <option value="suspended">
+                            موقوف
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <button
+                    type="submit"
+                    id="saveBtn"
+                    class="primary-btn"
+                >
+                    إضافة الطالب
+                </button>
+
+            </form>
+
+        </section>
+
+
+        <!-- الطلاب -->
+
+        <section class="card">
+
+            <div style="
+                display:flex;
+                justify-content:space-between;
+                align-items:center;
+                margin-bottom:17px;
+            ">
+
+                <h3 style="margin:0;">
+                    👨‍🎓 الطلاب
+                </h3>
+
+                <span id="count" class="count">
+                    0 طالب
+                </span>
+
+            </div>
+
+
+            <div class="toolbar">
+
+                <input
+                    id="search"
+                    class="search"
+                    type="search"
+                    placeholder="🔍 ابحث بالاسم أو الكود..."
+                >
+
+            </div>
+
+
+            <div class="students-list">
+
+                <table>
+
+                    <thead>
+
+                        <tr>
+
+                            <th>
+                                الطالب
+                            </th>
+
+                            <th>
+                                الكود
+                            </th>
+
+                            <th>
+                                المرحلة
+                            </th>
+
+                            <th>
+                                الاشتراك
+                            </th>
+
+                            <th>
+                                الانتهاء
+                            </th>
+
+                            <th>
+                                إجراء
+                            </th>
+
+                        </tr>
+
+                    </thead>
+
+                    <tbody id="studentsTable">
+
+                        <tr>
+                            <td colspan="6" class="empty">
+                                جاري تحميل الطلاب...
+                            </td>
+                        </tr>
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </section>
+
+
+    </div>
+
+</main>
+
+
+
+<script type="module">
+
+    import {
+        auth,
+        db
+    } from "../src/firebase/config.js";
+
+
+    import {
+        onAuthStateChanged
+    } from "https://www.gstatic.com/firebasejs/12.18.0/firebase-auth.js";
+
+
+    import {
+        collection,
+        doc,
+        getDocs,
+        setDoc,
+        deleteDoc,
+        serverTimestamp
+    } from "https://www.gstatic.com/firebasejs/12.18.0/firebase-firestore.js";
+
+
+    const ADMIN_UID =
+        "nDhRZ5jHk4W03RLUyKvcDvc5sMy2";
+
+
+    const form =
+        document.getElementById("studentForm");
+
+    const message =
+        document.getElementById("message");
+
+    const saveBtn =
+        document.getElementById("saveBtn");
+
+    const table =
+        document.getElementById("studentsTable");
+
+    const search =
+        document.getElementById("search");
+
+    const count =
+        document.getElementById("count");
+
+
+    let students = [];
+
+
+    const stageNames = {
+
+        first_secondary_nursing:
+            "الأول الثانوي التمريض",
+
+        second_secondary_nursing:
+            "الثاني الثانوي التمريض",
+
+        third_secondary_nursing:
+            "الثالث الثانوي التمريض",
+
+        first_institute_nursing:
+            "الأول معهد التمريض",
+
+        second_institute_nursing:
+            "الثاني معهد التمريض"
+
+    };
+
+
+    function showMessage(text, type) {
+
+        message.textContent = text;
+
+        message.className =
+            "message " + type;
+
+    }
+
+
+    function hideMessage() {
+
+        message.textContent = "";
+
+        message.className =
+            "message";
+
+    }
+
+
+    function formatDate(timestamp) {
+
+        if (!timestamp) {
+            return "—";
+        }
+
+        try {
+
+            const date =
+                timestamp.toDate();
+
+            return date.toLocaleDateString(
+                "ar-EG"
+            );
+
+        } catch {
+
+            return "—";
+
+        }
+
+    }
+
+
+    function getStatusClass(status) {
+
+        if (status === "active") {
+            return "active";
+        }
+
+        if (status === "suspended") {
+            return "suspended";
+        }
+
+        return "expired";
+
+    }
+
+
+    function getStatusText(status) {
+
+        if (status === "active") {
+            return "فعال";
+        }
+
+        if (status === "suspended") {
+            return "موقوف";
+        }
+
+        return "منتهي";
+
+    }
+
+
+    function renderStudents(list = students) {
+
+        count.textContent =
+            `${list.length} طالب`;
+
+
+        if (!list.length) {
+
+            table.innerHTML = `
+                <tr>
+                    <td colspan="6" class="empty">
+                        لا يوجد طلاب حاليًا
+                    </td>
+                </tr>
+            `;
+
+            return;
+        }
+
+
+        table.innerHTML =
+            list.map(student => {
+
+                const data =
+                    student.data;
+
+                const subscription =
+                    student.subscription;
+
+
+                return `
+                    <tr>
+
+                        <td>
+                            <div class="student-name">
+                                ${escapeHtml(data.name || "بدون اسم")}
+                            </div>
+                        </td>
+
+                        <td>
+                            <span class="student-code">
+                                ${escapeHtml(student.id)}
+                            </span>
+                        </td>
+
+                        <td>
+                            <div class="stage">
+                                ${stageNames[data.stage] || "غير محدد"}
+                            </div>
+                        </td>
+
+                        <td>
+                            <span class="status ${getStatusClass(subscription?.status)}">
+                                ${getStatusText(subscription?.status)}
+                            </span>
+                        </td>
+
+                        <td>
+                            ${formatDate(subscription?.endDate)}
+                        </td>
+
+                        <td>
+                            <button
+                                class="delete-btn"
+                                data-code="${escapeHtml(student.id)}"
+                            >
+                                حذف
+                            </button>
+                        </td>
+
+                    </tr>
+                `;
+
+            }).join("");
+
+
+        document
+            .querySelectorAll(".delete-btn")
+            .forEach(button => {
+
+                button.addEventListener(
+                    "click",
+                    () => deleteStudent(
+                        button.dataset.code
+                    )
+                );
+
+            });
+
+    }
+
+
+    function escapeHtml(value) {
+
+        return String(value)
+            .replaceAll("&", "&amp;")
+            .replaceAll("<", "&lt;")
+            .replaceAll(">", "&gt;")
+            .replaceAll('"', "&quot;")
+            .replaceAll("'", "&#039;");
+
+    }
+
+
+    async function loadStudents() {
+
+        try {
+
+            const snapshot =
+                await getDocs(
+                    collection(db, "students")
+                );
+
+
+            students = [];
+
+
+            for (const studentDoc of snapshot.docs) {
+
+                const data =
+                    studentDoc.data();
+
+
+                let subscription = null;
+
+
+                try {
+
+                    const subscriptionSnapshot =
+                        await getDocs(
+                            collection(db, "subscriptions")
+                        );
+
+
+                    const matching =
+                        subscriptionSnapshot.docs.find(
+                            item =>
+                                item.data().studentId === studentDoc.id
+                        );
+
+
+                    if (matching) {
+
+                        subscription =
+                            matching.data();
+
+                    }
+
+                } catch (error) {
+
+                    console.error(
+                        "Subscription load error:",
+                        error
+                    );
+
+                }
+
+
+                students.push({
+
+                    id: studentDoc.id,
+
+                    data,
+
+                    subscription
+
+                });
+
+            }
+
+
+            renderStudents();
+
+        } catch (error) {
+
+            console.error(error);
+
+            table.innerHTML = `
+                <tr>
+                    <td colspan="6" class="empty">
+                        تعذر تحميل بيانات الطلاب
+                    </td>
+                </tr>
+            `;
+
+        }
+
+    }
+
+
+    form.addEventListener(
+        "submit",
+        async event => {
+
+            event.preventDefault();
+
+            hideMessage();
+
+
+            const name =
+                document
+                    .getElementById("name")
+                    .value
+                    .trim();
+
+
+            const code =
+                document
+                    .getElementById("code")
+                    .value
+                    .trim()
+                    .toUpperCase();
+
+
+            const password =
+                document
+                    .getElementById("password")
+                    .value;
+
+
+            const stage =
+                document
+                    .getElementById("stage")
+                    .value;
+
+
+            const startDate =
+                document
+                    .getElementById("startDate")
+                    .value;
+
+
+            const endDate =
+                document
+                    .getElementById("endDate")
+                    .value;
+
+
+            const status =
+                document
+                    .getElementById("status")
+                    .value;
+
+
+            if (
+                !name ||
+                !code ||
+                !password ||
+                !stage ||
+                !startDate ||
+                !endDate
+            ) {
+
+                showMessage(
+                    "من فضلك أكمل جميع البيانات.",
+                    "error"
+                );
+
+                return;
+
+            }
+
+
+            if (endDate < startDate) {
+
+                showMessage(
+                    "تاريخ النهاية يجب أن يكون بعد تاريخ البداية.",
+                    "error"
+                );
+
+                return;
+
+            }
+
+
+            saveBtn.disabled = true;
+
+            saveBtn.textContent =
+                "جاري الحفظ...";
+
+
+            try {
+
+                /*
+                 * نستخدم كود الاشتراك كمعرف الطالب
+                 * في هذه المرحلة.
+                 */
+
+                const studentId =
+                    code;
+
+
+                /*
+                 * students/{code}
+                 */
+
+                await setDoc(
+                    doc(
+                        db,
+                        "students",
+                        studentId
+                    ),
+                    {
+
+                        name,
+
+                        stage,
+
+                        isActive:
+                            true,
+
+                        updatedAt:
+                            serverTimestamp()
+
+                    }
+                );
+
+
+                /*
+                 * subscriptions/{code}
+                 */
+
+                await setDoc(
+                    doc(
+                        db,
+                        "subscriptions",
+                        code
+                    ),
+                    {
+
+                        studentId,
+
+                        password,
+
+                        status,
+
+                        startDate,
+
+                        endDate,
+
+                        createdAt:
+                            serverTimestamp(),
+
+                        updatedAt:
+                            serverTimestamp()
+
+                    }
+                );
+
+
+                /*
+                 * users/{code}
+                 *
+                 * سيتم ربط Anonymous UID
+                 * لاحقًا عند أول Login.
+                 */
+
+                await setDoc(
+                    doc(
+                        db,
+                        "users",
+                        studentId
+                    ),
+                    {
+
+                        role:
+                            "student",
+
+                        studentId,
+
+                        isActive:
+                            true,
+
+                        createdAt:
+                            serverTimestamp()
+
+                    }
+                );
+
+
+                showMessage(
+                    "تم إنشاء الطالب والاشتراك بنجاح ✅",
+                    "success"
+                );
+
+
+                form.reset();
+
+
+                await loadStudents();
+
+
+            } catch (error) {
+
+                console.error(error);
+
+                showMessage(
+                    "حدث خطأ أثناء حفظ بيانات الطالب: " +
+                    error.message,
+                    "error"
+                );
+
+            } finally {
+
+                saveBtn.disabled = false;
+
+                saveBtn.textContent =
+                    "إضافة الطالب";
+
+            }
+
+        }
+    );
+
+
+    search.addEventListener(
+        "input",
+        () => {
+
+            const value =
+                search.value
+                    .trim()
+                    .toLowerCase();
+
+
+            if (!value) {
+
+                renderStudents();
+
+                return;
+
+            }
+
+
+            const filtered =
+                students.filter(student => {
+
+                    const name =
+                        String(
+                            student.data.name || ""
+                        ).toLowerCase();
+
+
+                    const code =
+                        student.id.toLowerCase();
+
+
+                    return (
+                        name.includes(value) ||
+                        code.includes(value)
+                    );
+
+                });
+
+
+            renderStudents(filtered);
+
+        }
+    );
+
+
+    async function deleteStudent(code) {
+
+        const confirmed =
+            confirm(
+                "هل أنت متأكد من حذف هذا الطالب واشتراكه؟"
+            );
+
+
+        if (!confirmed) {
+            return;
+        }
+
+
+        try {
+
+            await deleteDoc(
+                doc(
+                    db,
+                    "students",
+                    code
+                )
+            );
+
+
+            await deleteDoc(
+                doc(
+                    db,
+                    "subscriptions",
+                    code
+                )
+            );
+
+
+            await deleteDoc(
+                doc(
+                    db,
+                    "users",
+                    code
+                )
+            );
+
+
+            showMessage(
+                "تم حذف الطالب بنجاح.",
+                "success"
+            );
+
+
+            await loadStudents();
+
+        } catch (error) {
+
+            console.error(error);
+
+            showMessage(
+                "تعذر حذف الطالب: " +
+                error.message,
+                "error"
+            );
+
+        }
+
+    }
+
+
+    /*
+     * حماية صفحة الإدارة
+     */
+
+    onAuthStateChanged(
+        auth,
+        async user => {
+
+            if (!user) {
+
+                window.location.href =
+                    "../login.html";
+
+                return;
+
+            }
+
+
+            if (user.uid !== ADMIN_UID) {
+
+                document.body.innerHTML = `
+                    <div style="
+                        min-height:100vh;
+                        display:flex;
+                        align-items:center;
+                        justify-content:center;
+                        text-align:center;
+                        font-family:Tahoma,Arial;
+                        background:#f5f7fb;
+                        padding:20px;
+                    ">
+                        <div>
+                            <div style="font-size:50px;">🔒</div>
+                            <h2>غير مصرح بالدخول</h2>
+                            <p style="color:#777;margin-top:10px;">
+                                هذه الصفحة مخصصة لإدارة مسار التمريض.
+                            </p>
+                        </div>
+                    </div>
+                `;
+
+                return;
+
+            }
+
+
+            await loadStudents();
+
+        }
+    );
+
+</script>
+
+</body>
+
+</html>
