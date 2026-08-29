@@ -1,0 +1,506 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>جدول المحاضرات | مسار التمريض</title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Arial, Tahoma, sans-serif;
+            background: #f4f7fb;
+            color: #172033;
+            min-height: 100vh;
+        }
+
+        header {
+            background: #ffffff;
+            border-bottom: 1px solid #e6ebf2;
+            padding: 18px 20px;
+        }
+
+        .header-content {
+            width: min(1100px, 92%);
+            margin: auto;
+
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            gap: 15px;
+        }
+
+        .brand {
+            color: #1769aa;
+            font-size: 22px;
+            font-weight: bold;
+        }
+
+        .brand span {
+            display: block;
+            color: #8a94a6;
+            font-size: 12px;
+            margin-top: 4px;
+        }
+
+        .back-button {
+            text-decoration: none;
+            background: #eef4f9;
+            color: #1769aa;
+            padding: 10px 16px;
+            border-radius: 9px;
+            font-weight: bold;
+        }
+
+        main {
+            width: min(1100px, 92%);
+            margin: 30px auto;
+        }
+
+        .page-title {
+            margin-bottom: 25px;
+        }
+
+        .page-title h1 {
+            color: #12395b;
+            font-size: 28px;
+            margin-bottom: 8px;
+        }
+
+        .page-title p {
+            color: #718096;
+            font-size: 15px;
+        }
+
+        .stage-box {
+            background: #ffffff;
+            border: 1px solid #e7edf4;
+            border-radius: 15px;
+            padding: 18px 20px;
+            margin-bottom: 22px;
+        }
+
+        .stage-label {
+            color: #8a94a6;
+            font-size: 13px;
+            margin-bottom: 7px;
+        }
+
+        .stage-value {
+            color: #1769aa;
+            font-weight: bold;
+            font-size: 17px;
+        }
+
+        .schedule-container {
+            background: #ffffff;
+            border: 1px solid #e7edf4;
+            border-radius: 17px;
+            overflow: hidden;
+        }
+
+        .schedule-header {
+            padding: 20px;
+            border-bottom: 1px solid #edf1f5;
+        }
+
+        .schedule-header h2 {
+            color: #12395b;
+            font-size: 19px;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 55px 20px;
+            color: #718096;
+        }
+
+        .empty-icon {
+            font-size: 42px;
+            margin-bottom: 15px;
+        }
+
+        .empty-state h3 {
+            color: #344054;
+            margin-bottom: 8px;
+        }
+
+        .empty-state p {
+            font-size: 14px;
+            line-height: 1.8;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 50px 20px;
+            color: #718096;
+        }
+
+        .error {
+            text-align: center;
+            padding: 40px 20px;
+            color: #c62828;
+        }
+
+        @media (max-width: 600px) {
+
+            .header-content {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .back-button {
+                text-align: center;
+            }
+
+            .page-title h1 {
+                font-size: 23px;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<header>
+
+    <div class="header-content">
+
+        <div class="brand">
+
+            مسار التمريض
+
+            <span>
+                Masar Al-Tamreed
+            </span>
+
+        </div>
+
+
+        <a
+            href="dashboard.html"
+            class="back-button"
+        >
+            العودة للوحة التحكم
+        </a>
+
+    </div>
+
+</header>
+
+
+
+<main>
+
+
+    <section class="page-title">
+
+        <h1>
+            📅 جدول المحاضرات
+        </h1>
+
+        <p>
+            جدول المحاضرات الخاصة بمرحلتك الدراسية
+        </p>
+
+    </section>
+
+
+
+    <section class="stage-box">
+
+        <div class="stage-label">
+            المرحلة الدراسية
+        </div>
+
+        <div
+            class="stage-value"
+            id="studentStage"
+        >
+            جاري التحميل...
+        </div>
+
+    </section>
+
+
+
+    <section class="schedule-container">
+
+        <div class="schedule-header">
+
+            <h2>
+                المحاضرات القادمة
+            </h2>
+
+        </div>
+
+
+        <div
+            id="scheduleContent"
+            class="loading"
+        >
+
+            جاري تحميل الجدول...
+
+        </div>
+
+    </section>
+
+
+</main>
+
+
+
+<script type="module">
+
+    import {
+        auth,
+        db
+    } from "../src/firebase/config.js";
+
+
+    import {
+        onAuthStateChanged
+    } from "https://www.gstatic.com/firebasejs/12.18.0/firebase-auth.js";
+
+
+    import {
+        doc,
+        getDoc
+    } from "https://www.gstatic.com/firebasejs/12.18.0/firebase-firestore.js";
+
+
+    const studentStage =
+        document.getElementById("studentStage");
+
+
+    const scheduleContent =
+        document.getElementById("scheduleContent");
+
+
+
+    /*
+     * التأكد من Authentication
+     */
+
+    onAuthStateChanged(auth, async (user) => {
+
+        if (!user) {
+
+            window.location.href =
+                "../login.html";
+
+            return;
+
+        }
+
+
+        try {
+
+            /*
+             * جلب بيانات المستخدم
+             */
+
+            const userRef =
+                doc(
+                    db,
+                    "users",
+                    user.uid
+                );
+
+
+            const userSnapshot =
+                await getDoc(userRef);
+
+
+            if (!userSnapshot.exists()) {
+
+                window.location.href =
+                    "../login.html";
+
+                return;
+
+            }
+
+
+            const userData =
+                userSnapshot.data();
+
+
+
+            /*
+             * التأكد أن الحساب Student
+             */
+
+            if (
+                userData.role !== "student" ||
+                userData.isActive !== true
+            ) {
+
+                window.location.href =
+                    "../login.html";
+
+                return;
+
+            }
+
+
+
+            /*
+             * جلب بيانات الطالب
+             */
+
+            const studentRef =
+                doc(
+                    db,
+                    "students",
+                    userData.studentId
+                );
+
+
+            const studentSnapshot =
+                await getDoc(studentRef);
+
+
+            if (!studentSnapshot.exists()) {
+
+                window.location.href =
+                    "../login.html";
+
+                return;
+
+            }
+
+
+            const student =
+                studentSnapshot.data();
+
+
+
+            /*
+             * المرحلة الخاصة بالطالب
+             */
+
+            const stage =
+                student.stage;
+
+
+            if (!stage) {
+
+                studentStage.textContent =
+                    "غير محددة";
+
+            } else {
+
+                studentStage.textContent =
+                    getStageName(stage);
+
+            }
+
+
+
+            /*
+             * مهم:
+             *
+             * لا يوجد Collection للمحاضرات
+             * حتى الآن.
+             *
+             * لذلك لا نقوم بجلب بيانات وهمية.
+             *
+             * عندما ننشئ نظام المحاضرات،
+             * سيتم استخدام stage هنا
+             * لجلب محاضرات نفس المرحلة فقط.
+             */
+
+            scheduleContent.innerHTML = `
+
+                <div class="empty-state">
+
+                    <div class="empty-icon">
+                        📅
+                    </div>
+
+                    <h3>
+                        لا توجد محاضرات حاليًا
+                    </h3>
+
+                    <p>
+                        سيتم عرض جدول المحاضرات الخاصة
+                        بمرحلتك الدراسية هنا.
+                    </p>
+
+                </div>
+
+            `;
+
+
+        } catch (error) {
+
+            console.error(error);
+
+
+            scheduleContent.innerHTML = `
+
+                <div class="error">
+
+                    حدث خطأ أثناء تحميل البيانات.
+
+                </div>
+
+            `;
+
+        }
+
+    });
+
+
+
+    /*
+     * تحويل قيمة المرحلة إلى اسم ظاهر
+     */
+
+    function getStageName(stage) {
+
+        const stages = {
+
+            "first_secondary_nursing":
+                "الصف الأول الثانوي التمريض",
+
+            "second_secondary_nursing":
+                "الصف الثاني الثانوي التمريض",
+
+            "third_secondary_nursing":
+                "الصف الثالث الثانوي التمريض"
+
+        };
+
+
+        return stages[stage] || stage;
+
+    }
+
+</script>
+
+
+</body>
+
+</html>
