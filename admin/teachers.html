@@ -219,7 +219,7 @@
         table {
             width: 100%;
             border-collapse: collapse;
-            min-width: 750px;
+            min-width: 800px;
         }
 
         th {
@@ -234,6 +234,7 @@
             padding: 13px 9px;
             border-bottom: 1px solid #edf0f4;
             font-size: 12px;
+            vertical-align: top;
         }
 
         .teacher-name {
@@ -252,6 +253,7 @@
             border-radius: 20px;
             font-size: 10px;
             font-weight: bold;
+            margin: 2px;
         }
 
         .enabled {
@@ -267,7 +269,11 @@
         .permission-badge {
             background: #eef6ff;
             color: #1769aa;
-            margin: 2px;
+        }
+
+        .stage-badge {
+            background: #f3efff;
+            color: #6941c6;
         }
 
         .action-btn {
@@ -277,6 +283,7 @@
             cursor: pointer;
             font-family: inherit;
             font-size: 11px;
+            margin: 2px;
         }
 
         .toggle-btn {
@@ -299,6 +306,12 @@
         .count {
             color: #98a2b3;
             font-size: 11px;
+        }
+
+        .select-hint {
+            color: #98a2b3;
+            font-size: 10px;
+            margin-top: 7px;
         }
 
         @media (max-width: 900px) {
@@ -332,12 +345,14 @@
 <header class="topbar">
 
     <div class="brand">
+
         <div class="logo">🩺</div>
 
         <div>
             <h1>مسار التمريض</h1>
             <span>Masar Al-Tamreed</span>
         </div>
+
     </div>
 
     <a href="dashboard.html" class="back">
@@ -350,15 +365,18 @@
 <main class="container">
 
     <div class="page-title">
+
         <h2>إدارة المدرسين 👨‍🏫</h2>
 
         <p>
-            إضافة المدرسين وتحديد صلاحياتهم داخل المنصة
+            إضافة المدرسين وتحديد المراحل والصلاحيات الخاصة بهم
         </p>
+
     </div>
 
 
     <div class="grid">
+
 
         <!-- إضافة مدرس -->
 
@@ -369,6 +387,7 @@
             <div id="message" class="message"></div>
 
             <form id="teacherForm">
+
 
                 <div class="form-group">
 
@@ -403,42 +422,90 @@
                 </div>
 
 
+                <!-- المراحل -->
+
                 <div class="form-group">
 
-                    <label for="stage">
-                        المرحلة الأساسية
+                    <label>
+                        المراحل التي يدرسها المدرس
                     </label>
 
-                    <select id="stage" required>
+                    <div class="permissions">
 
-                        <option value="">
-                            اختر المرحلة
-                        </option>
+                        <label class="permission">
 
-                        <option value="first_secondary_nursing">
+                            <input
+                                type="checkbox"
+                                value="first_secondary_nursing"
+                                class="stage-input"
+                            >
+
                             الأول الثانوي التمريض
-                        </option>
 
-                        <option value="second_secondary_nursing">
+                        </label>
+
+
+                        <label class="permission">
+
+                            <input
+                                type="checkbox"
+                                value="second_secondary_nursing"
+                                class="stage-input"
+                            >
+
                             الثاني الثانوي التمريض
-                        </option>
 
-                        <option value="third_secondary_nursing">
+                        </label>
+
+
+                        <label class="permission">
+
+                            <input
+                                type="checkbox"
+                                value="third_secondary_nursing"
+                                class="stage-input"
+                            >
+
                             الثالث الثانوي التمريض
-                        </option>
 
-                        <option value="first_institute_nursing">
+                        </label>
+
+
+                        <label class="permission">
+
+                            <input
+                                type="checkbox"
+                                value="first_institute_nursing"
+                                class="stage-input"
+                            >
+
                             الأول معهد التمريض
-                        </option>
 
-                        <option value="second_institute_nursing">
+                        </label>
+
+
+                        <label class="permission">
+
+                            <input
+                                type="checkbox"
+                                value="second_institute_nursing"
+                                class="stage-input"
+                            >
+
                             الثاني معهد التمريض
-                        </option>
 
-                    </select>
+                        </label>
+
+                    </div>
+
+                    <div class="select-hint">
+                        يمكنك اختيار أكثر من مرحلة للمدرس نفسه.
+                    </div>
 
                 </div>
 
+
+                <!-- الصلاحيات -->
 
                 <div class="form-group">
 
@@ -448,50 +515,71 @@
 
                     <div class="permissions">
 
+
                         <label class="permission">
+
                             <input
                                 type="checkbox"
                                 value="lectures"
                                 class="permission-input"
                             >
+
                             إدارة المحاضرات
+
                         </label>
 
+
                         <label class="permission">
+
                             <input
                                 type="checkbox"
                                 value="schedule"
                                 class="permission-input"
                             >
+
                             إدارة الجدول
+
                         </label>
 
+
                         <label class="permission">
+
                             <input
                                 type="checkbox"
                                 value="students"
                                 class="permission-input"
                             >
+
                             مشاهدة الطلاب
+
                         </label>
 
+
                         <label class="permission">
+
                             <input
                                 type="checkbox"
                                 value="exams"
                                 class="permission-input"
                             >
+
                             إدارة الاختبارات
+
                         </label>
 
+
                         <label class="permission">
+
                             <input
                                 type="checkbox"
                                 value="files"
                                 class="permission-input"
                             >
+
                             إدارة الملفات
+
                         </label>
+
 
                     </div>
 
@@ -506,6 +594,7 @@
                     إضافة المدرس
                 </button>
 
+
             </form>
 
         </section>
@@ -514,6 +603,7 @@
         <!-- قائمة المدرسين -->
 
         <section class="card">
+
 
             <div style="
                 display:flex;
@@ -554,22 +644,33 @@
                         <tr>
 
                             <th>المدرس</th>
+
                             <th>الكود</th>
-                            <th>المرحلة</th>
+
+                            <th>المراحل</th>
+
                             <th>الصلاحيات</th>
+
                             <th>الحالة</th>
+
                             <th>إجراء</th>
 
                         </tr>
 
                     </thead>
 
+
                     <tbody id="teachersTable">
 
                         <tr>
-                            <td colspan="6" class="empty">
+
+                            <td
+                                colspan="6"
+                                class="empty"
+                            >
                                 جاري تحميل المدرسين...
                             </td>
+
                         </tr>
 
                     </tbody>
@@ -592,9 +693,11 @@ import {
     db
 } from "../src/firebase/config.js";
 
+
 import {
     onAuthStateChanged
 } from "https://www.gstatic.com/firebasejs/12.18.0/firebase-auth.js";
+
 
 import {
     collection,
@@ -614,17 +717,22 @@ const ADMIN_UID =
 const form =
     document.getElementById("teacherForm");
 
+
 const table =
     document.getElementById("teachersTable");
+
 
 const search =
     document.getElementById("search");
 
+
 const message =
     document.getElementById("message");
 
+
 const saveBtn =
     document.getElementById("saveBtn");
+
 
 const count =
     document.getElementById("count");
@@ -655,15 +763,20 @@ const stageNames = {
 
 const permissionNames = {
 
-    lectures: "المحاضرات",
+    lectures:
+        "المحاضرات",
 
-    schedule: "الجدول",
+    schedule:
+        "الجدول",
 
-    students: "الطلاب",
+    students:
+        "الطلاب",
 
-    exams: "الاختبارات",
+    exams:
+        "الاختبارات",
 
-    files: "الملفات"
+    files:
+        "الملفات"
 
 };
 
@@ -734,82 +847,126 @@ function renderTeachers(list = teachers) {
                     : [];
 
 
+            const stages =
+                Array.isArray(data.stages)
+                    ? data.stages
+                    : [];
+
+
             const permissionHTML =
                 permissions.length
                     ? permissions.map(permission => `
+
                         <span class="badge permission-badge">
                             ${escapeHtml(
                                 permissionNames[permission] || permission
                             )}
                         </span>
+
+                    `).join("")
+                    : "—";
+
+
+            const stageHTML =
+                stages.length
+                    ? stages.map(stage => `
+
+                        <span class="badge stage-badge">
+                            ${escapeHtml(
+                                stageNames[stage] || stage
+                            )}
+                        </span>
+
                     `).join("")
                     : "—";
 
 
             return `
+
                 <tr>
 
                     <td>
+
                         <div class="teacher-name">
-                            ${escapeHtml(data.name || "بدون اسم")}
+                            ${escapeHtml(
+                                data.name || "بدون اسم"
+                            )}
                         </div>
+
                     </td>
 
+
                     <td>
+
                         <span class="teacher-code">
                             ${escapeHtml(item.id)}
                         </span>
+
                     </td>
 
+
                     <td>
-                        ${escapeHtml(
-                            stageNames[data.stage] || "غير محدد"
-                        )}
+                        ${stageHTML}
                     </td>
+
 
                     <td>
                         ${permissionHTML}
                     </td>
 
+
                     <td>
+
                         <span class="badge ${
                             data.isActive === false
                                 ? "disabled"
                                 : "enabled"
                         }">
+
                             ${
                                 data.isActive === false
                                     ? "موقوف"
                                     : "فعال"
                             }
+
                         </span>
+
                     </td>
 
+
                     <td>
+
 
                         <button
                             class="action-btn toggle-btn"
                             data-action="toggle"
                             data-id="${escapeHtml(item.id)}"
                         >
+
                             ${
                                 data.isActive === false
                                     ? "تفعيل"
                                     : "إيقاف"
                             }
+
                         </button>
+
 
                         <button
                             class="action-btn delete-btn"
                             data-action="delete"
                             data-id="${escapeHtml(item.id)}"
                         >
+
                             حذف
+
                         </button>
+
 
                     </td>
 
                 </tr>
+
             `;
 
         }).join("");
@@ -826,6 +983,7 @@ function renderTeachers(list = teachers) {
                     const id =
                         button.dataset.id;
 
+
                     if (
                         button.dataset.action ===
                         "toggle"
@@ -834,6 +992,7 @@ function renderTeachers(list = teachers) {
                         toggleTeacher(id);
 
                     }
+
 
                     if (
                         button.dataset.action ===
@@ -862,31 +1021,46 @@ async function loadTeachers() {
             );
 
 
-        teachers = snapshot.docs
-            .map(item => ({
+        teachers =
+            snapshot.docs
+                .map(item => ({
 
-                id: item.id,
+                    id:
+                        item.id,
 
-                data: item.data()
+                    data:
+                        item.data()
 
-            }))
-            .filter(item =>
-                item.data.role === "teacher"
-            );
+                }))
+                .filter(item =>
+                    item.data.role ===
+                    "teacher"
+                );
 
 
         renderTeachers();
+
 
     } catch (error) {
 
         console.error(error);
 
+
         table.innerHTML = `
+
             <tr>
-                <td colspan="6" class="empty">
+
+                <td
+                    colspan="6"
+                    class="empty"
+                >
+
                     تعذر تحميل المدرسين
+
                 </td>
+
             </tr>
+
         `;
 
     }
@@ -918,27 +1092,36 @@ form.addEventListener(
                 .toUpperCase();
 
 
-        const stage =
-            document
-                .getElementById("stage")
-                .value;
+        const stages =
+            [
+                ...document.querySelectorAll(
+                    ".stage-input:checked"
+                )
+            ]
+            .map(input =>
+                input.value
+            );
 
 
         const permissions =
-            [...document.querySelectorAll(
-                ".permission-input:checked"
-            )]
-            .map(input => input.value);
+            [
+                ...document.querySelectorAll(
+                    ".permission-input:checked"
+                )
+            ]
+            .map(input =>
+                input.value
+            );
 
 
         if (
             !name ||
             !code ||
-            !stage
+            stages.length === 0
         ) {
 
             showMessage(
-                "من فضلك أكمل بيانات المدرس.",
+                "من فضلك أدخل اسم المدرس واختر مرحلة واحدة على الأقل.",
                 "error"
             );
 
@@ -955,15 +1138,6 @@ form.addEventListener(
 
         try {
 
-            /*
-             * users/{teacherCode}
-             *
-             * لا ننشئ Firebase Auth account
-             * من المتصفح هنا.
-             *
-             * سيتم ربط UID الحقيقي بالمدرس
-             * عند تجهيز نظام دخول المدرسين.
-             */
 
             await setDoc(
                 doc(
@@ -978,7 +1152,7 @@ form.addEventListener(
                     role:
                         "teacher",
 
-                    stage,
+                    stages,
 
                     permissions,
 
@@ -1003,12 +1177,14 @@ form.addEventListener(
 
             form.reset();
 
+
             await loadTeachers();
 
 
         } catch (error) {
 
             console.error(error);
+
 
             showMessage(
                 "حدث خطأ أثناء إضافة المدرس: " +
@@ -1079,12 +1255,15 @@ async function toggleTeacher(id) {
 
     const teacher =
         teachers.find(
-            item => item.id === id
+            item =>
+                item.id === id
         );
 
 
     if (!teacher) {
+
         return;
+
     }
 
 
@@ -1110,9 +1289,11 @@ async function toggleTeacher(id) {
 
         await loadTeachers();
 
+
     } catch (error) {
 
         console.error(error);
+
 
         showMessage(
             "تعذر تغيير حالة المدرس.",
@@ -1133,7 +1314,9 @@ async function deleteTeacher(id) {
 
 
     if (!confirmed) {
+
         return;
+
     }
 
 
@@ -1156,9 +1339,11 @@ async function deleteTeacher(id) {
 
         await loadTeachers();
 
+
     } catch (error) {
 
         console.error(error);
+
 
         showMessage(
             "تعذر حذف المدرس.",
@@ -1184,9 +1369,13 @@ onAuthStateChanged(
         }
 
 
-        if (user.uid !== ADMIN_UID) {
+        if (
+            user.uid !==
+            ADMIN_UID
+        ) {
 
             document.body.innerHTML = `
+
                 <div style="
                     min-height:100vh;
                     display:flex;
@@ -1207,21 +1396,26 @@ onAuthStateChanged(
                             🔒
                         </div>
 
+
                         <h2>
                             غير مصرح بالدخول
                         </h2>
+
 
                         <p style="
                             color:#777;
                             margin-top:10px;
                         ">
+
                             هذه الصفحة مخصصة لإدارة
                             مسار التمريض.
+
                         </p>
 
                     </div>
 
                 </div>
+
             `;
 
             return;
