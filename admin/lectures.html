@@ -1,0 +1,969 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+
+<title>إدارة المحاضرات | مسار التمريض</title>
+
+<style>
+
+*{
+box-sizing:border-box;
+margin:0;
+padding:0;
+}
+
+body{
+font-family:Tahoma,Arial,sans-serif;
+background:#f5f7fb;
+color:#172033;
+}
+
+.topbar{
+height:72px;
+background:#fff;
+border-bottom:1px solid #e7ebf2;
+display:flex;
+align-items:center;
+justify-content:space-between;
+padding:0 25px;
+}
+
+.brand{
+display:flex;
+align-items:center;
+gap:12px;
+}
+
+.logo{
+width:44px;
+height:44px;
+border-radius:13px;
+background:linear-gradient(135deg,#1769aa,#0d3f68);
+color:#fff;
+display:flex;
+align-items:center;
+justify-content:center;
+font-size:22px;
+}
+
+.brand h1{
+font-size:19px;
+color:#12395b;
+}
+
+.brand span{
+display:block;
+color:#98a2b3;
+font-size:11px;
+}
+
+.back{
+text-decoration:none;
+color:#1769aa;
+background:#eef6ff;
+padding:10px 14px;
+border-radius:10px;
+font-size:12px;
+font-weight:bold;
+}
+
+.container{
+max-width:1250px;
+margin:auto;
+padding:25px;
+}
+
+.title{
+margin-bottom:20px;
+}
+
+.title h2{
+font-size:25px;
+margin-bottom:7px;
+}
+
+.title p{
+color:#7b8798;
+font-size:13px;
+}
+
+.grid{
+display:grid;
+grid-template-columns:370px 1fr;
+gap:20px;
+}
+
+.card{
+background:#fff;
+border:1px solid #e5eaf0;
+border-radius:18px;
+padding:21px;
+}
+
+.form-group{
+margin-bottom:14px;
+}
+
+label{
+display:block;
+font-size:12px;
+font-weight:bold;
+margin-bottom:7px;
+color:#344054;
+}
+
+input,select,textarea{
+width:100%;
+border:1px solid #dce3ec;
+border-radius:11px;
+background:#fafbfd;
+padding:12px;
+font-family:inherit;
+outline:none;
+}
+
+input,select{
+height:45px;
+}
+
+textarea{
+height:90px;
+resize:vertical;
+}
+
+.stages{
+display:grid;
+gap:7px;
+}
+
+.stage{
+display:flex;
+align-items:center;
+gap:8px;
+padding:9px;
+background:#f8fafc;
+border-radius:9px;
+font-size:12px;
+}
+
+.stage input{
+width:17px;
+height:17px;
+}
+
+.btn{
+width:100%;
+height:47px;
+border:0;
+border-radius:11px;
+background:linear-gradient(135deg,#1769aa,#0d4f80);
+color:#fff;
+font-family:inherit;
+font-weight:bold;
+cursor:pointer;
+}
+
+.message{
+display:none;
+padding:11px;
+border-radius:10px;
+margin-bottom:14px;
+font-size:12px;
+text-align:center;
+}
+
+.message.success{
+display:block;
+background:#ecfdf3;
+color:#087443;
+}
+
+.message.error{
+display:block;
+background:#fff1f1;
+color:#b42318;
+}
+
+.search{
+width:100%;
+height:45px;
+margin-bottom:15px;
+}
+
+.table-wrap{
+overflow-x:auto;
+}
+
+table{
+width:100%;
+min-width:900px;
+border-collapse:collapse;
+}
+
+th{
+background:#f7f9fc;
+color:#667085;
+font-size:11px;
+padding:12px;
+text-align:right;
+}
+
+td{
+padding:12px;
+border-bottom:1px solid #edf0f4;
+font-size:12px;
+}
+
+.badge{
+display:inline-block;
+padding:5px 9px;
+border-radius:20px;
+font-size:10px;
+font-weight:bold;
+background:#eef6ff;
+color:#1769aa;
+margin:2px;
+}
+
+.active{
+background:#eaf8f0;
+color:#087443;
+}
+
+.inactive{
+background:#fff1f1;
+color:#b42318;
+}
+
+.action{
+border:0;
+padding:7px 9px;
+border-radius:8px;
+cursor:pointer;
+font-family:inherit;
+font-size:11px;
+}
+
+.toggle{
+background:#eef6ff;
+color:#1769aa;
+}
+
+.delete{
+background:#fff1f1;
+color:#b42318;
+}
+
+.empty{
+text-align:center;
+padding:40px;
+color:#98a2b3;
+}
+
+@media(max-width:900px){
+
+.grid{
+grid-template-columns:1fr;
+}
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<header class="topbar">
+
+<div class="brand">
+
+<div class="logo">🩺</div>
+
+<div>
+<h1>مسار التمريض</h1>
+<span>Masar Al-Tamreed</span>
+</div>
+
+</div>
+
+<a href="dashboard.html" class="back">
+← لوحة الإدارة
+</a>
+
+</header>
+
+
+<main class="container">
+
+<div class="title">
+
+<h2>🎥 إدارة المحاضرات</h2>
+
+<p>
+إضافة وتنظيم المحاضرات وربطها بالمراحل والمدرسين
+</p>
+
+</div>
+
+
+<div class="grid">
+
+
+<section class="card">
+
+<h3 style="margin-bottom:18px">
+➕ إضافة محاضرة
+</h3>
+
+<div id="message" class="message"></div>
+
+<form id="lectureForm">
+
+
+<div class="form-group">
+
+<label>عنوان المحاضرة</label>
+
+<input
+id="title"
+placeholder="مثال: Fundamentals of Nursing"
+required
+>
+
+</div>
+
+
+<div class="form-group">
+
+<label>اسم المادة</label>
+
+<input
+id="subject"
+placeholder="مثال: تمريض باطني"
+required
+>
+
+</div>
+
+
+<div class="form-group">
+
+<label>المدرس</label>
+
+<select id="teacher" required>
+
+<option value="">
+اختر المدرس
+</option>
+
+</select>
+
+</div>
+
+
+<div class="form-group">
+
+<label>المراحل المستهدفة</label>
+
+<div class="stages">
+
+<label class="stage">
+<input type="checkbox" value="first_secondary_nursing">
+الأول الثانوي
+</label>
+
+<label class="stage">
+<input type="checkbox" value="second_secondary_nursing">
+الثاني الثانوي
+</label>
+
+<label class="stage">
+<input type="checkbox" value="third_secondary_nursing">
+الثالث الثانوي
+</label>
+
+<label class="stage">
+<input type="checkbox" value="first_institute_nursing">
+الأول معهد
+</label>
+
+<label class="stage">
+<input type="checkbox" value="second_institute_nursing">
+الثاني معهد
+</label>
+
+</div>
+
+</div>
+
+
+<div class="form-group">
+
+<label>نوع المحاضرة</label>
+
+<select id="type">
+
+<option value="live">
+Live
+</option>
+
+<option value="recorded">
+مسجلة
+</option>
+
+</select>
+
+</div>
+
+
+<div class="form-group">
+
+<label>رابط المحاضرة</label>
+
+<input
+id="url"
+type="url"
+placeholder="https://..."
+required
+>
+
+</div>
+
+
+<div class="form-group">
+
+<label>وصف المحاضرة</label>
+
+<textarea
+id="description"
+placeholder="وصف مختصر..."
+></textarea>
+
+</div>
+
+
+<button
+id="saveBtn"
+class="btn"
+type="submit"
+>
+
+إضافة المحاضرة
+
+</button>
+
+</form>
+
+</section>
+
+
+<section class="card">
+
+<div style="
+display:flex;
+justify-content:space-between;
+margin-bottom:17px;
+">
+
+<h3>
+🎥 المحاضرات
+</h3>
+
+<span
+id="count"
+style="color:#98a2b3;font-size:11px"
+>
+0
+</span>
+
+</div>
+
+
+<input
+id="search"
+class="search"
+placeholder="🔍 ابحث عن محاضرة أو مادة..."
+>
+
+
+<div class="table-wrap">
+
+<table>
+
+<thead>
+
+<tr>
+
+<th>المحاضرة</th>
+<th>المادة</th>
+<th>المدرس</th>
+<th>المراحل</th>
+<th>النوع</th>
+<th>الحالة</th>
+<th>إجراء</th>
+
+</tr>
+
+</thead>
+
+<tbody id="lecturesTable">
+
+<tr>
+<td colspan="7" class="empty">
+جاري التحميل...
+</td>
+</tr>
+
+</tbody>
+
+</table>
+
+</div>
+
+</section>
+
+</div>
+
+</main>
+
+
+<script type="module">
+
+import {
+db
+} from "../src/firebase/config.js";
+
+import {
+collection,
+doc,
+getDocs,
+addDoc,
+deleteDoc,
+updateDoc,
+serverTimestamp
+} from "https://www.gstatic.com/firebasejs/12.18.0/firebase-firestore.js";
+
+import {
+protectAdminPage
+} from "../src/firebase/admin-guard.js";
+
+
+const form=document.getElementById("lectureForm");
+const table=document.getElementById("lecturesTable");
+const search=document.getElementById("search");
+const teacherSelect=document.getElementById("teacher");
+const message=document.getElementById("message");
+const saveBtn=document.getElementById("saveBtn");
+const count=document.getElementById("count");
+
+let lectures=[];
+
+
+const stages={
+
+first_secondary_nursing:"الأول الثانوي",
+second_secondary_nursing:"الثاني الثانوي",
+third_secondary_nursing:"الثالث الثانوي",
+first_institute_nursing:"الأول معهد",
+second_institute_nursing:"الثاني معهد"
+
+};
+
+
+function esc(v){
+
+return String(v??"")
+.replaceAll("&","&amp;")
+.replaceAll("<","&lt;")
+.replaceAll(">","&gt;")
+.replaceAll('"',"&quot;")
+.replaceAll("'","&#039;");
+
+}
+
+
+function msg(text,type="error"){
+
+message.textContent=text;
+message.className="message "+type;
+
+}
+
+
+async function loadTeachers(){
+
+const snapshot=
+await getDocs(collection(db,"users"));
+
+const teachers=
+snapshot.docs
+.map(x=>({id:x.id,data:x.data()}))
+.filter(x=>x.data.role==="teacher" && x.data.isActive!==false);
+
+
+teacherSelect.innerHTML=`
+
+<option value="">
+اختر المدرس
+</option>
+
+`+
+teachers.map(t=>`
+
+<option value="${esc(t.id)}">
+${esc(t.data.name||t.id)}
+</option>
+
+`).join("");
+
+}
+
+
+async function loadLectures(){
+
+const snapshot=
+await getDocs(collection(db,"lectures"));
+
+lectures=
+snapshot.docs.map(x=>({
+
+id:x.id,
+data:x.data()
+
+}));
+
+render(lectures);
+
+}
+
+
+function render(list){
+
+count.textContent=`${list.length} محاضرة`;
+
+if(!list.length){
+
+table.innerHTML=`
+<tr>
+<td colspan="7" class="empty">
+لا توجد محاضرات
+</td>
+</tr>
+`;
+
+return;
+
+}
+
+
+table.innerHTML=list.map(item=>{
+
+const d=item.data;
+
+const stageList=
+Array.isArray(d.stages)
+?d.stages
+:[];
+
+return `
+
+<tr>
+
+<td>
+<strong>${esc(d.title||"بدون عنوان")}</strong>
+</td>
+
+<td>
+${esc(d.subject||"—")}
+</td>
+
+<td>
+${esc(d.teacherName||d.teacherId||"—")}
+</td>
+
+<td>
+
+${stageList.map(s=>`
+<span class="badge">
+${esc(stages[s]||s)}
+</span>
+`).join("")}
+
+</td>
+
+<td>
+${esc(d.type==="live"?"Live":"مسجلة")}
+</td>
+
+<td>
+
+<span class="badge ${
+d.isActive===false
+?"inactive"
+:"active"
+}">
+
+${
+d.isActive===false
+?"موقوف"
+:"فعال"
+}
+
+</span>
+
+</td>
+
+<td>
+
+<button
+class="action toggle"
+data-action="toggle"
+data-id="${item.id}"
+>
+
+${
+d.isActive===false
+?"تفعيل"
+:"إيقاف"
+}
+
+</button>
+
+<button
+class="action delete"
+data-action="delete"
+data-id="${item.id}"
+>
+حذف
+</button>
+
+</td>
+
+</tr>
+
+`;
+
+}).join("");
+
+
+document.querySelectorAll("[data-action]")
+.forEach(btn=>{
+
+btn.onclick=()=>{
+
+if(btn.dataset.action==="toggle")
+toggle(btn.dataset.id);
+
+if(btn.dataset.action==="delete")
+remove(btn.dataset.id);
+
+};
+
+});
+
+}
+
+
+form.addEventListener("submit",async e=>{
+
+e.preventDefault();
+
+const title=document.getElementById("title").value.trim();
+const subject=document.getElementById("subject").value.trim();
+const teacherId=teacherSelect.value;
+const type=document.getElementById("type").value;
+const url=document.getElementById("url").value.trim();
+const description=document.getElementById("description").value.trim();
+
+
+const stagesSelected=
+[...document.querySelectorAll(".stage input:checked")]
+.map(x=>x.value);
+
+
+if(
+!title||
+!subject||
+!teacherId||
+!url||
+!stagesSelected.length
+){
+
+msg("أكمل بيانات المحاضرة واختر مرحلة واحدة على الأقل.");
+
+return;
+
+}
+
+
+const teacherOption=
+teacherSelect.options[
+teacherSelect.selectedIndex
+];
+
+
+saveBtn.disabled=true;
+saveBtn.textContent="جاري الحفظ...";
+
+
+try{
+
+await addDoc(
+collection(db,"lectures"),
+{
+
+title,
+subject,
+
+teacherId,
+
+teacherName:
+teacherOption.textContent.trim(),
+
+stages:stagesSelected,
+
+type,
+
+url,
+
+description,
+
+isActive:true,
+
+createdAt:serverTimestamp(),
+updatedAt:serverTimestamp()
+
+}
+);
+
+
+msg("تم إضافة المحاضرة بنجاح ✅","success");
+
+form.reset();
+
+await loadLectures();
+
+}catch(error){
+
+console.error(error);
+
+msg("حدث خطأ: "+error.message);
+
+}finally{
+
+saveBtn.disabled=false;
+saveBtn.textContent="إضافة المحاضرة";
+
+}
+
+});
+
+
+async function toggle(id){
+
+const item=
+lectures.find(x=>x.id===id);
+
+if(!item)return;
+
+await updateDoc(
+doc(db,"lectures",id),
+{
+
+isActive:
+item.data.isActive===false,
+
+updatedAt:serverTimestamp()
+
+}
+);
+
+await loadLectures();
+
+}
+
+
+async function remove(id){
+
+if(!confirm("هل تريد حذف المحاضرة؟"))
+return;
+
+await deleteDoc(
+doc(db,"lectures",id)
+);
+
+await loadLectures();
+
+}
+
+
+search.addEventListener("input",()=>{
+
+const v=
+search.value.trim().toLowerCase();
+
+if(!v){
+
+render(lectures);
+return;
+
+}
+
+render(
+lectures.filter(x=>
+String(x.data.title||"")
+.toLowerCase()
+.includes(v)
+||
+String(x.data.subject||"")
+.toLowerCase()
+.includes(v)
+)
+);
+
+});
+
+
+protectAdminPage({
+
+async onAuthorized(){
+
+await loadTeachers();
+await loadLectures();
+
+},
+
+onUnauthorized(){
+
+document.body.innerHTML=`
+<div style="
+min-height:100vh;
+display:flex;
+align-items:center;
+justify-content:center;
+font-family:Tahoma;
+text-align:center;
+">
+<div>
+<div style="font-size:50px">🔒</div>
+<h2>غير مصرح بالدخول</h2>
+<p style="color:#777">
+هذه الصفحة للإدارة فقط.
+</p>
+</div>
+</div>
+`;
+
+}
+
+});
+
+</script>
+
+</body>
+</html>
