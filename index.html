@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>مسار التمريض | Masar Al-Tamreed</title>
+
+    <meta
+        name="description"
+        content="مسار التمريض - منصة تعليمية متخصصة لطلاب التمريض"
+    >
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Arial, Tahoma, sans-serif;
+            background: #f5f8fc;
+            color: #172033;
+            min-height: 100vh;
+        }
+
+        .container {
+            width: min(1100px, 92%);
+            margin: auto;
+        }
+
+        header {
+            padding: 25px 0;
+            background: #ffffff;
+            border-bottom: 1px solid #e8edf4;
+        }
+
+        .navbar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 20px;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+            color: #1769aa;
+        }
+
+        .logo span {
+            display: block;
+            font-size: 13px;
+            color: #718096;
+            margin-top: 4px;
+            font-weight: normal;
+        }
+
+        .login-btn {
+            text-decoration: none;
+            background: #1769aa;
+            color: #ffffff;
+            padding: 11px 22px;
+            border-radius: 10px;
+            font-weight: bold;
+        }
+
+        .hero {
+            min-height: calc(100vh - 90px);
+            display: flex;
+            align-items: center;
+            text-align: center;
+        }
+
+        .hero-content {
+            width: 100%;
+            max-width: 800px;
+            margin: auto;
+        }
+
+        .badge {
+            display: inline-block;
+            background: #e8f3fb;
+            color: #1769aa;
+            padding: 8px 16px;
+            border-radius: 30px;
+            font-size: 14px;
+            font-weight: bold;
+            margin-bottom: 22px;
+        }
+
+        h1 {
+            font-size: clamp(38px, 7vw, 68px);
+            margin-bottom: 15px;
+            color: #12395b;
+        }
+
+        .english-title {
+            font-size: clamp(20px, 4vw, 30px);
+            color: #1769aa;
+            margin-bottom: 25px;
+            direction: ltr;
+        }
+
+        .description {
+            font-size: 18px;
+            line-height: 1.9;
+            color: #596579;
+            max-width: 680px;
+            margin: 0 auto 32px;
+        }
+
+        .main-login {
+            display: inline-block;
+            text-decoration: none;
+            background: #1769aa;
+            color: white;
+            padding: 15px 38px;
+            border-radius: 12px;
+            font-size: 18px;
+            font-weight: bold;
+            transition: 0.2s;
+        }
+
+        .main-login:hover {
+            transform: translateY(-2px);
+            opacity: 0.92;
+        }
+
+        .features {
+            margin-top: 55px;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 18px;
+        }
+
+        .feature {
+            background: #ffffff;
+            padding: 25px 18px;
+            border-radius: 16px;
+            border: 1px solid #e8edf4;
+        }
+
+        .feature-icon {
+            font-size: 30px;
+            margin-bottom: 12px;
+        }
+
+        .feature h3 {
+            margin-bottom: 8px;
+            color: #12395b;
+        }
+
+        .feature p {
+            color: #718096;
+            line-height: 1.7;
+            font-size: 14px;
+        }
+
+        footer {
+            text-align: center;
+            padding: 25px;
+            color: #8a94a6;
+            font-size: 13px;
+        }
+
+        @media (max-width: 700px) {
+
+            .navbar {
+                flex-direction: column;
+            }
+
+            .hero {
+                padding: 60px 0 30px;
+            }
+
+            .features {
+                grid-template-columns: 1fr;
+            }
+
+            .description {
+                font-size: 16px;
+            }
+
+            .login-btn {
+                padding: 10px 20px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <header>
+        <div class="container navbar">
+
+            <div class="logo">
+                مسار التمريض
+                <span>Masar Al-Tamreed</span>
+            </div>
+
+            <a href="login.html" class="login-btn">
+                تسجيل الدخول
+            </a>
+
+        </div>
+    </header>
+
+
+    <main class="hero">
+
+        <div class="container hero-content">
+
+            <div class="badge">
+                منصة تعليمية متخصصة لطلاب التمريض
+            </div>
+
+            <h1>
+                مسار التمريض
+            </h1>
+
+            <div class="english-title">
+                Masar Al-Tamreed
+            </div>
+
+            <p class="description">
+                منصتك التعليمية المتخصصة لطلاب التمريض،
+                لمتابعة المحاضرات والاختبارات والملفات التعليمية
+                ومتابعة مستواك الدراسي في مكان واحد.
+            </p>
+
+            <a href="login.html" class="main-login">
+                الدخول إلى المنصة
+            </a>
+
+
+            <section class="features">
+
+                <div class="feature">
+                    <div class="feature-icon">🎓</div>
+
+                    <h3>تعلم منظم</h3>
+
+                    <p>
+                        محتوى تعليمي منظم حسب المرحلة الدراسية.
+                    </p>
+                </div>
+
+
+                <div class="feature">
+                    <div class="feature-icon">📚</div>
+
+                    <h3>محاضرات وملفات</h3>
+
+                    <p>
+                        الوصول إلى المحاضرات والملفات التعليمية
+                        الخاصة بك.
+                    </p>
+                </div>
+
+
+                <div class="feature">
+                    <div class="feature-icon">📝</div>
+
+                    <h3>اختبارات ونتائج</h3>
+
+                    <p>
+                        اختبر مستواك وتابع نتائجك وتقدمك الدراسي.
+                    </p>
+                </div>
+
+            </section>
+
+        </div>
+
+    </main>
+
+
+    <footer>
+        © 2026 مسار التمريض | Masar Al-Tamreed
+    </footer>
+
+</body>
+</html>
