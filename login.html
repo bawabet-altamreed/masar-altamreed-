@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>مسار التمريض | تسجيل الدخول</title>
+</head>
+
+<body>
+
+  <h1>مسار التمريض</h1>
+
+  <button id="testAuth">اختبار الاتصال بـ Firebase</button>
+
+  <p id="result"></p>
+
+  <script type="module">
+    import { createAnonymousSession } from "./src/firebase/auth.js";
+
+    const button = document.getElementById("testAuth");
+    const result = document.getElementById("result");
+
+    button.addEventListener("click", async () => {
+
+      result.textContent = "جاري الاتصال...";
+
+      try {
+
+        const user = await createAnonymousSession();
+
+        result.textContent =
+          "تم الاتصال بنجاح ✅ UID: " + user.uid;
+
+        console.log("Firebase User:", user);
+
+      } catch (error) {
+
+        result.textContent =
+          "حدث خطأ ❌ راجع Console";
+
+        console.error(error);
+      }
+
+    });
+  </script>
+
+</body>
+</html>
