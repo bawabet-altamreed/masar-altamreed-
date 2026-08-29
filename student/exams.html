@@ -1,0 +1,600 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>الاختبارات | مسار التمريض</title>
+
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+
+        body {
+            font-family: Arial, Tahoma, sans-serif;
+            background: #f4f7fb;
+            color: #172033;
+            min-height: 100vh;
+        }
+
+
+        header {
+            background: #ffffff;
+            border-bottom: 1px solid #e6ebf2;
+            padding: 18px 20px;
+        }
+
+
+        .header-content {
+            width: min(1100px, 92%);
+            margin: auto;
+
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            gap: 15px;
+        }
+
+
+        .brand {
+            color: #1769aa;
+            font-size: 22px;
+            font-weight: bold;
+        }
+
+
+        .brand span {
+            display: block;
+            color: #8a94a6;
+            font-size: 12px;
+            margin-top: 4px;
+        }
+
+
+        .back-button {
+            text-decoration: none;
+            background: #eef4f9;
+            color: #1769aa;
+            padding: 10px 16px;
+            border-radius: 9px;
+            font-weight: bold;
+        }
+
+
+        main {
+            width: min(1100px, 92%);
+            margin: 30px auto;
+        }
+
+
+        .page-title {
+            margin-bottom: 25px;
+        }
+
+
+        .page-title h1 {
+            color: #12395b;
+            font-size: 28px;
+            margin-bottom: 8px;
+        }
+
+
+        .page-title p {
+            color: #718096;
+            font-size: 15px;
+        }
+
+
+        .stage-box {
+            background: #ffffff;
+            border: 1px solid #e7edf4;
+            border-radius: 15px;
+            padding: 18px 20px;
+            margin-bottom: 22px;
+        }
+
+
+        .stage-label {
+            color: #8a94a6;
+            font-size: 13px;
+            margin-bottom: 7px;
+        }
+
+
+        .stage-value {
+            color: #1769aa;
+            font-weight: bold;
+            font-size: 17px;
+        }
+
+
+        .exams-container {
+            background: #ffffff;
+            border: 1px solid #e7edf4;
+            border-radius: 17px;
+            padding: 20px;
+        }
+
+
+        .section-title {
+            color: #12395b;
+            font-size: 19px;
+            margin-bottom: 20px;
+        }
+
+
+        .exam-list {
+            display: grid;
+            gap: 15px;
+        }
+
+
+        .exam-card {
+            border: 1px solid #e7edf4;
+            border-radius: 14px;
+            padding: 18px;
+
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            gap: 20px;
+        }
+
+
+        .exam-info h3 {
+            color: #12395b;
+            margin-bottom: 8px;
+        }
+
+
+        .exam-info p {
+            color: #718096;
+            font-size: 14px;
+            line-height: 1.8;
+        }
+
+
+        .exam-status {
+            display: inline-block;
+            margin-top: 8px;
+
+            background: #eef6fc;
+            color: #1769aa;
+
+            padding: 5px 10px;
+            border-radius: 20px;
+
+            font-size: 12px;
+            font-weight: bold;
+        }
+
+
+        .exam-button {
+            border: none;
+            background: #1769aa;
+            color: #ffffff;
+
+            padding: 10px 18px;
+            border-radius: 9px;
+
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+
+        .empty-state {
+            text-align: center;
+            padding: 55px 20px;
+            color: #718096;
+        }
+
+
+        .empty-icon {
+            font-size: 42px;
+            margin-bottom: 15px;
+        }
+
+
+        .empty-state h3 {
+            color: #344054;
+            margin-bottom: 8px;
+        }
+
+
+        .empty-state p {
+            font-size: 14px;
+            line-height: 1.8;
+        }
+
+
+        .loading {
+            text-align: center;
+            padding: 50px 20px;
+            color: #718096;
+        }
+
+
+        .error {
+            text-align: center;
+            padding: 40px 20px;
+            color: #c62828;
+        }
+
+
+        @media (max-width: 650px) {
+
+            .header-content {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+
+            .back-button {
+                text-align: center;
+            }
+
+
+            .exam-card {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+
+            .exam-button {
+                width: 100%;
+            }
+
+
+            .page-title h1 {
+                font-size: 23px;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+
+<body>
+
+
+<header>
+
+    <div class="header-content">
+
+
+        <div class="brand">
+
+            مسار التمريض
+
+            <span>
+                Masar Al-Tamreed
+            </span>
+
+        </div>
+
+
+        <a
+            href="dashboard.html"
+            class="back-button"
+        >
+            العودة للوحة التحكم
+        </a>
+
+
+    </div>
+
+</header>
+
+
+
+<main>
+
+
+    <section class="page-title">
+
+        <h1>
+            📝 الاختبارات
+        </h1>
+
+        <p>
+            الاختبارات المتاحة للمرحلة الدراسية الخاصة بك
+        </p>
+
+    </section>
+
+
+
+    <section class="stage-box">
+
+        <div class="stage-label">
+            المرحلة الدراسية
+        </div>
+
+
+        <div
+            class="stage-value"
+            id="studentStage"
+        >
+            جاري التحميل...
+        </div>
+
+    </section>
+
+
+
+    <section class="exams-container">
+
+        <h2 class="section-title">
+            الاختبارات المتاحة
+        </h2>
+
+
+        <div
+            id="examList"
+            class="loading"
+        >
+
+            جاري تحميل الاختبارات...
+
+        </div>
+
+    </section>
+
+
+</main>
+
+
+
+<script type="module">
+
+
+    import {
+        auth,
+        db
+    } from "../src/firebase/config.js";
+
+
+    import {
+        onAuthStateChanged
+    } from "https://www.gstatic.com/firebasejs/12.18.0/firebase-auth.js";
+
+
+    import {
+        doc,
+        getDoc
+    } from "https://www.gstatic.com/firebasejs/12.18.0/firebase-firestore.js";
+
+
+
+    const studentStage =
+        document.getElementById("studentStage");
+
+
+    const examList =
+        document.getElementById("examList");
+
+
+
+    /*
+     * التحقق من حالة تسجيل الدخول
+     */
+
+    onAuthStateChanged(auth, async (user) => {
+
+
+        if (!user) {
+
+            window.location.href =
+                "../login.html";
+
+            return;
+
+        }
+
+
+
+        try {
+
+
+            /*
+             * جلب بيانات المستخدم
+             */
+
+            const userRef =
+                doc(
+                    db,
+                    "users",
+                    user.uid
+                );
+
+
+            const userSnapshot =
+                await getDoc(userRef);
+
+
+
+            if (!userSnapshot.exists()) {
+
+                window.location.href =
+                    "../login.html";
+
+                return;
+
+            }
+
+
+
+            const userData =
+                userSnapshot.data();
+
+
+
+            /*
+             * الطالب فقط
+             */
+
+            if (
+                userData.role !== "student" ||
+                userData.isActive !== true
+            ) {
+
+                window.location.href =
+                    "../login.html";
+
+                return;
+
+            }
+
+
+
+            /*
+             * جلب بيانات الطالب
+             */
+
+            const studentRef =
+                doc(
+                    db,
+                    "students",
+                    userData.studentId
+                );
+
+
+            const studentSnapshot =
+                await getDoc(studentRef);
+
+
+
+            if (!studentSnapshot.exists()) {
+
+                window.location.href =
+                    "../login.html";
+
+                return;
+
+            }
+
+
+
+            const student =
+                studentSnapshot.data();
+
+
+
+            /*
+             * المرحلة الدراسية
+             */
+
+            const stage =
+                student.stage;
+
+
+
+            studentStage.textContent =
+                getStageName(stage);
+
+
+
+            /*
+             * لا توجد Collection للاختبارات
+             * حتى الآن.
+             *
+             * لن نضع بيانات وهمية.
+             *
+             * لاحقًا سيتم جلب الاختبارات
+             * باستخدام مرحلة الطالب فقط.
+             */
+
+
+            examList.innerHTML = `
+
+                <div class="empty-state">
+
+                    <div class="empty-icon">
+                        📝
+                    </div>
+
+                    <h3>
+                        لا توجد اختبارات حاليًا
+                    </h3>
+
+                    <p>
+                        ستظهر هنا الاختبارات المتاحة
+                        لمرحلتك الدراسية فقط.
+                    </p>
+
+                </div>
+
+            `;
+
+
+        } catch (error) {
+
+
+            console.error(error);
+
+
+            examList.innerHTML = `
+
+                <div class="error">
+
+                    حدث خطأ أثناء تحميل البيانات.
+
+                </div>
+
+            `;
+
+        }
+
+    });
+
+
+
+    /*
+     * تحويل قيمة المرحلة إلى اسم
+     */
+
+    function getStageName(stage) {
+
+
+        const stages = {
+
+            "first_secondary_nursing":
+                "الصف الأول الثانوي التمريض",
+
+            "second_secondary_nursing":
+                "الصف الثاني الثانوي التمريض",
+
+            "third_secondary_nursing":
+                "الصف الثالث الثانوي التمريض"
+
+        };
+
+
+        return stages[stage] ||
+            "مرحلة غير محددة";
+
+    }
+
+</script>
+
+
+</body>
+
+</html>
