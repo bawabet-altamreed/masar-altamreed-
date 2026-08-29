@@ -1,0 +1,700 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+
+<title>إعدادات المنصة | مسار التمريض</title>
+
+<style>
+
+*{
+box-sizing:border-box;
+margin:0;
+padding:0;
+}
+
+body{
+font-family:Tahoma,Arial,sans-serif;
+background:#f5f7fb;
+color:#172033;
+}
+
+.topbar{
+height:72px;
+background:#fff;
+border-bottom:1px solid #e7ebf2;
+display:flex;
+align-items:center;
+justify-content:space-between;
+padding:0 25px;
+}
+
+.brand{
+display:flex;
+align-items:center;
+gap:12px;
+}
+
+.logo{
+width:44px;
+height:44px;
+border-radius:13px;
+background:linear-gradient(135deg,#1769aa,#0d3f68);
+color:#fff;
+display:flex;
+align-items:center;
+justify-content:center;
+font-size:22px;
+}
+
+.brand h1{
+font-size:19px;
+color:#12395b;
+}
+
+.brand span{
+display:block;
+color:#98a2b3;
+font-size:11px;
+}
+
+.back{
+text-decoration:none;
+color:#1769aa;
+background:#eef6ff;
+padding:10px 14px;
+border-radius:10px;
+font-size:12px;
+font-weight:bold;
+}
+
+.container{
+max-width:850px;
+margin:auto;
+padding:25px;
+}
+
+.title{
+margin-bottom:20px;
+}
+
+.title h2{
+font-size:25px;
+margin-bottom:7px;
+}
+
+.title p{
+color:#7b8798;
+font-size:13px;
+}
+
+.card{
+background:#fff;
+border:1px solid #e5eaf0;
+border-radius:18px;
+padding:23px;
+margin-bottom:18px;
+}
+
+.card h3{
+font-size:17px;
+margin-bottom:18px;
+}
+
+.form-group{
+margin-bottom:16px;
+}
+
+label{
+display:block;
+font-size:12px;
+font-weight:bold;
+margin-bottom:7px;
+color:#344054;
+}
+
+input,textarea{
+width:100%;
+border:1px solid #dce3ec;
+border-radius:11px;
+background:#fafbfd;
+padding:12px;
+font-family:inherit;
+outline:none;
+}
+
+input{
+height:45px;
+}
+
+textarea{
+min-height:100px;
+resize:vertical;
+}
+
+.switch-row{
+display:flex;
+align-items:center;
+justify-content:space-between;
+padding:14px;
+background:#f8fafc;
+border-radius:12px;
+margin-bottom:10px;
+}
+
+.switch-row span{
+font-size:13px;
+font-weight:bold;
+}
+
+.switch{
+width:48px;
+height:25px;
+position:relative;
+}
+
+.switch input{
+display:none;
+}
+
+.slider{
+position:absolute;
+inset:0;
+background:#d7dee7;
+border-radius:30px;
+cursor:pointer;
+}
+
+.slider:before{
+content:"";
+position:absolute;
+width:19px;
+height:19px;
+left:3px;
+top:3px;
+background:#fff;
+border-radius:50%;
+transition:.2s;
+}
+
+.switch input:checked + .slider{
+background:#1769aa;
+}
+
+.switch input:checked + .slider:before{
+transform:translateX(23px);
+}
+
+.btn{
+width:100%;
+height:48px;
+border:0;
+border-radius:12px;
+background:linear-gradient(135deg,#1769aa,#0d4f80);
+color:#fff;
+font-family:inherit;
+font-weight:bold;
+font-size:14px;
+cursor:pointer;
+}
+
+.btn:disabled{
+opacity:.6;
+}
+
+.message{
+display:none;
+padding:12px;
+border-radius:11px;
+margin-bottom:16px;
+font-size:12px;
+text-align:center;
+}
+
+.message.success{
+display:block;
+background:#ecfdf3;
+color:#087443;
+}
+
+.message.error{
+display:block;
+background:#fff1f1;
+color:#b42318;
+}
+
+.info{
+background:#eef6ff;
+color:#1769aa;
+padding:14px;
+border-radius:12px;
+font-size:12px;
+line-height:1.8;
+}
+
+@media(max-width:600px){
+
+.container{
+padding:16px 11px;
+}
+
+.topbar{
+padding:0 12px;
+}
+
+.brand span{
+display:none;
+}
+
+.card{
+padding:17px;
+}
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<header class="topbar">
+
+<div class="brand">
+
+<div class="logo">🩺</div>
+
+<div>
+<h1>مسار التمريض</h1>
+<span>Masar Al-Tamreed</span>
+</div>
+
+</div>
+
+<a href="dashboard.html" class="back">
+← لوحة الإدارة
+</a>
+
+</header>
+
+
+<main class="container">
+
+<div class="title">
+
+<h2>⚙️ إعدادات المنصة</h2>
+
+<p>
+التحكم في البيانات العامة وإعدادات مسار التمريض
+</p>
+
+</div>
+
+
+<div class="card">
+
+<h3>🏷️ بيانات المنصة</h3>
+
+<div id="message" class="message"></div>
+
+<form id="settingsForm">
+
+
+<div class="form-group">
+
+<label>
+اسم المنصة
+</label>
+
+<input
+id="platformName"
+required
+>
+
+</div>
+
+
+<div class="form-group">
+
+<label>
+الاسم بالإنجليزية
+</label>
+
+<input
+id="platformNameEn"
+>
+
+</div>
+
+
+<div class="form-group">
+
+<label>
+وصف المنصة
+</label>
+
+<textarea
+id="description"
+></textarea>
+
+</div>
+
+
+<div class="form-group">
+
+<label>
+رقم واتساب الإدارة
+</label>
+
+<input
+id="whatsapp"
+placeholder="201222736904"
+>
+
+</div>
+
+
+<div class="form-group">
+
+<label>
+رسالة الترحيب
+</label>
+
+<textarea
+id="welcomeMessage"
+></textarea>
+
+</div>
+
+
+<div class="switch-row">
+
+<span>
+السماح بتسجيل الطلاب
+</span>
+
+<label class="switch">
+
+<input
+id="allowRegistration"
+type="checkbox"
+>
+
+<span class="slider"></span>
+
+</label>
+
+</div>
+
+
+<div class="switch-row">
+
+<span>
+المنصة تعمل
+</span>
+
+<label class="switch">
+
+<input
+id="platformActive"
+type="checkbox"
+>
+
+<span class="slider"></span>
+
+</label>
+
+</div>
+
+
+<button
+id="saveBtn"
+class="btn"
+type="submit"
+>
+
+حفظ الإعدادات
+
+</button>
+
+</form>
+
+</div>
+
+
+<div class="card">
+
+<h3>
+ℹ️ معلومات النظام
+</h3>
+
+<div class="info">
+
+جميع صفحات الإدارة محمية بواسطة Firebase
+Authentication ولا يمكن الدخول إليها إلا بحساب
+الإدارة المحدد في النظام.
+
+<br><br>
+
+بيانات الإعدادات محفوظة في:
+
+<br>
+
+<strong>
+settings/platform
+</strong>
+
+</div>
+
+</div>
+
+</main>
+
+
+<script type="module">
+
+import {
+db
+} from "../src/firebase/config.js";
+
+import {
+doc,
+getDoc,
+setDoc,
+serverTimestamp
+} from "https://www.gstatic.com/firebasejs/12.18.0/firebase-firestore.js";
+
+import {
+protectAdminPage
+} from "../src/firebase/admin-guard.js";
+
+
+const form=
+document.getElementById("settingsForm");
+
+const message=
+document.getElementById("message");
+
+const saveBtn=
+document.getElementById("saveBtn");
+
+
+const platformName=
+document.getElementById("platformName");
+
+const platformNameEn=
+document.getElementById("platformNameEn");
+
+const description=
+document.getElementById("description");
+
+const whatsapp=
+document.getElementById("whatsapp");
+
+const welcomeMessage=
+document.getElementById("welcomeMessage");
+
+const allowRegistration=
+document.getElementById("allowRegistration");
+
+const platformActive=
+document.getElementById("platformActive");
+
+
+function msg(text,type="error"){
+
+message.textContent=text;
+message.className="message "+type;
+
+}
+
+
+async function loadSettings(){
+
+const ref=
+doc(db,"settings","platform");
+
+const snapshot=
+await getDoc(ref);
+
+
+if(!snapshot.exists()){
+
+platformName.value=
+"مسار التمريض";
+
+platformNameEn.value=
+"Masar Al-Tamreed";
+
+description.value=
+"منصة تعليمية متخصصة لطلاب التمريض.";
+
+whatsapp.value=
+"201222736904";
+
+welcomeMessage.value=
+"مرحبًا بك في مسار التمريض.";
+
+allowRegistration.checked=true;
+
+platformActive.checked=true;
+
+return;
+
+}
+
+
+const data=
+snapshot.data();
+
+
+platformName.value=
+data.platformName||"مسار التمريض";
+
+platformNameEn.value=
+data.platformNameEn||"Masar Al-Tamreed";
+
+description.value=
+data.description||"";
+
+whatsapp.value=
+data.whatsapp||"";
+
+welcomeMessage.value=
+data.welcomeMessage||"";
+
+allowRegistration.checked=
+data.allowRegistration!==false;
+
+platformActive.checked=
+data.platformActive!==false;
+
+}
+
+
+form.addEventListener("submit",async e=>{
+
+e.preventDefault();
+
+saveBtn.disabled=true;
+
+saveBtn.textContent=
+"جاري الحفظ...";
+
+
+try{
+
+await setDoc(
+doc(db,"settings","platform"),
+{
+
+platformName:
+platformName.value.trim(),
+
+platformNameEn:
+platformNameEn.value.trim(),
+
+description:
+description.value.trim(),
+
+whatsapp:
+whatsapp.value.trim(),
+
+welcomeMessage:
+welcomeMessage.value.trim(),
+
+allowRegistration:
+allowRegistration.checked,
+
+platformActive:
+platformActive.checked,
+
+updatedAt:
+serverTimestamp()
+
+},
+{
+merge:true
+}
+);
+
+
+msg(
+"تم حفظ الإعدادات بنجاح ✅",
+"success"
+);
+
+
+}catch(error){
+
+console.error(error);
+
+msg(
+"حدث خطأ أثناء حفظ الإعدادات: "+
+error.message
+);
+
+}finally{
+
+saveBtn.disabled=false;
+
+saveBtn.textContent=
+"حفظ الإعدادات";
+
+}
+
+});
+
+
+protectAdminPage({
+
+onAuthorized(){
+
+loadSettings();
+
+},
+
+onUnauthorized(){
+
+document.body.innerHTML=`
+
+<div style="
+min-height:100vh;
+display:flex;
+align-items:center;
+justify-content:center;
+font-family:Tahoma;
+text-align:center;
+">
+
+<div>
+
+<div style="font-size:50px">
+🔒
+</div>
+
+<h2>
+غير مصرح بالدخول
+</h2>
+
+<p style="color:#777;margin-top:10px">
+هذه الصفحة مخصصة للإدارة فقط.
+</p>
+
+</div>
+
+</div>
+
+`;
+
+}
+
+});
+
+</script>
+
+</body>
+</html>
