@@ -3,11 +3,14 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
 
     <title>تسجيل الدخول | مسار التمريض</title>
 
     <style>
+
         * {
             box-sizing: border-box;
             margin: 0;
@@ -15,10 +18,13 @@
         }
 
         body {
-            font-family: Arial, Tahoma, sans-serif;
             min-height: 100vh;
-            background: #f4f8fc;
-            color: #172033;
+            font-family: Arial, Tahoma, sans-serif;
+
+            background:
+                radial-gradient(circle at top right, #dff5ff 0%, transparent 35%),
+                radial-gradient(circle at bottom left, #e8e3ff 0%, transparent 35%),
+                #f6f8fc;
 
             display: flex;
             align-items: center;
@@ -27,125 +33,180 @@
             padding: 20px;
         }
 
-        .login-container {
+        .login-wrapper {
             width: 100%;
             max-width: 430px;
         }
 
         .brand {
             text-align: center;
-            margin-bottom: 25px;
+            margin-bottom: 22px;
+        }
+
+        .logo {
+            width: 82px;
+            height: 82px;
+
+            margin: 0 auto 14px;
+
+            border-radius: 24px;
+
+            background: linear-gradient(
+                145deg,
+                #1769aa,
+                #0d3f68
+            );
+
+            color: white;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            font-size: 38px;
+
+            box-shadow:
+                0 15px 35px rgba(23, 105, 170, 0.22);
         }
 
         .brand h1 {
-            color: #1769aa;
-            font-size: 32px;
-            margin-bottom: 8px;
+            color: #12395b;
+            font-size: 27px;
+            margin-bottom: 6px;
         }
 
         .brand p {
-            color: #718096;
-            font-size: 15px;
+            color: #7b8798;
+            font-size: 14px;
         }
 
         .login-card {
-            background: #ffffff;
-            border-radius: 20px;
-            padding: 35px 30px;
+            background: rgba(255, 255, 255, 0.96);
 
-            box-shadow: 0 10px 35px rgba(30, 60, 90, 0.08);
-            border: 1px solid #e7edf4;
+            border: 1px solid #e6ebf2;
+
+            border-radius: 25px;
+
+            padding: 28px 22px;
+
+            box-shadow:
+                0 20px 55px rgba(20, 45, 75, 0.10);
         }
 
-        .card-title {
-            text-align: center;
-            margin-bottom: 28px;
+        .welcome {
+            margin-bottom: 23px;
         }
 
-        .card-title h2 {
-            font-size: 23px;
-            color: #12395b;
-            margin-bottom: 8px;
+        .welcome h2 {
+            color: #172033;
+            font-size: 21px;
+            margin-bottom: 7px;
         }
 
-        .card-title p {
-            color: #8a94a6;
-            font-size: 14px;
+        .welcome p {
+            color: #7b8798;
+            font-size: 13px;
         }
 
-        .form-group {
-            margin-bottom: 18px;
+        .input-group {
+            margin-bottom: 16px;
         }
 
-        .form-group label {
+        .input-label {
             display: block;
-            margin-bottom: 8px;
+
             color: #344054;
-            font-size: 14px;
+
+            font-size: 13px;
+
             font-weight: bold;
+
+            margin-bottom: 8px;
         }
 
-        .input-wrapper {
+        .input-box {
             position: relative;
         }
 
-        .input-icon {
+        .input-box .icon {
             position: absolute;
+
             right: 14px;
             top: 50%;
+
             transform: translateY(-50%);
+
             font-size: 18px;
         }
 
-        input {
+        .input-box input {
             width: 100%;
-            height: 52px;
 
-            border: 1px solid #d8e0ea;
-            border-radius: 11px;
+            height: 54px;
 
-            padding: 0 45px 0 14px;
+            border: 1px solid #dce3ec;
 
-            font-size: 16px;
+            border-radius: 14px;
+
+            background: #f9fbfd;
+
+            padding:
+                0 47px
+                0 14px;
+
             outline: none;
 
+            color: #172033;
+
+            font-size: 15px;
+
             transition: 0.2s;
-            background: #fbfdff;
         }
 
-        input:focus {
+        .input-box input:focus {
             border-color: #1769aa;
-            box-shadow: 0 0 0 3px rgba(23, 105, 170, 0.1);
+
             background: #ffffff;
+
+            box-shadow:
+                0 0 0 4px rgba(23, 105, 170, 0.08);
         }
 
-        .login-button {
+        .login-btn {
             width: 100%;
-            height: 53px;
+
+            height: 54px;
 
             border: none;
-            border-radius: 11px;
 
-            background: #1769aa;
-            color: #ffffff;
+            border-radius: 14px;
 
-            font-size: 17px;
+            background:
+                linear-gradient(
+                    135deg,
+                    #1769aa,
+                    #0d4f80
+                );
+
+            color: white;
+
+            font-size: 16px;
+
             font-weight: bold;
 
             cursor: pointer;
 
-            margin-top: 8px;
+            margin-top: 7px;
 
             transition: 0.2s;
         }
 
-        .login-button:hover {
-            opacity: 0.92;
+        .login-btn:hover {
             transform: translateY(-1px);
         }
 
-        .login-button:disabled {
-            opacity: 0.6;
+        .login-btn:disabled {
+            opacity: 0.65;
             cursor: not-allowed;
             transform: none;
         }
@@ -153,151 +214,203 @@
         .message {
             display: none;
 
-            margin-top: 17px;
-            padding: 13px;
+            margin-top: 15px;
 
-            border-radius: 10px;
+            padding: 12px 14px;
+
+            border-radius: 12px;
+
+            font-size: 13px;
+
+            line-height: 1.7;
 
             text-align: center;
-            font-size: 14px;
-            line-height: 1.6;
         }
 
         .message.error {
             display: block;
+
             background: #fff1f1;
-            color: #c62828;
+
+            color: #b42318;
+
             border: 1px solid #ffd4d4;
         }
 
-        .help-box {
-            margin-top: 22px;
-            padding: 16px;
+        .message.success {
+            display: block;
 
-            background: #f3f8fc;
-            border-radius: 12px;
+            background: #ecfdf3;
+
+            color: #087443;
+
+            border: 1px solid #c7f0d8;
+        }
+
+        .contact-box {
+            margin-top: 20px;
+
+            padding: 15px;
+
+            border-radius: 14px;
+
+            background: #f5f9fc;
 
             text-align: center;
         }
 
-        .help-box p {
+        .contact-box p {
             color: #667085;
+
             font-size: 13px;
+
             line-height: 1.8;
         }
 
         .whatsapp {
             display: inline-block;
-            margin-top: 6px;
 
-            color: #1769aa;
+            margin-top: 5px;
+
+            color: #128c55;
+
             font-weight: bold;
+
             text-decoration: none;
-            direction: ltr;
         }
 
         .footer {
             text-align: center;
-            margin-top: 22px;
+
+            margin-top: 20px;
 
             color: #98a2b3;
+
             font-size: 12px;
         }
 
         @media (max-width: 480px) {
 
             .login-card {
-                padding: 28px 20px;
+                padding: 24px 18px;
             }
 
             .brand h1 {
-                font-size: 28px;
+                font-size: 24px;
             }
+
         }
+
     </style>
+
 </head>
 
 
 <body>
 
-    <div class="login-container">
 
-        <div class="brand">
-            <h1>مسار التمريض</h1>
-            <p>Masar Al-Tamreed</p>
+<div class="login-wrapper">
+
+
+    <div class="brand">
+
+        <div class="logo">
+            🩺
+        </div>
+
+        <h1>
+            مسار التمريض
+        </h1>
+
+        <p>
+            Masar Al-Tamreed
+        </p>
+
+    </div>
+
+
+    <div class="login-card">
+
+
+        <div class="welcome">
+
+            <h2>
+                تسجيل الدخول
+            </h2>
+
+            <p>
+                أدخل بيانات الاشتراك للمتابعة إلى منصتك التعليمية
+            </p>
+
         </div>
 
 
-        <div class="login-card">
+        <form id="loginForm">
 
-            <div class="card-title">
 
-                <h2>بوابة التمريض</h2>
+            <div class="input-group">
 
-                <p>
-                    سجل الدخول للمتابعة
-                </p>
+                <label
+                    class="input-label"
+                    for="code"
+                >
+                    كود الاشتراك
+                </label>
+
+                <div class="input-box">
+
+                    <span class="icon">
+                        🔑
+                    </span>
+
+                    <input
+                        type="text"
+                        id="code"
+                        placeholder="أدخل كود الاشتراك"
+                        autocomplete="off"
+                        required
+                    >
+
+                </div>
 
             </div>
 
 
-            <form id="loginForm">
+            <div class="input-group">
 
-                <div class="form-group">
-
-                    <label for="subscriptionCode">
-                        كود الاشتراك
-                    </label>
-
-                    <div class="input-wrapper">
-
-                        <span class="input-icon">🔑</span>
-
-                        <input
-                            type="text"
-                            id="subscriptionCode"
-                            placeholder="أدخل كود الاشتراك"
-                            autocomplete="off"
-                            required
-                        >
-
-                    </div>
-
-                </div>
-
-
-                <div class="form-group">
-
-                    <label for="password">
-                        كلمة المرور
-                    </label>
-
-                    <div class="input-wrapper">
-
-                        <span class="input-icon">🔒</span>
-
-                        <input
-                            type="password"
-                            id="password"
-                            placeholder="أدخل كلمة المرور"
-                            autocomplete="current-password"
-                            required
-                        >
-
-                    </div>
-
-                </div>
-
-
-                <button
-                    type="submit"
-                    class="login-button"
-                    id="loginButton"
+                <label
+                    class="input-label"
+                    for="password"
                 >
-                    تسجيل الدخول
-                </button>
+                    كلمة المرور
+                </label>
 
-            </form>
+                <div class="input-box">
+
+                    <span class="icon">
+                        🔒
+                    </span>
+
+                    <input
+                        type="password"
+                        id="password"
+                        placeholder="أدخل كلمة المرور"
+                        autocomplete="current-password"
+                        required
+                    >
+
+                </div>
+
+            </div>
+
+
+            <button
+                type="submit"
+                class="login-btn"
+                id="loginBtn"
+            >
+                تسجيل الدخول
+            </button>
 
 
             <div
@@ -306,126 +419,206 @@
             ></div>
 
 
-            <div class="help-box">
+        </form>
 
-                <p>
-                    إذا لم يكن لديك كود اشتراك،
-                    تواصل مع إدارة مسار التمريض.
-                </p>
 
-                <a
-                    class="whatsapp"
-                    href="https://wa.me/201222736904"
-                    target="_blank"
-                    rel="noopener"
-                >
-                    واتساب الإدارة: 01222736904
-                </a>
+        <div class="contact-box">
 
-            </div>
+            <p>
+                إذا لم يكن لديك كود اشتراك،
+                تواصل مع إدارة مسار التمريض.
+            </p>
+
+            <a
+                class="whatsapp"
+                href="https://wa.me/201222736904"
+                target="_blank"
+                rel="noopener"
+            >
+                واتساب الإدارة: 01222736904
+            </a>
 
         </div>
 
-
-        <div class="footer">
-            © 2026 مسار التمريض | Masar Al-Tamreed
-        </div>
 
     </div>
 
 
-    <!-- Firebase Login -->
-    <script type="module">
+    <div class="footer">
 
-        import {
-            createAnonymousSession
-        } from "./src/firebase/auth.js";
+        © 2026 مسار التمريض | Masar Al-Tamreed
 
-
-        const loginForm =
-            document.getElementById("loginForm");
-
-        const loginButton =
-            document.getElementById("loginButton");
-
-        const message =
-            document.getElementById("message");
+    </div>
 
 
-        function showError(text) {
-
-            message.textContent = text;
-
-            message.className =
-                "message error";
-        }
+</div>
 
 
-        loginForm.addEventListener("submit", async (event) => {
+
+<script type="module">
+
+    import {
+        auth
+    } from "./src/firebase/config.js";
+
+
+    import {
+        signInAnonymously
+    } from "https://www.gstatic.com/firebasejs/12.18.0/firebase-auth.js";
+
+
+    const form =
+        document.getElementById("loginForm");
+
+
+    const codeInput =
+        document.getElementById("code");
+
+
+    const passwordInput =
+        document.getElementById("password");
+
+
+    const loginBtn =
+        document.getElementById("loginBtn");
+
+
+    const message =
+        document.getElementById("message");
+
+
+
+    function showMessage(text, type = "error") {
+
+        message.textContent = text;
+
+        message.className =
+            "message " + type;
+
+    }
+
+
+
+    function clearMessage() {
+
+        message.textContent = "";
+
+        message.className =
+            "message";
+
+    }
+
+
+
+    form.addEventListener(
+        "submit",
+        async (event) => {
 
             event.preventDefault();
 
-            message.className = "message";
-            message.textContent = "";
+            clearMessage();
 
-            loginButton.disabled = true;
-            loginButton.textContent = "جاري التحقق...";
+
+            const code =
+                codeInput.value.trim();
+
+
+            const password =
+                passwordInput.value.trim();
+
+
+            if (!code || !password) {
+
+                showMessage(
+                    "من فضلك أدخل كود الاشتراك وكلمة المرور."
+                );
+
+                return;
+
+            }
+
+
+            loginBtn.disabled = true;
+
+            loginBtn.textContent =
+                "جاري تسجيل الدخول...";
 
 
             try {
 
+
                 /*
-                 * المرحلة الحالية:
-                 * إنشاء Anonymous Firebase Session فقط.
-                 *
-                 * التحقق من:
-                 * كود الاشتراك
-                 * كلمة المرور
-                 * حالة الاشتراك
-                 * تاريخ البداية والنهاية
-                 *
-                 * سيتم إضافته في المرحلة القادمة
-                 * بطريقة آمنة.
+                 * Anonymous Authentication
                  */
 
-                const user =
-                    await createAnonymousSession();
+                if (!auth.currentUser) {
+
+                    await signInAnonymously(auth);
+
+                }
 
 
-                console.log(
-                    "Anonymous Firebase UID:",
-                    user.uid
+                /*
+                 * في الخطوة الحالية:
+                 *
+                 * Authentication فقط.
+                 *
+                 * التحقق الحقيقي من:
+                 *
+                 * subscription
+                 * password
+                 * status
+                 * dates
+                 * stage
+                 *
+                 * سيتم ربطه في الخطوة التالية.
+                 */
+
+
+                showMessage(
+                    "تم الاتصال بـ Firebase بنجاح. جاري تجهيز التحقق من الاشتراك...",
+                    "success"
                 );
 
 
                 /*
-                 * مؤقتًا للاختبار فقط
+                 * مؤقتًا فقط للاختبار.
+                 * لا يوجد تحويل للـDashboard الآن.
                  */
 
-                showError(
-                    "تم الاتصال بـ Firebase بنجاح، وسيتم تفعيل التحقق من بيانات الاشتراك في الخطوة التالية."
+                console.log(
+                    "Anonymous UID:",
+                    auth.currentUser.uid
                 );
 
 
             } catch (error) {
 
-                console.error(error);
+                console.error(
+                    "Login error:",
+                    error
+                );
 
-                showError(
-                    "تعذر الاتصال بالخادم. حاول مرة أخرى."
+
+                showMessage(
+                    "حدث خطأ أثناء الاتصال. حاول مرة أخرى."
                 );
 
             } finally {
 
-                loginButton.disabled = false;
+                loginBtn.disabled = false;
 
-                loginButton.textContent =
+                loginBtn.textContent =
                     "تسجيل الدخول";
+
             }
 
-        });
+        }
+    );
 
-    </script>
+
+</script>
+
 
 </body>
 
