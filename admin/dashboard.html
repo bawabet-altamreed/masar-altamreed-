@@ -2,841 +2,695 @@
 <html lang="ar" dir="rtl">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>لوحة الإدارة | مسار التمريض</title>
+<title>لوحة الإدارة | مسار التمريض</title>
 
-    <style>
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
+<style>
 
-        body {
-            font-family: Tahoma, Arial, sans-serif;
-            background: #f5f7fb;
-            color: #172033;
-            min-height: 100vh;
-        }
+*{
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
+}
 
-        .topbar {
-            height: 72px;
-            background: #ffffff;
-            border-bottom: 1px solid #e7ebf2;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 0 28px;
-            position: sticky;
-            top: 0;
-            z-index: 20;
-        }
+body{
+    font-family:Tahoma,Arial,sans-serif;
+    background:#f5f7fb;
+    color:#172033;
+    min-height:100vh;
+}
 
-        .brand {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
+.topbar{
+    height:72px;
+    background:#fff;
+    border-bottom:1px solid #e7ebf2;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:0 28px;
+    position:sticky;
+    top:0;
+    z-index:20;
+}
 
-        .brand-logo {
-            width: 44px;
-            height: 44px;
-            border-radius: 13px;
-            background: linear-gradient(135deg, #1769aa, #0d3f68);
-            color: #fff;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 22px;
-        }
+.brand{
+    display:flex;
+    align-items:center;
+    gap:12px;
+}
 
-        .brand h1 {
-            font-size: 19px;
-            color: #12395b;
-        }
+.brand-logo{
+    width:44px;
+    height:44px;
+    border-radius:13px;
+    background:linear-gradient(135deg,#1769aa,#0d3f68);
+    color:#fff;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:22px;
+}
 
-        .brand span {
-            display: block;
-            color: #98a2b3;
-            font-size: 11px;
-            margin-top: 3px;
-        }
+.brand h1{
+    font-size:19px;
+    color:#12395b;
+}
 
-        .admin-badge {
-            background: #eef6ff;
-            color: #1769aa;
-            padding: 9px 14px;
-            border-radius: 10px;
-            font-size: 13px;
-            font-weight: bold;
-        }
+.brand span{
+    display:block;
+    color:#98a2b3;
+    font-size:11px;
+    margin-top:3px;
+}
 
-        .layout {
-            display: flex;
-            min-height: calc(100vh - 72px);
-        }
+.admin-badge{
+    background:#eef6ff;
+    color:#1769aa;
+    padding:9px 14px;
+    border-radius:10px;
+    font-size:13px;
+    font-weight:bold;
+}
 
-        .sidebar {
-            width: 245px;
-            background: #102f4b;
-            padding: 22px 14px;
-            flex-shrink: 0;
-        }
+.layout{
+    display:flex;
+    min-height:calc(100vh - 72px);
+}
 
-        .sidebar-title {
-            color: #8fa9bf;
-            font-size: 11px;
-            margin: 5px 12px 12px;
-        }
+.sidebar{
+    width:245px;
+    background:#102f4b;
+    padding:22px 14px;
+    flex-shrink:0;
+}
 
-        .nav-link {
-            display: flex;
-            align-items: center;
-            gap: 11px;
-            text-decoration: none;
-            color: #d9e6f1;
-            padding: 13px 14px;
-            border-radius: 11px;
-            margin-bottom: 5px;
-            font-size: 14px;
-            transition: .2s;
-        }
+.sidebar-title{
+    color:#8fa9bf;
+    font-size:11px;
+    margin:5px 12px 12px;
+}
 
-        .nav-link:hover,
-        .nav-link.active {
-            background: #174d76;
-            color: #ffffff;
-        }
+.nav-link{
+    display:flex;
+    align-items:center;
+    gap:11px;
+    text-decoration:none;
+    color:#d9e6f1;
+    padding:13px 14px;
+    border-radius:11px;
+    margin-bottom:5px;
+    font-size:14px;
+}
 
-        .nav-icon {
-            width: 24px;
-            text-align: center;
-            font-size: 17px;
-        }
+.nav-link:hover,
+.nav-link.active{
+    background:#174d76;
+    color:#fff;
+}
 
-        .main {
-            flex: 1;
-            padding: 28px;
-            min-width: 0;
-        }
+.nav-icon{
+    width:24px;
+    text-align:center;
+    font-size:17px;
+}
 
-        .page-header {
-            margin-bottom: 25px;
-        }
+.logout{
+    width:100%;
+    border:1px solid #3d617d;
+    background:transparent;
+    color:#d9e6f1;
+    padding:12px;
+    border-radius:11px;
+    cursor:pointer;
+    font-size:13px;
+    margin-top:18px;
+}
 
-        .page-header h2 {
-            font-size: 26px;
-            color: #172033;
-            margin-bottom: 7px;
-        }
+.main{
+    flex:1;
+    padding:28px;
+    min-width:0;
+}
 
-        .page-header p {
-            color: #7b8798;
-            font-size: 14px;
-        }
+.page-header{
+    margin-bottom:25px;
+}
 
-        .stats {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 16px;
-            margin-bottom: 25px;
-        }
+.page-header h2{
+    font-size:26px;
+    margin-bottom:7px;
+}
 
-        .stat-card {
-            background: #ffffff;
-            border: 1px solid #e7ebf2;
-            border-radius: 17px;
-            padding: 20px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            box-shadow: 0 5px 20px rgba(20, 45, 75, .04);
-        }
+.page-header p{
+    color:#7b8798;
+    font-size:14px;
+}
 
-        .stat-card p {
-            color: #7b8798;
-            font-size: 13px;
-            margin-bottom: 8px;
-        }
+.stats{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:16px;
+    margin-bottom:25px;
+}
 
-        .stat-card h3 {
-            font-size: 27px;
-            color: #172033;
-        }
+.stat-card{
+    background:#fff;
+    border:1px solid #e7ebf2;
+    border-radius:17px;
+    padding:20px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+}
 
-        .stat-icon {
-            width: 48px;
-            height: 48px;
-            border-radius: 14px;
-            background: #eef6ff;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 21px;
-        }
+.stat-card p{
+    color:#7b8798;
+    font-size:13px;
+    margin-bottom:8px;
+}
 
-        .section-grid {
-            display: grid;
-            grid-template-columns: 1.4fr .8fr;
-            gap: 18px;
-        }
+.stat-card h3{
+    font-size:27px;
+}
 
-        .card {
-            background: #ffffff;
-            border: 1px solid #e7ebf2;
-            border-radius: 18px;
-            padding: 22px;
-            box-shadow: 0 5px 20px rgba(20, 45, 75, .04);
-        }
+.stat-icon{
+    width:48px;
+    height:48px;
+    border-radius:14px;
+    background:#eef6ff;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:21px;
+}
 
-        .card-header {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            margin-bottom: 18px;
-        }
+.section-grid{
+    display:grid;
+    grid-template-columns:1.4fr .8fr;
+    gap:18px;
+}
 
-        .card-header h3 {
-            font-size: 17px;
-        }
+.card{
+    background:#fff;
+    border:1px solid #e7ebf2;
+    border-radius:18px;
+    padding:22px;
+}
 
-        .card-header span {
-            color: #98a2b3;
-            font-size: 12px;
-        }
+.card-header{
+    display:flex;
+    justify-content:space-between;
+    margin-bottom:18px;
+}
 
-        .quick-actions {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 12px;
-        }
+.quick-actions{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:12px;
+}
 
-        .action {
-            text-decoration: none;
-            border: 1px solid #e5eaf0;
-            border-radius: 13px;
-            padding: 16px;
-            color: #172033;
-            transition: .2s;
-            background: #fbfcfe;
-        }
+.action{
+    text-decoration:none;
+    border:1px solid #e5eaf0;
+    border-radius:13px;
+    padding:16px;
+    color:#172033;
+    background:#fbfcfe;
+}
 
-        .action:hover {
-            border-color: #1769aa;
-            transform: translateY(-2px);
-        }
+.action:hover{
+    border-color:#1769aa;
+}
 
-        .action-icon {
-            font-size: 22px;
-            margin-bottom: 10px;
-        }
+.action-icon{
+    font-size:22px;
+    margin-bottom:10px;
+}
 
-        .action strong {
-            display: block;
-            font-size: 14px;
-            margin-bottom: 4px;
-        }
+.action strong{
+    display:block;
+    font-size:14px;
+    margin-bottom:4px;
+}
 
-        .action small {
-            color: #8a95a5;
-            font-size: 11px;
-        }
+.action small{
+    color:#8a95a5;
+    font-size:11px;
+}
 
-        .status-box {
-            background: #f7fafc;
-            border-radius: 13px;
-            padding: 15px;
-            margin-bottom: 12px;
-        }
+.status-box{
+    background:#f7fafc;
+    border-radius:13px;
+    padding:15px;
+}
 
-        .status-row {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 8px 0;
-            border-bottom: 1px solid #e9edf2;
-            font-size: 13px;
-        }
+.status-row{
+    display:flex;
+    justify-content:space-between;
+    padding:9px 0;
+    border-bottom:1px solid #e9edf2;
+    font-size:13px;
+}
 
-        .status-row:last-child {
-            border-bottom: none;
-        }
+.status-row:last-child{
+    border-bottom:none;
+}
 
-        .status-label {
-            color: #7b8798;
-        }
+.status-label{
+    color:#7b8798;
+}
 
-        .status-value {
-            font-weight: bold;
-            color: #172033;
-        }
+.status-value{
+    font-weight:bold;
+}
 
-        .online {
-            color: #087443;
-        }
+.online{
+    color:#087443;
+}
 
-        .loading {
-            color: #98a2b3;
-            font-size: 13px;
-        }
+@media(max-width:1000px){
 
-        .logout {
-            width: 100%;
-            border: 1px solid #3d617d;
-            background: transparent;
-            color: #d9e6f1;
-            padding: 12px;
-            border-radius: 11px;
-            cursor: pointer;
-            font-size: 13px;
-            margin-top: 18px;
-        }
+    .stats{
+        grid-template-columns:repeat(2,1fr);
+    }
 
-        .logout:hover {
-            background: #174d76;
-        }
+    .section-grid{
+        grid-template-columns:1fr;
+    }
 
-        @media (max-width: 1000px) {
-            .stats {
-                grid-template-columns: repeat(2, 1fr);
-            }
+}
 
-            .section-grid {
-                grid-template-columns: 1fr;
-            }
-        }
+@media(max-width:700px){
 
-        @media (max-width: 700px) {
-            .topbar {
-                padding: 0 15px;
-            }
+    .layout{
+        display:block;
+    }
 
-            .brand span {
-                display: none;
-            }
+    .sidebar{
+        width:100%;
+        padding:10px;
+        overflow-x:auto;
+        white-space:nowrap;
+    }
 
-            .admin-badge {
-                font-size: 11px;
-                padding: 8px 10px;
-            }
+    .sidebar-title{
+        display:none;
+    }
 
-            .layout {
-                display: block;
-            }
+    .nav-link{
+        display:inline-flex;
+        margin:0 3px;
+        padding:10px 12px;
+    }
 
-            .sidebar {
-                width: 100%;
-                padding: 10px;
-                overflow-x: auto;
-                white-space: nowrap;
-            }
+    .logout{
+        display:none;
+    }
 
-            .sidebar-title {
-                display: none;
-            }
+    .main{
+        padding:18px 13px;
+    }
 
-            .nav-link {
-                display: inline-flex;
-                margin: 0 3px;
-                padding: 10px 12px;
-            }
+    .stats{
+        gap:10px;
+    }
 
-            .logout {
-                display: none;
-            }
+    .stat-card{
+        padding:15px;
+    }
 
-            .main {
-                padding: 18px 13px;
-            }
+    .quick-actions{
+        grid-template-columns:1fr;
+    }
 
-            .stats {
-                grid-template-columns: 1fr 1fr;
-                gap: 10px;
-            }
+}
 
-            .stat-card {
-                padding: 15px;
-            }
-
-            .stat-card h3 {
-                font-size: 22px;
-            }
-        }
-    </style>
+</style>
 </head>
 
 <body>
 
-    <header class="topbar">
+<header class="topbar">
 
-        <div class="brand">
-            <div class="brand-logo">🩺</div>
+    <div class="brand">
 
-            <div>
-                <h1>مسار التمريض</h1>
-                <span>Masar Al-Tamreed</span>
-            </div>
+        <div class="brand-logo">🩺</div>
+
+        <div>
+            <h1>مسار التمريض</h1>
+            <span>Masar Al-Tamreed</span>
         </div>
 
-        <div class="admin-badge">
-            👑 الإدارة
-        </div>
+    </div>
 
-    </header>
+    <div class="admin-badge">
+        👑 الإدارة
+    </div>
 
+</header>
 
-    <div class="layout">
 
-        <aside class="sidebar">
+<div class="layout">
 
-            <div class="sidebar-title">
-                مركز التحكم
-            </div>
+<aside class="sidebar">
 
-            <a href="dashboard.html" class="nav-link active">
-                <span class="nav-icon">📊</span>
-                لوحة التحكم
-            </a>
+    <div class="sidebar-title">
+        مركز التحكم
+    </div>
 
-            <a href="students.html" class="nav-link">
-                <span class="nav-icon">👨‍🎓</span>
-                الطلاب
-            </a>
+    <a href="dashboard.html" class="nav-link active">
+        📊 لوحة التحكم
+    </a>
 
-            <a href="teachers.html" class="nav-link">
-                <span class="nav-icon">👨‍🏫</span>
-                المدرسون
-            </a>
+    <a href="students.html" class="nav-link">
+        👨‍🎓 الطلاب
+    </a>
 
-            <a href="lectures.html" class="nav-link">
-                <span class="nav-icon">🎥</span>
-                المحاضرات
-            </a>
+    <a href="teachers.html" class="nav-link">
+        👨‍🏫 المدرسون
+    </a>
 
-            <a href="exams.html" class="nav-link">
-                <span class="nav-icon">📝</span>
-                الاختبارات
-            </a>
+    <a href="lectures.html" class="nav-link">
+        🎥 المحاضرات
+    </a>
 
-            <a href="settings.html" class="nav-link">
-                <span class="nav-icon">⚙️</span>
-                الإعدادات
-            </a>
+    <a href="exams.html" class="nav-link">
+        📝 الاختبارات
+    </a>
 
-            <button id="logoutBtn" class="logout">
-                تسجيل الخروج
-            </button>
+    <a href="settings.html" class="nav-link">
+        ⚙️ الإعدادات
+    </a>
 
-        </aside>
+    <button id="logoutBtn" class="logout">
+        تسجيل الخروج
+    </button>
 
+</aside>
 
-        <main class="main">
 
-            <div class="page-header">
+<main class="main">
 
-                <h2>
-                    لوحة تحكم الإدارة
-                </h2>
+    <div class="page-header">
 
-                <p>
-                    مركز إدارة منصة مسار التمريض
-                </p>
+        <h2>
+            لوحة تحكم الإدارة
+        </h2>
 
-            </div>
-
-
-            <section class="stats">
-
-                <div class="stat-card">
-
-                    <div>
-                        <p>إجمالي الطلاب</p>
-                        <h3 id="studentsCount">—</h3>
-                    </div>
-
-                    <div class="stat-icon">
-                        👨‍🎓
-                    </div>
-
-                </div>
-
-
-                <div class="stat-card">
-
-                    <div>
-                        <p>المدرسون</p>
-                        <h3 id="teachersCount">—</h3>
-                    </div>
-
-                    <div class="stat-icon">
-                        👨‍🏫
-                    </div>
-
-                </div>
-
-
-                <div class="stat-card">
-
-                    <div>
-                        <p>المحاضرات</p>
-                        <h3 id="lecturesCount">—</h3>
-                    </div>
-
-                    <div class="stat-icon">
-                        🎥
-                    </div>
-
-                </div>
-
-
-                <div class="stat-card">
-
-                    <div>
-                        <p>الاختبارات</p>
-                        <h3 id="examsCount">—</h3>
-                    </div>
-
-                    <div class="stat-icon">
-                        📝
-                    </div>
-
-                </div>
-
-            </section>
-
-
-            <section class="section-grid">
-
-
-                <div class="card">
-
-                    <div class="card-header">
-
-                        <h3>
-                            الوصول السريع
-                        </h3>
-
-                        <span>
-                            إدارة المنصة
-                        </span>
-
-                    </div>
-
-
-                    <div class="quick-actions">
-
-                        <a href="students.html" class="action">
-
-                            <div class="action-icon">
-                                👨‍🎓
-                            </div>
-
-                            <strong>
-                                إدارة الطلاب
-                            </strong>
-
-                            <small>
-                                إضافة وتعديل الاشتراكات والطلاب
-                            </small>
-
-                        </a>
-
-
-                        <a href="teachers.html" class="action">
-
-                            <div class="action-icon">
-                                👨‍🏫
-                            </div>
-
-                            <strong>
-                                إدارة المدرسين
-                            </strong>
-
-                            <small>
-                                الحسابات والصلاحيات
-                            </small>
-
-                        </a>
-
-
-                        <a href="lectures.html" class="action">
-
-                            <div class="action-icon">
-                                🎥
-                            </div>
-
-                            <strong>
-                                إدارة المحاضرات
-                            </strong>
-
-                            <small>
-                                Live والتسجيلات والجداول
-                            </small>
-
-                        </a>
-
-
-                        <a href="exams.html" class="action">
-
-                            <div class="action-icon">
-                                📝
-                            </div>
-
-                            <strong>
-                                إدارة الاختبارات
-                            </strong>
-
-                            <small>
-                                الاختبارات والنتائج
-                            </small>
-
-                        </a>
-
-                    </div>
-
-                </div>
-
-
-                <div class="card">
-
-                    <div class="card-header">
-
-                        <h3>
-                            حالة النظام
-                        </h3>
-
-                        <span>
-                            Firebase
-                        </span>
-
-                    </div>
-
-
-                    <div class="status-box">
-
-                        <div class="status-row">
-
-                            <span class="status-label">
-                                Authentication
-                            </span>
-
-                            <span
-                                class="status-value online"
-                                id="authStatus"
-                            >
-                                جاري التحقق...
-                            </span>
-
-                        </div>
-
-
-                        <div class="status-row">
-
-                            <span class="status-label">
-                                Admin UID
-                            </span>
-
-                            <span
-                                class="status-value"
-                                id="uidStatus"
-                            >
-                                —
-                            </span>
-
-                        </div>
-
-
-                        <div class="status-row">
-
-                            <span class="status-label">
-                                الصلاحية
-                            </span>
-
-                            <span
-                                class="status-value"
-                                id="roleStatus"
-                            >
-                                —
-                            </span>
-
-                        </div>
-
-                    </div>
-
-                    <p class="loading" id="systemMessage">
-                        جاري تحميل بيانات النظام...
-                    </p>
-
-                </div>
-
-
-            </section>
-
-        </main>
+        <p>
+            مركز إدارة منصة مسار التمريض
+        </p>
 
     </div>
 
 
+    <section class="stats">
+
+        <div class="stat-card">
+            <div>
+                <p>إجمالي الطلاب</p>
+                <h3 id="studentsCount">—</h3>
+            </div>
+            <div class="stat-icon">👨‍🎓</div>
+        </div>
+
+        <div class="stat-card">
+            <div>
+                <p>المدرسون</p>
+                <h3 id="teachersCount">—</h3>
+            </div>
+            <div class="stat-icon">👨‍🏫</div>
+        </div>
+
+        <div class="stat-card">
+            <div>
+                <p>المحاضرات</p>
+                <h3 id="lecturesCount">—</h3>
+            </div>
+            <div class="stat-icon">🎥</div>
+        </div>
+
+        <div class="stat-card">
+            <div>
+                <p>الاختبارات</p>
+                <h3 id="examsCount">—</h3>
+            </div>
+            <div class="stat-icon">📝</div>
+        </div>
+
+    </section>
+
+
+    <section class="section-grid">
+
+        <div class="card">
+
+            <div class="card-header">
+                <h3>الوصول السريع</h3>
+            </div>
+
+            <div class="quick-actions">
+
+                <a href="students.html" class="action">
+                    <div class="action-icon">👨‍🎓</div>
+                    <strong>إدارة الطلاب</strong>
+                    <small>إضافة وتعديل الطلاب والاشتراكات</small>
+                </a>
+
+                <a href="teachers.html" class="action">
+                    <div class="action-icon">👨‍🏫</div>
+                    <strong>إدارة المدرسين</strong>
+                    <small>الحسابات والصلاحيات</small>
+                </a>
+
+                <a href="lectures.html" class="action">
+                    <div class="action-icon">🎥</div>
+                    <strong>إدارة المحاضرات</strong>
+                    <small>إضافة وتنظيم المحاضرات</small>
+                </a>
+
+                <a href="exams.html" class="action">
+                    <div class="action-icon">📝</div>
+                    <strong>إدارة الاختبارات</strong>
+                    <small>إدارة الاختبارات والنتائج</small>
+                </a>
+
+            </div>
+
+        </div>
+
+
+        <div class="card">
+
+            <div class="card-header">
+                <h3>حالة النظام</h3>
+                <span>Firebase</span>
+            </div>
+
+            <div class="status-box">
+
+                <div class="status-row">
+                    <span class="status-label">
+                        Authentication
+                    </span>
+
+                    <span
+                        id="authStatus"
+                        class="status-value"
+                    >
+                        جاري التحقق...
+                    </span>
+                </div>
+
+                <div class="status-row">
+                    <span class="status-label">
+                        Admin UID
+                    </span>
+
+                    <span
+                        id="uidStatus"
+                        class="status-value"
+                    >
+                        —
+                    </span>
+                </div>
+
+                <div class="status-row">
+                    <span class="status-label">
+                        الصلاحية
+                    </span>
+
+                    <span
+                        id="roleStatus"
+                        class="status-value"
+                    >
+                        —
+                    </span>
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+</main>
+
+</div>
+
 
 <script type="module">
 
-    import {
-        auth
-    } from "../src/firebase/config.js";
+import {
+    db
+} from "../src/firebase/config.js";
 
-    import {
-        onAuthStateChanged,
-        signInAnonymously,
-        signOut
-    } from "https://www.gstatic.com/firebasejs/12.18.0/firebase-auth.js";
+import {
+    collection,
+    getDocs
+} from "https://www.gstatic.com/firebasejs/12.18.0/firebase-firestore.js";
 
-
-    const ADMIN_UID =
-        "nDhRZ5jHk4W03RLUyKvcDvc5sMy2";
-
-
-    const authStatus =
-        document.getElementById("authStatus");
-
-    const uidStatus =
-        document.getElementById("uidStatus");
-
-    const roleStatus =
-        document.getElementById("roleStatus");
-
-    const systemMessage =
-        document.getElementById("systemMessage");
-
-    const logoutBtn =
-        document.getElementById("logoutBtn");
+import {
+    protectAdminPage,
+    adminLogout,
+    ADMIN_UID
+} from "../src/firebase/admin-guard.js";
 
 
-    /*
-     * التحقق من Anonymous Authentication
-     */
+const studentsCount =
+    document.getElementById("studentsCount");
 
-    onAuthStateChanged(
-        auth,
-        async (user) => {
+const teachersCount =
+    document.getElementById("teachersCount");
 
-            /*
-             * لو مفيش جلسة
-             * نعمل Anonymous Sign-In
-             */
+const lecturesCount =
+    document.getElementById("lecturesCount");
 
-            if (!user) {
+const examsCount =
+    document.getElementById("examsCount");
 
-                try {
+const authStatus =
+    document.getElementById("authStatus");
 
-                    await signInAnonymously(auth);
+const uidStatus =
+    document.getElementById("uidStatus");
 
-                } catch (error) {
+const roleStatus =
+    document.getElementById("roleStatus");
 
-                    console.error(error);
-
-                    authStatus.textContent =
-                        "فشل الاتصال";
-
-                    authStatus.className =
-                        "status-value";
-
-                    systemMessage.textContent =
-                        "تعذر الاتصال بـ Firebase.";
-
-                }
-
-                return;
-            }
+const logoutBtn =
+    document.getElementById("logoutBtn");
 
 
-            uidStatus.textContent =
-                user.uid;
+logoutBtn.addEventListener(
+    "click",
+    adminLogout
+);
 
 
-            /*
-             * التحقق من UID الخاص بالإدارة
-             */
+async function loadStats(){
 
-            if (user.uid !== ADMIN_UID) {
+    try{
 
-                authStatus.textContent =
-                    "غير مصرح";
+        const students =
+            await getDocs(
+                collection(db,"students")
+            );
 
-                authStatus.className =
-                    "status-value";
+        const teachers =
+            await getDocs(
+                collection(db,"users")
+            );
 
-                roleStatus.textContent =
-                    "مستخدم غير مصرح";
+        const lectures =
+            await getDocs(
+                collection(db,"lectures")
+            );
 
-                systemMessage.textContent =
-                    "هذا الحساب ليس حساب الإدارة.";
-
-                /*
-                 * إخفاء محتوى الإدارة
-                 */
-
-                document.querySelector(".main").innerHTML = `
-                    <div class="card" style="max-width:600px;margin:40px auto;text-align:center;">
-                        <div style="font-size:45px;margin-bottom:15px;">🔒</div>
-                        <h2 style="margin-bottom:10px;">غير مصرح بالدخول</h2>
-                        <p style="color:#7b8798;">
-                            هذا القسم مخصص لإدارة مسار التمريض فقط.
-                        </p>
-                    </div>
-                `;
-
-                return;
-            }
+        const exams =
+            await getDocs(
+                collection(db,"exams")
+            );
 
 
-            /*
-             * Admin
-             */
+        studentsCount.textContent =
+            students.size;
 
-            authStatus.textContent =
-                "متصل";
+        teachersCount.textContent =
+            teachers.docs.filter(
+                doc => doc.data().role === "teacher"
+            ).length;
 
-            authStatus.className =
-                "status-value online";
+        lecturesCount.textContent =
+            lectures.size;
 
-            roleStatus.textContent =
-                "ADMIN";
+        examsCount.textContent =
+            exams.size;
 
-            systemMessage.textContent =
-                "تم التحقق من حساب الإدارة بنجاح.";
+    }catch(error){
 
-        }
-    );
+        console.error(error);
+
+        studentsCount.textContent = "—";
+        teachersCount.textContent = "—";
+        lecturesCount.textContent = "—";
+        examsCount.textContent = "—";
+
+    }
+
+}
 
 
-    /*
-     * تسجيل الخروج
-     */
+protectAdminPage({
 
-    logoutBtn.addEventListener(
-        "click",
-        async () => {
+    onAuthorized(user){
 
-            try {
+        authStatus.textContent =
+            "متصل";
 
-                await signOut(auth);
+        authStatus.className =
+            "status-value online";
 
-                window.location.href =
-                    "../login.html";
+        uidStatus.textContent =
+            user.uid;
 
-            } catch (error) {
+        roleStatus.textContent =
+            "ADMIN";
 
-                console.error(error);
+        loadStats();
 
-            }
+    },
 
-        }
-    );
+    onUnauthorized(){
+
+        document.querySelector(".main").innerHTML = `
+
+            <div class="card"
+                 style="max-width:600px;margin:40px auto;text-align:center;">
+
+                <div style="font-size:50px;margin-bottom:15px;">
+                    🔒
+                </div>
+
+                <h2>
+                    غير مصرح بالدخول
+                </h2>
+
+                <p style="color:#7b8798;margin-top:10px;">
+                    هذا القسم مخصص لحساب الإدارة فقط.
+                </p>
+
+            </div>
+
+        `;
+
+    }
+
+});
 
 </script>
 
 </body>
-
 </html>
