@@ -3,551 +3,173 @@
 
 <head>
 
-    <meta charset="UTF-8">
+<meta charset="UTF-8">
+<meta name="viewport"
+content="width=device-width,initial-scale=1">
 
-    <meta
-        name="viewport"
-        content="width=device-width, initial-scale=1.0"
-    >
+<title>المحاضرات | مسار التمريض</title>
 
-    <title>المحاضرات | مسار التمريض</title>
+<style>
 
-    <style>
+*{
+box-sizing:border-box;
+}
 
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
+body{
+margin:0;
+font-family:Tahoma,Arial;
+background:#f5f7fb;
+color:#172033;
+}
 
-        body {
-            font-family: Arial, Tahoma, sans-serif;
-            background: #f4f7fb;
-            color: #172033;
-            min-height: 100vh;
-        }
+header{
+background:#fff;
+border-bottom:1px solid #e5eaf0;
+padding:15px;
+}
 
-        header {
-            background: #ffffff;
-            border-bottom: 1px solid #e6ebf2;
-            padding: 18px 20px;
-        }
+.header{
+max-width:1100px;
+margin:auto;
+display:flex;
+justify-content:space-between;
+align-items:center;
+}
 
-        .header-content {
-            width: min(1100px, 92%);
-            margin: auto;
+.logo{
+font-weight:bold;
+color:#12395b;
+}
 
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
+.back{
+text-decoration:none;
+background:#eef6ff;
+color:#1769aa;
+padding:9px 13px;
+border-radius:10px;
+font-size:12px;
+font-weight:bold;
+}
 
-            gap: 15px;
-        }
+main{
+max-width:1100px;
+margin:auto;
+padding:25px 15px;
+}
 
-        .brand {
-            color: #1769aa;
-            font-size: 22px;
-            font-weight: bold;
-        }
+h1{
+margin-bottom:7px;
+}
 
-        .brand span {
-            display: block;
-            color: #8a94a6;
-            font-size: 12px;
-            margin-top: 4px;
-        }
+.subtitle{
+font-size:13px;
+color:#7b8798;
+margin-bottom:20px;
+}
 
-        .back-button {
-            text-decoration: none;
-            background: #eef4f9;
-            color: #1769aa;
-            padding: 10px 16px;
-            border-radius: 9px;
-            font-weight: bold;
-        }
+.grid{
+display:grid;
+grid-template-columns:repeat(2,1fr);
+gap:15px;
+}
 
-        main {
-            width: min(1100px, 92%);
-            margin: 30px auto;
-        }
+.card{
+background:white;
+border:1px solid #e5eaf0;
+border-radius:17px;
+padding:19px;
+}
 
-        .page-title {
-            margin-bottom: 25px;
-        }
+.type{
+font-size:11px;
+color:#1769aa;
+font-weight:bold;
+}
 
-        .page-title h1 {
-            color: #12395b;
-            font-size: 28px;
-            margin-bottom: 8px;
-        }
+.title{
+font-size:17px;
+font-weight:bold;
+margin:8px 0;
+}
 
-        .page-title p {
-            color: #718096;
-            font-size: 15px;
-        }
+.info{
+font-size:12px;
+color:#7b8798;
+line-height:1.8;
+}
 
-        .stage-box {
-            background: #ffffff;
-            border: 1px solid #e7edf4;
-            border-radius: 15px;
-            padding: 18px 20px;
-            margin-bottom: 22px;
-        }
+.btn{
+display:inline-block;
+margin-top:13px;
+padding:9px 13px;
+border-radius:9px;
+background:#1769aa;
+color:white;
+text-decoration:none;
+font-size:12px;
+font-weight:bold;
+}
 
-        .stage-label {
-            color: #8a94a6;
-            font-size: 13px;
-            margin-bottom: 7px;
-        }
+.empty{
+background:white;
+padding:45px;
+border-radius:15px;
+text-align:center;
+color:#98a2b3;
+}
 
-        .stage-value {
-            color: #1769aa;
-            font-weight: bold;
-            font-size: 17px;
-        }
+@media(max-width:650px){
+.grid{
+grid-template-columns:1fr;
+}
+}
 
-        .lectures-container {
-            background: #ffffff;
-            border: 1px solid #e7edf4;
-            border-radius: 17px;
-            padding: 20px;
-        }
-
-        .section-title {
-            color: #12395b;
-            font-size: 19px;
-            margin-bottom: 20px;
-        }
-
-        .lecture-list {
-            display: grid;
-            gap: 15px;
-        }
-
-        .lecture-card {
-            border: 1px solid #e7edf4;
-            border-radius: 14px;
-            padding: 18px;
-
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-
-            gap: 20px;
-        }
-
-        .lecture-info h3 {
-            color: #12395b;
-            margin-bottom: 8px;
-        }
-
-        .lecture-info p {
-            color: #718096;
-            font-size: 14px;
-            line-height: 1.7;
-        }
-
-        .lecture-type {
-            display: inline-block;
-            margin-top: 8px;
-
-            background: #eef6fc;
-            color: #1769aa;
-
-            padding: 5px 10px;
-            border-radius: 20px;
-
-            font-size: 12px;
-            font-weight: bold;
-        }
-
-        .lecture-button {
-            border: none;
-            background: #1769aa;
-            color: #ffffff;
-
-            padding: 10px 18px;
-            border-radius: 9px;
-
-            font-weight: bold;
-            cursor: pointer;
-        }
-
-        .empty-state {
-            text-align: center;
-            padding: 55px 20px;
-            color: #718096;
-        }
-
-        .empty-icon {
-            font-size: 42px;
-            margin-bottom: 15px;
-        }
-
-        .empty-state h3 {
-            color: #344054;
-            margin-bottom: 8px;
-        }
-
-        .empty-state p {
-            font-size: 14px;
-            line-height: 1.8;
-        }
-
-        .loading {
-            text-align: center;
-            padding: 50px 20px;
-            color: #718096;
-        }
-
-        .error {
-            text-align: center;
-            padding: 40px 20px;
-            color: #c62828;
-        }
-
-        @media (max-width: 650px) {
-
-            .header-content {
-                flex-direction: column;
-                align-items: stretch;
-            }
-
-            .back-button {
-                text-align: center;
-            }
-
-            .lecture-card {
-                flex-direction: column;
-                align-items: stretch;
-            }
-
-            .lecture-button {
-                width: 100%;
-            }
-
-            .page-title h1 {
-                font-size: 23px;
-            }
-
-        }
-
-    </style>
+</style>
 
 </head>
 
-
 <body>
-
 
 <header>
 
-    <div class="header-content">
+<div class="header">
 
-        <div class="brand">
+<div class="logo">
+مسار التمريض
+</div>
 
-            مسار التمريض
+<a href="dashboard.html"
+class="back">
+← لوحة الطالب
+</a>
 
-            <span>
-                Masar Al-Tamreed
-            </span>
-
-        </div>
-
-
-        <a
-            href="dashboard.html"
-            class="back-button"
-        >
-            العودة للوحة التحكم
-        </a>
-
-    </div>
+</div>
 
 </header>
 
-
-
 <main>
 
+<h1>🎥 المحاضرات</h1>
 
-    <section class="page-title">
+<p class="subtitle"
+id="stageText">
+جاري التحميل...
+</p>
 
-        <h1>
-            🎥 المحاضرات
-        </h1>
+<div id="lectures"
+class="grid">
 
-        <p>
-            المحاضرات الخاصة بمرحلتك الدراسية
-        </p>
+<div class="empty">
+جاري تحميل المحاضرات...
+</div>
 
-    </section>
-
-
-
-    <section class="stage-box">
-
-        <div class="stage-label">
-            المرحلة الدراسية
-        </div>
-
-        <div
-            class="stage-value"
-            id="studentStage"
-        >
-            جاري التحميل...
-        </div>
-
-    </section>
-
-
-
-    <section class="lectures-container">
-
-        <h2 class="section-title">
-            محاضرات مرحلتك
-        </h2>
-
-
-        <div
-            id="lectureList"
-            class="loading"
-        >
-
-            جاري تحميل المحاضرات...
-
-        </div>
-
-    </section>
-
+</div>
 
 </main>
 
-
-
-<script type="module">
-
-    import {
-        auth,
-        db
-    } from "../src/firebase/config.js";
-
-
-    import {
-        onAuthStateChanged
-    } from "https://www.gstatic.com/firebasejs/12.18.0/firebase-auth.js";
-
-
-    import {
-        doc,
-        getDoc
-    } from "https://www.gstatic.com/firebasejs/12.18.0/firebase-firestore.js";
-
-
-    const studentStage =
-        document.getElementById("studentStage");
-
-
-    const lectureList =
-        document.getElementById("lectureList");
-
-
-
-    /*
-     * التحقق من المستخدم
-     */
-
-    onAuthStateChanged(auth, async (user) => {
-
-        if (!user) {
-
-            window.location.href =
-                "../login.html";
-
-            return;
-
-        }
-
-
-        try {
-
-            /*
-             * بيانات المستخدم
-             */
-
-            const userRef =
-                doc(
-                    db,
-                    "users",
-                    user.uid
-                );
-
-
-            const userSnapshot =
-                await getDoc(userRef);
-
-
-            if (!userSnapshot.exists()) {
-
-                window.location.href =
-                    "../login.html";
-
-                return;
-
-            }
-
-
-            const userData =
-                userSnapshot.data();
-
-
-
-            /*
-             * السماح للطلاب فقط
-             */
-
-            if (
-                userData.role !== "student" ||
-                userData.isActive !== true
-            ) {
-
-                window.location.href =
-                    "../login.html";
-
-                return;
-
-            }
-
-
-
-            /*
-             * بيانات الطالب
-             */
-
-            const studentRef =
-                doc(
-                    db,
-                    "students",
-                    userData.studentId
-                );
-
-
-            const studentSnapshot =
-                await getDoc(studentRef);
-
-
-            if (!studentSnapshot.exists()) {
-
-                window.location.href =
-                    "../login.html";
-
-                return;
-
-            }
-
-
-            const student =
-                studentSnapshot.data();
-
-
-            /*
-             * مرحلة الطالب
-             */
-
-            const stage =
-                student.stage;
-
-
-            studentStage.textContent =
-                getStageName(stage);
-
-
-
-            /*
-             * لا توجد Collection للمحاضرات
-             * حتى الآن.
-             *
-             * لذلك لا نقوم بجلب بيانات وهمية.
-             *
-             * لاحقًا سيكون الاستعلام:
-             *
-             * lectures
-             * where stage == student.stage
-             *
-             * مع Security Rules مناسبة.
-             */
-
-
-            lectureList.innerHTML = `
-
-                <div class="empty-state">
-
-                    <div class="empty-icon">
-                        🎥
-                    </div>
-
-                    <h3>
-                        لا توجد محاضرات حاليًا
-                    </h3>
-
-                    <p>
-                        ستظهر هنا المحاضرات الخاصة
-                        بمرحلتك الدراسية فقط.
-                    </p>
-
-                </div>
-
-            `;
-
-
-        } catch (error) {
-
-            console.error(error);
-
-
-            lectureList.innerHTML = `
-
-                <div class="error">
-
-                    حدث خطأ أثناء تحميل البيانات.
-
-                </div>
-
-            `;
-
-        }
-
-    });
-
-
-
-    /*
-     * اسم المرحلة
-     */
-
-    function getStageName(stage) {
-
-        const stages = {
-
-            "first_secondary_nursing":
-                "الصف الأول الثانوي التمريض",
-
-            "second_secondary_nursing":
-                "الصف الثاني الثانوي التمريض",
-
-            "third_secondary_nursing":
-                "الصف الثالث الثانوي التمريض"
-
-        };
-
-
-        return stages[stage] || "مرحلة غير محددة";
-
-    }
-
+<script type="module"
+src="./js/lectures.js">
 </script>
 
-
 </body>
-
 </html>
