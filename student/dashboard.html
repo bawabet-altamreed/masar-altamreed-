@@ -3,392 +3,1172 @@
 
 <head>
 
-<meta charset="UTF-8">
+    <meta charset="UTF-8">
 
-<meta name="viewport"
-      content="width=device-width, initial-scale=1.0">
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
 
-<title>لوحة الطالب | مسار التمريض</title>
+    <title>
+        لوحة الطالب | مسار التمريض
+    </title>
 
-<style>
 
-*{
-box-sizing:border-box;
-margin:0;
-padding:0;
-}
+    <style>
 
-body{
-font-family:Tahoma,Arial,sans-serif;
-background:#f5f7fb;
-color:#172033;
-}
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
 
-.topbar{
-background:#fff;
-border-bottom:1px solid #e5eaf0;
-padding:15px;
-position:sticky;
-top:0;
-z-index:10;
-}
 
-.topbar-inner{
-max-width:1100px;
-margin:auto;
-display:flex;
-align-items:center;
-justify-content:space-between;
-gap:15px;
-}
+        body {
 
-.brand{
-font-weight:bold;
-font-size:20px;
-color:#12395b;
-}
+            font-family:
+                Arial,
+                Tahoma,
+                sans-serif;
 
-.brand small{
-display:block;
-font-size:10px;
-color:#98a2b3;
-margin-top:4px;
-}
+            background: #f4f7fb;
 
-.logout{
-border:0;
-background:#eef6ff;
-color:#1769aa;
-padding:10px 15px;
-border-radius:10px;
-font-family:inherit;
-font-weight:bold;
-cursor:pointer;
-}
+            color: #172033;
 
-.container{
-max-width:1100px;
-margin:auto;
-padding:22px 15px;
-}
+            min-height: 100vh;
+        }
 
-.welcome{
-background:linear-gradient(135deg,#1769aa,#0d3f68);
-color:white;
-border-radius:20px;
-padding:27px;
-margin-bottom:20px;
-}
 
-.welcome small{
-opacity:.8;
-}
+        header {
 
-.welcome h1{
-font-size:27px;
-margin:7px 0;
-}
+            background: #ffffff;
 
-.stage{
-opacity:.9;
-font-size:14px;
-}
+            border-bottom:
+                1px solid #e6ebf2;
 
-.cards{
-display:grid;
-grid-template-columns:repeat(3,1fr);
-gap:15px;
-}
+            padding: 16px 20px;
+        }
 
-.card{
-background:#fff;
-border:1px solid #e5eaf0;
-border-radius:17px;
-padding:20px;
-text-decoration:none;
-color:#172033;
-transition:.2s;
-}
 
-.card:hover{
-transform:translateY(-2px);
-border-color:#1769aa;
-}
+        .header-content {
 
-.icon{
-font-size:29px;
-margin-bottom:12px;
-}
+            width: min(1100px, 94%);
 
-.card h3{
-font-size:16px;
-color:#12395b;
-margin-bottom:7px;
-}
+            margin: auto;
 
-.card p{
-font-size:12px;
-line-height:1.7;
-color:#7b8798;
-}
+            display: flex;
 
-.subscription{
-background:#fff;
-border:1px solid #e5eaf0;
-border-radius:17px;
-padding:20px;
-margin-top:18px;
-}
+            align-items: center;
 
-.subscription h3{
-margin-bottom:14px;
-color:#12395b;
-}
+            justify-content: space-between;
 
-.info{
-display:grid;
-grid-template-columns:repeat(3,1fr);
-gap:10px;
-}
+            gap: 15px;
+        }
 
-.info div{
-background:#f7f9fc;
-padding:13px;
-border-radius:11px;
-}
 
-.info small{
-display:block;
-color:#8a95a5;
-font-size:10px;
-margin-bottom:5px;
-}
+        .brand {
 
-.info strong{
-font-size:13px;
-}
+            color: #1769aa;
 
-.loading{
-text-align:center;
-padding:60px;
-color:#777;
-}
+            font-size: 21px;
 
-@media(max-width:750px){
+            font-weight: bold;
+        }
 
-.cards{
-grid-template-columns:1fr 1fr;
-}
 
-.info{
-grid-template-columns:1fr;
-}
+        .brand span {
 
-.welcome h1{
-font-size:22px;
-}
+            display: block;
 
-}
+            color: #8a94a6;
 
-@media(max-width:480px){
+            font-size: 11px;
 
-.cards{
-grid-template-columns:1fr;
-}
+            margin-top: 4px;
+        }
 
-}
 
-</style>
+        .logout {
+
+            border: none;
+
+            background: #eef4f9;
+
+            color: #1769aa;
+
+            padding: 10px 16px;
+
+            border-radius: 10px;
+
+            cursor: pointer;
+
+            font-weight: bold;
+        }
+
+
+        main {
+
+            width: min(1100px, 94%);
+
+            margin: 25px auto;
+        }
+
+
+        #loading {
+
+            background: #ffffff;
+
+            border:
+                1px solid #e7edf4;
+
+            border-radius: 18px;
+
+            padding: 50px 20px;
+
+            text-align: center;
+
+            color: #718096;
+
+        }
+
+
+        #errorBox {
+
+            display: none;
+
+            background: #fff1f1;
+
+            color: #b42318;
+
+            border:
+                1px solid #ffd4d4;
+
+            border-radius: 16px;
+
+            padding: 25px;
+
+            text-align: center;
+        }
+
+
+        #dashboard {
+
+            display: none;
+        }
+
+
+        .welcome {
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #1769aa,
+                    #0d4f80
+                );
+
+            color: white;
+
+            padding: 28px;
+
+            border-radius: 20px;
+
+            margin-bottom: 20px;
+
+            box-shadow:
+                0 15px 35px
+                rgba(23,105,170,.16);
+        }
+
+
+        .welcome small {
+
+            opacity: .85;
+
+            font-size: 13px;
+        }
+
+
+        .welcome h1 {
+
+            margin-top: 8px;
+
+            font-size: 28px;
+        }
+
+
+        .stage {
+
+            margin-top: 9px;
+
+            opacity: .9;
+
+            font-size: 14px;
+        }
+
+
+        .cards {
+
+            display: grid;
+
+            grid-template-columns:
+                repeat(3, 1fr);
+
+            gap: 16px;
+        }
+
+
+        .card {
+
+            background: #ffffff;
+
+            border:
+                1px solid #e7edf4;
+
+            border-radius: 17px;
+
+            padding: 21px;
+
+            text-decoration: none;
+
+            color: inherit;
+
+            transition: .2s;
+
+            display: block;
+        }
+
+
+        .card:hover {
+
+            transform:
+                translateY(-3px);
+
+            border-color:
+                #1769aa;
+
+            box-shadow:
+                0 10px 25px
+                rgba(20,45,75,.07);
+        }
+
+
+        .card-icon {
+
+            font-size: 28px;
+
+            margin-bottom: 12px;
+        }
+
+
+        .card h3 {
+
+            color: #12395b;
+
+            font-size: 17px;
+
+            margin-bottom: 8px;
+        }
+
+
+        .card p {
+
+            color: #718096;
+
+            font-size: 13px;
+
+            line-height: 1.7;
+        }
+
+
+        .subscription {
+
+            margin-top: 20px;
+
+            background: #ffffff;
+
+            border:
+                1px solid #e7edf4;
+
+            border-radius: 17px;
+
+            padding: 21px;
+        }
+
+
+        .subscription h2 {
+
+            color: #12395b;
+
+            font-size: 18px;
+
+            margin-bottom: 15px;
+        }
+
+
+        .subscription-grid {
+
+            display: grid;
+
+            grid-template-columns:
+                repeat(3, 1fr);
+
+            gap: 10px;
+        }
+
+
+        .info {
+
+            background: #f7fafc;
+
+            border-radius: 12px;
+
+            padding: 13px;
+        }
+
+
+        .info small {
+
+            display: block;
+
+            color: #8a95a5;
+
+            font-size: 11px;
+
+            margin-bottom: 5px;
+        }
+
+
+        .info strong {
+
+            color: #172033;
+
+            font-size: 13px;
+        }
+
+
+        .active {
+
+            color: #087443 !important;
+        }
+
+
+        @media (max-width: 800px) {
+
+            .cards {
+
+                grid-template-columns:
+                    repeat(2, 1fr);
+            }
+
+            .subscription-grid {
+
+                grid-template-columns:
+                    1fr 1fr;
+            }
+
+        }
+
+
+        @media (max-width: 550px) {
+
+            .header-content {
+
+                width: 100%;
+            }
+
+
+            header {
+
+                padding: 14px;
+            }
+
+
+            main {
+
+                width: 94%;
+
+                margin: 18px auto;
+            }
+
+
+            .welcome {
+
+                padding: 22px;
+            }
+
+
+            .welcome h1 {
+
+                font-size: 23px;
+            }
+
+
+            .cards {
+
+                grid-template-columns: 1fr;
+            }
+
+
+            .subscription-grid {
+
+                grid-template-columns: 1fr;
+            }
+
+
+            .logout {
+
+                padding: 9px 12px;
+
+                font-size: 12px;
+            }
+
+        }
+
+    </style>
 
 </head>
 
+
 <body>
 
-<header class="topbar">
 
-<div class="topbar-inner">
+<header>
 
-<div class="brand">
-مسار التمريض
-<small>Masar Al-Tamreed</small>
-</div>
+    <div class="header-content">
 
-<button id="logoutBtn"
-        class="logout">
-تسجيل الخروج
-</button>
+        <div class="brand">
 
-</div>
+            مسار التمريض
+
+            <span>
+                Masar Al-Tamreed
+            </span>
+
+        </div>
+
+
+        <button
+            id="logoutButton"
+            class="logout"
+        >
+            تسجيل الخروج
+        </button>
+
+    </div>
 
 </header>
 
 
-<main class="container">
-
-<div id="loading"
-     class="loading">
-
-جاري تحميل بياناتك...
-
-</div>
+<main>
 
 
-<div id="content"
-     style="display:none;">
+    <div id="loading">
 
-<section class="welcome">
+        جاري تحميل بيانات الطالب...
 
-<small>
-مرحبًا بك في مسار التمريض 👋
-</small>
-
-<h1 id="studentName">
-الطالب
-</h1>
-
-<div id="studentStage"
-     class="stage">
-المرحلة
-</div>
-
-</section>
+    </div>
 
 
-<section class="cards">
+    <div id="errorBox">
 
-<a href="schedule.html"
-   class="card">
+        <h2>
+            🔒 تعذر فتح لوحة الطالب
+        </h2>
 
-<div class="icon">📅</div>
+        <p
+            id="errorText"
+            style="margin-top:10px;line-height:1.8;"
+        >
+            جاري التحقق...
+        </p>
 
-<h3>
-جدول المحاضرات
-</h3>
+        <button
+            id="backLogin"
+            style="
+                margin-top:18px;
+                border:none;
+                padding:11px 20px;
+                border-radius:10px;
+                background:#1769aa;
+                color:white;
+                cursor:pointer;
+                font-weight:bold;
+            "
+        >
+            العودة لتسجيل الدخول
+        </button>
 
-<p>
-تابع مواعيد المحاضرات الخاصة بمرحلتك.
-</p>
-
-</a>
-
-
-<a href="lectures.html"
-   class="card">
-
-<div class="icon">🎥</div>
-
-<h3>
-المحاضرات
-</h3>
-
-<p>
-الوصول إلى المحاضرات المباشرة والتسجيلات.
-</p>
-
-</a>
+    </div>
 
 
-<a href="exams.html"
-   class="card">
-
-<div class="icon">📝</div>
-
-<h3>
-الاختبارات
-</h3>
-
-<p>
-حل الاختبارات المتاحة ومتابعة نتائجك.
-</p>
-
-</a>
+    <div id="dashboard">
 
 
-<a href="leaderboard.html"
-   class="card">
+        <section class="welcome">
 
-<div class="icon">🏆</div>
-
-<h3>
-الترتيب
-</h3>
-
-<p>
-تابع ترتيبك بين طلاب مرحلتك.
-</p>
-
-</a>
+            <small>
+                مرحبًا بك في مسار التمريض 👋
+            </small>
 
 
-<a href="files.html"
-   class="card">
-
-<div class="icon">📚</div>
-
-<h3>
-الملفات التعليمية
-</h3>
-
-<p>
-الوصول إلى الملفات والمذكرات التعليمية.
-</p>
-
-</a>
+            <h1 id="studentName">
+                الطالب
+            </h1>
 
 
-<a href="progress.html"
-   class="card">
+            <div
+                class="stage"
+                id="studentStage"
+            >
+                جاري تحميل المرحلة...
+            </div>
 
-<div class="icon">📊</div>
-
-<h3>
-تقدمي الدراسي
-</h3>
-
-<p>
-تابع تقدمك في المحاضرات والاختبارات.
-</p>
-
-</a>
-
-</section>
+        </section>
 
 
-<section class="subscription">
+        <section class="cards">
 
-<h3>
-📋 بيانات الاشتراك
-</h3>
 
-<div class="info">
+            <a
+                href="schedule.html"
+                class="card"
+            >
 
-<div>
-<small>كود الاشتراك</small>
-<strong id="subscriptionCode">—</strong>
-</div>
+                <div class="card-icon">
+                    📅
+                </div>
 
-<div>
-<small>الحالة</small>
-<strong id="subscriptionStatus">—</strong>
-</div>
+                <h3>
+                    جدول المحاضرات
+                </h3>
 
-<div>
-<small>تاريخ الانتهاء</small>
-<strong id="endDate">—</strong>
-</div>
+                <p>
+                    تابع مواعيد المحاضرات الخاصة بمرحلتك.
+                </p>
 
-</div>
+            </a>
 
-</section>
 
-</div>
+            <a
+                href="lectures.html"
+                class="card"
+            >
+
+                <div class="card-icon">
+                    🎥
+                </div>
+
+                <h3>
+                    المحاضرات
+                </h3>
+
+                <p>
+                    شاهد المحاضرات المتاحة لك.
+                </p>
+
+            </a>
+
+
+            <a
+                href="exams.html"
+                class="card"
+            >
+
+                <div class="card-icon">
+                    📝
+                </div>
+
+                <h3>
+                    الاختبارات
+                </h3>
+
+                <p>
+                    ادخل الاختبارات المتاحة وتابع نتائجك.
+                </p>
+
+            </a>
+
+
+            <a
+                href="leaderboard.html"
+                class="card"
+            >
+
+                <div class="card-icon">
+                    🏆
+                </div>
+
+                <h3>
+                    الترتيب
+                </h3>
+
+                <p>
+                    تابع ترتيبك ومستواك الدراسي.
+                </p>
+
+            </a>
+
+
+            <a
+                href="files.html"
+                class="card"
+            >
+
+                <div class="card-icon">
+                    📚
+                </div>
+
+                <h3>
+                    الملفات التعليمية
+                </h3>
+
+                <p>
+                    الوصول إلى الملفات المتاحة لك.
+                </p>
+
+            </a>
+
+
+            <a
+                href="progress.html"
+                class="card"
+            >
+
+                <div class="card-icon">
+                    📊
+                </div>
+
+                <h3>
+                    تقدمي الدراسي
+                </h3>
+
+                <p>
+                    تابع تقدمك ونتائجك داخل المنصة.
+                </p>
+
+            </a>
+
+
+        </section>
+
+
+        <section class="subscription">
+
+            <h2>
+                معلومات الاشتراك
+            </h2>
+
+
+            <div class="subscription-grid">
+
+
+                <div class="info">
+
+                    <small>
+                        كود الاشتراك
+                    </small>
+
+                    <strong
+                        id="subscriptionCode"
+                    >
+                        —
+                    </strong>
+
+                </div>
+
+
+                <div class="info">
+
+                    <small>
+                        حالة الاشتراك
+                    </small>
+
+                    <strong
+                        id="subscriptionStatus"
+                        class="active"
+                    >
+                        فعال
+                    </strong>
+
+                </div>
+
+
+                <div class="info">
+
+                    <small>
+                        المرحلة
+                    </small>
+
+                    <strong
+                        id="subscriptionStage"
+                    >
+                        —
+                    </strong>
+
+                </div>
+
+
+                <div class="info">
+
+                    <small>
+                        بداية الاشتراك
+                    </small>
+
+                    <strong
+                        id="startDate"
+                    >
+                        —
+                    </strong>
+
+                </div>
+
+
+                <div class="info">
+
+                    <small>
+                        نهاية الاشتراك
+                    </small>
+
+                    <strong
+                        id="endDate"
+                    >
+                        —
+                    </strong>
+
+                </div>
+
+
+                <div class="info">
+
+                    <small>
+                        Student ID
+                    </small>
+
+                    <strong
+                        id="studentId"
+                    >
+                        —
+                    </strong>
+
+                </div>
+
+
+            </div>
+
+        </section>
+
+
+    </div>
 
 </main>
 
 
-<script type="module"
-        src="./js/dashboard.js">
+<script type="module">
+
+import {
+    auth,
+    db
+} from "../src/firebase/config.js";
+
+
+import {
+    onAuthStateChanged,
+    signOut
+} from "https://www.gstatic.com/firebasejs/12.18.0/firebase-auth.js";
+
+
+import {
+    doc,
+    getDoc
+} from "https://www.gstatic.com/firebasejs/12.18.0/firebase-firestore.js";
+
+
+const loading =
+    document.getElementById("loading");
+
+const dashboard =
+    document.getElementById("dashboard");
+
+const errorBox =
+    document.getElementById("errorBox");
+
+const errorText =
+    document.getElementById("errorText");
+
+const studentName =
+    document.getElementById("studentName");
+
+const studentStage =
+    document.getElementById("studentStage");
+
+const subscriptionCode =
+    document.getElementById("subscriptionCode");
+
+const subscriptionStatus =
+    document.getElementById("subscriptionStatus");
+
+const subscriptionStage =
+    document.getElementById("subscriptionStage");
+
+const startDate =
+    document.getElementById("startDate");
+
+const endDate =
+    document.getElementById("endDate");
+
+const studentId =
+    document.getElementById("studentId");
+
+const logoutButton =
+    document.getElementById("logoutButton");
+
+const backLogin =
+    document.getElementById("backLogin");
+
+
+function showError(text) {
+
+    loading.style.display =
+        "none";
+
+    dashboard.style.display =
+        "none";
+
+    errorBox.style.display =
+        "block";
+
+    errorText.textContent =
+        text;
+}
+
+
+function showDashboard() {
+
+    loading.style.display =
+        "none";
+
+    errorBox.style.display =
+        "none";
+
+    dashboard.style.display =
+        "block";
+}
+
+
+backLogin.addEventListener(
+    "click",
+    () => {
+
+        window.location.replace(
+            "../login.html"
+        );
+
+    }
+);
+
+
+onAuthStateChanged(
+    auth,
+    async (user) => {
+
+        console.log(
+            "Dashboard Auth User:",
+            user
+        );
+
+
+        /*
+         * لا يوجد Anonymous User
+         */
+
+        if (!user) {
+
+            showError(
+                "انتهت جلسة تسجيل الدخول. ارجع لتسجيل الدخول مرة أخرى."
+            );
+
+            return;
+        }
+
+
+        try {
+
+            /*
+             * =================================
+             * users/{uid}
+             * =================================
+             */
+
+            const userRef =
+                doc(
+                    db,
+                    "users",
+                    user.uid
+                );
+
+
+            const userSnapshot =
+                await getDoc(userRef);
+
+
+            console.log(
+                "Users document exists:",
+                userSnapshot.exists()
+            );
+
+
+            if (!userSnapshot.exists()) {
+
+                showError(
+                    "لم يتم العثور على بيانات جلسة الطالب."
+                );
+
+                return;
+            }
+
+
+            const userData =
+                userSnapshot.data();
+
+
+            console.log(
+                "User Data:",
+                userData
+            );
+
+
+            /*
+             * =================================
+             * التأكد من نوع الحساب
+             * =================================
+             */
+
+            if (
+                userData.role !==
+                "student"
+            ) {
+
+                showError(
+                    "هذا الحساب ليس حساب طالب."
+                );
+
+                return;
+            }
+
+
+            /*
+             * =================================
+             * التأكد من النشاط
+             * =================================
+             */
+
+            if (
+                userData.isActive === false
+            ) {
+
+                showError(
+                    "حساب الطالب غير نشط حاليًا."
+                );
+
+                return;
+            }
+
+
+            /*
+             * =================================
+             * البيانات الأساسية
+             * =================================
+             */
+
+            const name =
+                userData.name ||
+                "الطالب";
+
+
+            const stage =
+                userData.stage ||
+                "لم يتم تحديد المرحلة";
+
+
+            const code =
+                userData.subscriptionCode ||
+                "—";
+
+
+            const sid =
+                userData.studentId ||
+                "—";
+
+
+            studentName.textContent =
+                name;
+
+
+            studentStage.textContent =
+                "المرحلة: " +
+                stage;
+
+
+            subscriptionCode.textContent =
+                code;
+
+
+            subscriptionStage.textContent =
+                stage;
+
+
+            studentId.textContent =
+                sid;
+
+
+            /*
+             * =================================
+             * جلب الاشتراك لعرض حالته
+             * =================================
+             */
+
+            if (
+                userData.subscriptionCode
+            ) {
+
+                const subscriptionRef =
+                    doc(
+                        db,
+                        "subscriptions",
+                        userData.subscriptionCode
+                    );
+
+
+                const subscriptionSnapshot =
+                    await getDoc(
+                        subscriptionRef
+                    );
+
+
+                if (
+                    subscriptionSnapshot.exists()
+                ) {
+
+                    const subscription =
+                        subscriptionSnapshot.data();
+
+
+                    /*
+                     * الحالة
+                     */
+
+                    if (
+                        subscription.status ===
+                        "active"
+                    ) {
+
+                        subscriptionStatus.textContent =
+                            "فعال";
+
+                        subscriptionStatus.className =
+                            "active";
+
+                    } else {
+
+                        subscriptionStatus.textContent =
+                            "غير فعال";
+
+                        subscriptionStatus.className =
+                            "";
+
+                    }
+
+
+                    /*
+                     * التواريخ
+                     */
+
+                    startDate.textContent =
+                        subscription.startDate ||
+                        "غير محدد";
+
+
+                    endDate.textContent =
+                        subscription.endDate ||
+                        "غير محدد";
+
+                }
+
+            }
+
+
+            /*
+             * =================================
+             * عرض لوحة الطالب
+             * =================================
+             */
+
+            showDashboard();
+
+
+        } catch (error) {
+
+            console.error(
+                "DASHBOARD ERROR:",
+                error
+            );
+
+
+            if (
+                error.code ===
+                "permission-denied"
+            ) {
+
+                showError(
+                    "Firebase رفض قراءة بيانات الطالب. راجع Firestore Security Rules."
+                );
+
+            } else {
+
+                showError(
+                    "حدث خطأ أثناء تحميل لوحة الطالب."
+                );
+
+            }
+
+        }
+
+    }
+);
+
+
+/*
+ * =================================
+ * تسجيل الخروج
+ * =================================
+ */
+
+logoutButton.addEventListener(
+    "click",
+    async () => {
+
+        try {
+
+            await signOut(auth);
+
+            window.location.replace(
+                "../login.html"
+            );
+
+        } catch (error) {
+
+            console.error(
+                "LOGOUT ERROR:",
+                error
+            );
+
+        }
+
+    }
+);
+
 </script>
 
 </body>
+
 </html>
