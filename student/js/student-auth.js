@@ -1,7 +1,4 @@
-import {
-    auth,
-    db
-} from "../../src/firebase/config.js";
+import { auth, db } from "../../src/firebase/config.js";
 
 import {
     onAuthStateChanged,
@@ -14,195 +11,68 @@ import {
 } from "https://www.gstatic.com/firebasejs/12.18.0/firebase-firestore.js";
 
 
-let currentStudent = null;
-let authReady = false;
+const SESSION_KEY = "masar_student_session";
 
 
-/*
-|--------------------------------------------------------------------------
-| Student Authentication Guard
-|--------------------------------------------------------------------------
-*/
+export const stageNames = {
 
-export function requireStudent(callback) {
+    first_secondary_nursing:
+        "الأول الثانوي التمريض",
 
-    onAuthStateChanged(auth, async (user) => {
+    second_secondary_nursing:
+        "الثاني الثانوي التمريض",
 
-        if (!user) {
+    third_secondary_nursing:
+        "الثالث الثانوي التمريض",
 
-            window.location.href =
-                "../login.html";
+    first_institute_nursing:
+        "الأول معهد التمريض",
 
-            return;
-        }
+    second_institute_nursing:
+        "الثاني معهد التمريض"
 
-
-        try {
-
-            /*
-             * users/{uid}
-             */
-
-            const userRef =
-                doc(
-                    db,
-                    "users",
-                    user.uid
-                );
-
-            const userSnapshot =
-                await getDoc(userRef);
+};
 
 
-            if (!userSnapshot.exists()) {
+export function getSession() {
 
-                await logoutStudent();
+    try {
 
-                return;
-            }
+        return JSON.parse(
+            localStorage.getItem(SESSION_KEY)
+        );
 
+    } catch {
 
-            const userData =
-                userSnapshot.data();
+        return null;
 
-
-            /*
-             * التأكد من أن الحساب طالب
-             */
-
-            if (
-                userData.role !== "student" ||
-                userData.isActive !== true
-            ) {
-
-                await logoutStudent();
-
-                return;
-            }
-
-
-            /*
-             * studentId
-             */
-
-            if (!userData.studentId) {
-
-                showAuthError(
-                    "حساب الطالب غير مرتبط ببيانات الطالب."
-                );
-
-                return;
-            }
-
-
-            /*
-             * students/{studentId}
-             */
-
-            const studentRef =
-                doc(
-                    db,
-                    "students",
-                    userData.studentId
-                );
-
-            const studentSnapshot =
-                await getDoc(studentRef);
-
-
-            if (!studentSnapshot.exists()) {
-
-                showAuthError(
-                    "لم يتم العثور على بيانات الطالب."
-                );
-
-                return;
-            }
-
-
-            const studentData =
-                studentSnapshot.data();
-
-
-            /*
-             * التحقق من حالة الطالب
-             */
-
-            if (
-                studentData.isActive === false
-            ) {
-
-                showAuthError(
-                    "حساب الطالب موقوف حاليًا."
-                );
-
-                return;
-            }
-
-
-            /*
-             * حفظ بيانات الجلسة في الذاكرة
-             */
-
-            currentStudent = {
-
-                uid: user.uid,
-
-                user: userData,
-
-                student: studentData
-
-            };
-
-
-            authReady = true;
-
-
-            /*
-             * تشغيل الصفحة
-             */
-
-            callback(currentStudent);
-
-
-        } catch (error) {
-
-            console.error(
-                "Student auth error:",
-                error
-            );
-
-            showAuthError(
-                "حدث خطأ أثناء تحميل حساب الطالب."
-            );
-
-        }
-
-    });
+    }
 
 }
 
 
-/*
-|--------------------------------------------------------------------------
-| Current Student
-|--------------------------------------------------------------------------
-*/
+export function saveSession(data) {
 
-export function getCurrentStudent() {
-
-    return currentStudent;
+    localStorage.setItem(
+        SESSION_KEY,
+        JSON.stringify(data)
+    );
 
 }
 
 
-/*
-|--------------------------------------------------------------------------
-| Logout
-|--------------------------------------------------------------------------
-*/
+export function clearSession() {
+
+    localStorage.removeItem(
+        SESSION_KEY
+    );
+
+}
+
 
 export async function logoutStudent() {
+
+    clearSession();
 
     try {
 
@@ -220,79 +90,153 @@ export async function logoutStudent() {
 }
 
 
-/*
-|--------------------------------------------------------------------------
-| Auth Error
-|--------------------------------------------------------------------------
-*/
+export async function getStudentData() {
 
-function showAuthError(message) {
+    const session = getSession();
 
-    document.body.innerHTML = `
+    if (!session || !session.studentId) {
 
-        <div style="
-            min-height:100vh;
-            display:flex;
-            align-items:center;
-            justify-content:center;
-            padding:20px;
-            background:#f4f7fb;
-            font-family:Tahoma,Arial;
-            text-align:center;
-        ">
+        return null;
 
-            <div style="
-                max-width:450px;
-                width:100%;
-                background:white;
-                padding:30px;
-                border-radius:20px;
-                box-shadow:0 15px 40px rgba(0,0,0,.08);
-            ">
+    }
 
-                <div style="
-                    font-size:50px;
-                    margin-bottom:15px;
-                ">
-                    ⚠️
-                </div>
 
-                <h2 style="
-                    color:#172033;
-                    margin-bottom:10px;
-                ">
-                    تعذر فتح المنصة
-                </h2>
+    const studentRef = doc(
+        db,
+        "students",
+        session.studentId
+    );
 
-                <p style="
-                    color:#718096;
-                    line-height:1.8;
-                    font-size:14px;
-                ">
-                    ${message}
-                </p>
 
-                <button
-                    onclick="location.href='../login.html'"
-                    style="
-                        margin-top:20px;
-                        border:none;
-                        background:#1769aa;
-                        color:white;
-                        padding:12px 25px;
-                        border-radius:10px;
-                        font-family:inherit;
-                        font-weight:bold;
-                        cursor:pointer;
-                    "
-                >
-                    العودة لتسجيل الدخول
-                </button>
+    const snapshot =
+        await getDoc(studentRef);
 
-            </div>
 
-        </div>
+    if (!snapshot.exists()) {
 
-    `;
+        return null;
+
+    }
+
+
+    return {
+
+        id: snapshot.id,
+
+        ...snapshot.data()
+
+    };
+
+}
+
+
+export async function protectStudentPage() {
+
+    return new Promise((resolve) => {
+
+        onAuthStateChanged(
+            auth,
+            async (user) => {
+
+                if (!user) {
+
+                    window.location.href =
+                        "../login.html";
+
+                    return;
+
+                }
+
+
+                const session =
+                    getSession();
+
+
+                if (
+                    !session ||
+                    !session.studentId
+                ) {
+
+                    window.location.href =
+                        "../login.html";
+
+                    return;
+
+                }
+
+
+                try {
+
+                    const student =
+                        await getStudentData();
+
+
+                    if (!student) {
+
+                        clearSession();
+
+                        window.location.href =
+                            "../login.html";
+
+                        return;
+
+                    }
+
+
+                    if (
+                        student.isActive === false
+                    ) {
+
+                        clearSession();
+
+                        window.location.href =
+                            "../login.html";
+
+                        return;
+
+                    }
+
+
+                    resolve({
+
+                        user,
+
+                        student,
+
+                        session
+
+                    });
+
+
+                } catch (error) {
+
+                    console.error(error);
+
+                    document.body.innerHTML = `
+                        <div style="
+                            min-height:100vh;
+                            display:flex;
+                            align-items:center;
+                            justify-content:center;
+                            padding:20px;
+                            text-align:center;
+                            font-family:Tahoma,Arial;
+                        ">
+                            <div>
+                                <div style="font-size:50px;">⚠️</div>
+                                <h2>حدث خطأ</h2>
+                                <p style="color:#777;margin-top:10px;">
+                                    تعذر تحميل بيانات الطالب.
+                                </p>
+                            </div>
+                        </div>
+                    `;
+
+                }
+
+            }
+        );
+
+    });
 
 }
