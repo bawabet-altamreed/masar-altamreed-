@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport"
+content="width=device-width,initial-scale=1">
+
+<title>الملفات التعليمية | مسار التمريض</title>
+
+<style>
+
+*{
+box-sizing:border-box;
+}
+
+body{
+margin:0;
+font-family:Tahoma,Arial;
+background:#f5f7fb;
+color:#172033;
+}
+
+header{
+background:white;
+border-bottom:1px solid #e5eaf0;
+padding:15px;
+}
+
+.header{
+max-width:1050px;
+margin:auto;
+display:flex;
+justify-content:space-between;
+align-items:center;
+}
+
+.logo{
+font-weight:bold;
+color:#12395b;
+}
+
+.back{
+text-decoration:none;
+background:#eef6ff;
+color:#1769aa;
+padding:9px 13px;
+border-radius:10px;
+font-size:12px;
+}
+
+main{
+max-width:1050px;
+margin:auto;
+padding:25px 15px;
+}
+
+.subtitle{
+color:#7b8798;
+font-size:13px;
+margin-bottom:20px;
+}
+
+.grid{
+display:grid;
+grid-template-columns:repeat(2,1fr);
+gap:15px;
+}
+
+.file{
+background:white;
+border:1px solid #e5eaf0;
+border-radius:17px;
+padding:20px;
+}
+
+.icon{
+font-size:30px;
+}
+
+.title{
+font-weight:bold;
+font-size:16px;
+margin:10px 0;
+}
+
+.info{
+font-size:12px;
+color:#7b8798;
+line-height:1.8;
+}
+
+.download{
+display:inline-block;
+margin-top:12px;
+padding:9px 14px;
+border-radius:9px;
+background:#1769aa;
+color:white;
+text-decoration:none;
+font-size:12px;
+font-weight:bold;
+}
+
+.empty{
+background:white;
+padding:45px;
+text-align:center;
+color:#98a2b3;
+border-radius:15px;
+}
+
+@media(max-width:650px){
+.grid{
+grid-template-columns:1fr;
+}
+}
+
+</style>
+
+</head>
+
+<body>
+
+<header>
+
+<div class="header">
+
+<div class="logo">
+مسار التمريض
+</div>
+
+<a href="dashboard.html"
+class="back">
+← لوحة الطالب
+</a>
+
+</div>
+
+</header>
+
+<main>
+
+<h1>📚 الملفات التعليمية</h1>
+
+<p id="stageText"
+class="subtitle">
+جاري التحميل...
+</p>
+
+<div id="files"
+class="grid">
+
+<div class="empty">
+جاري تحميل الملفات...
+</div>
+
+</div>
+
+</main>
+
+<script type="module"
+src="./js/files.js">
+</script>
+
+</body>
+</html>
