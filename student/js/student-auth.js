@@ -11,8 +11,16 @@ import {
 } from "https://www.gstatic.com/firebasejs/12.18.0/firebase-firestore.js";
 
 
+/* =====================================================
+   SESSION
+   ===================================================== */
+
 const SESSION_KEY = "masar_student_session";
 
+
+/* =====================================================
+   STAGE NAMES
+   ===================================================== */
 
 export const stageNames = {
 
@@ -34,20 +42,32 @@ export const stageNames = {
 };
 
 
+/* =====================================================
+   SESSION FUNCTIONS
+   ===================================================== */
+
 export function getSession() {
 
     try {
 
-        return JSON.parse(
-            localStorage.getItem(SESSION_KEY)
+        const session =
+            localStorage.getItem(SESSION_KEY);
+
+        if (!session) {
+            return null;
+        }
+
+        return JSON.parse(session);
+
+    } catch (error) {
+
+        console.error(
+            "Session read error:",
+            error
         );
 
-    } catch {
-
         return null;
-
     }
-
 }
 
 
@@ -57,7 +77,6 @@ export function saveSession(data) {
         SESSION_KEY,
         JSON.stringify(data)
     );
-
 }
 
 
@@ -66,46 +85,79 @@ export function clearSession() {
     localStorage.removeItem(
         SESSION_KEY
     );
+}
+
+
+/* =====================================================
+   GET CURRENT FIREBASE USER
+   ===================================================== */
+
+export function getCurrentUser() {
+
+    return auth.currentUser || null;
 
 }
 
 
-export async function logoutStudent() {
+/* =====================================================
+   GET USER PROFILE
+   ===================================================== */
 
-    clearSession();
+export async function getUserProfile(uid) {
 
-    try {
-
-        await signOut(auth);
-
-    } catch (error) {
-
-        console.error(error);
-
+    if (!uid) {
+        return null;
     }
 
-    window.location.href =
-        "../login.html";
+    const userRef =
+        doc(
+            db,
+            "users",
+            uid
+        );
+
+    const snapshot =
+        await getDoc(userRef);
+
+    if (!snapshot.exists()) {
+        return null;
+    }
+
+    return {
+
+        id: snapshot.id,
+
+        ...snapshot.data()
+
+    };
 
 }
 
+
+/* =====================================================
+   GET STUDENT DATA
+   ===================================================== */
 
 export async function getStudentData() {
 
-    const session = getSession();
+    const session =
+        getSession();
 
-    if (!session || !session.studentId) {
+    if (
+        !session ||
+        !session.studentId
+    ) {
 
         return null;
-
     }
 
 
-    const studentRef = doc(
-        db,
-        "students",
-        session.studentId
-    );
+    const studentRef =
+        doc(
+            db,
+            "students",
+            session.studentId
+        );
 
 
     const snapshot =
@@ -115,7 +167,6 @@ export async function getStudentData() {
     if (!snapshot.exists()) {
 
         return null;
-
     }
 
 
@@ -130,113 +181,410 @@ export async function getStudentData() {
 }
 
 
+/* =====================================================
+   PROTECT STUDENT PAGE
+   ===================================================== */
+
 export async function protectStudentPage() {
 
     return new Promise((resolve) => {
 
-        onAuthStateChanged(
-            auth,
-            async (user) => {
-
-                if (!user) {
-
-                    window.location.href =
-                        "../login.html";
-
-                    return;
-
-                }
+        let handled = false;
 
 
-                const session =
-                    getSession();
+        const unsubscribe =
+            onAuthStateChanged(
+                auth,
+                async (user) => {
+
+                    if (handled) {
+                        return;
+                    }
 
 
-                if (
-                    !session ||
-                    !session.studentId
-                ) {
+                    /* ===============================
+                       NO FIREBASE USER
+                       =============================== */
 
-                    window.location.href =
-                        "../login.html";
+                    if (!user) {
 
-                    return;
+                        handled = true;
 
-                }
-
-
-                try {
-
-                    const student =
-                        await getStudentData();
-
-
-                    if (!student) {
+                        unsubscribe();
 
                         clearSession();
 
-                        window.location.href =
-                            "../login.html";
+                        window.location.replace(
+                            "../login.html"
+                        );
 
                         return;
-
                     }
+
+
+                    /* ===============================
+                       GET SESSION
+                       =============================== */
+
+                    const session =
+                        getSession();
 
 
                     if (
-                        student.isActive === false
+                        !session ||
+                        !session.studentId
                     ) {
+
+                        handled = true;
+
+                        unsubscribe();
 
                         clearSession();
 
-                        window.location.href =
-                            "../login.html";
+                        await signOut(auth)
+                            .catch(() => {});
+
+                        window.location.replace(
+                            "../login.html"
+                        );
 
                         return;
-
                     }
 
 
-                    resolve({
+                    try {
 
-                        user,
+                        /* ===============================
+                           GET USER PROFILE
+                           =============================== */
 
-                        student,
+                        const profile =
+                            await getUserProfile(
+                                user.uid
+                            );
 
-                        session
 
-                    });
+                        if (!profile) {
+
+                            handled = true;
+
+                            unsubscribe();
+
+                            clearSession();
+
+                            await signOut(auth)
+                                .catch(() => {});
+
+                            window.location.replace(
+                                "../login.html"
+                            );
+
+                            return;
+                        }
 
 
-                } catch (error) {
+                        /* ===============================
+                           ROLE CHECK
+                           =============================== */
 
-                    console.error(error);
+                        if (
+                            profile.role !==
+                            "student"
+                        ) {
 
-                    document.body.innerHTML = `
-                        <div style="
-                            min-height:100vh;
-                            display:flex;
-                            align-items:center;
-                            justify-content:center;
-                            padding:20px;
-                            text-align:center;
-                            font-family:Tahoma,Arial;
-                        ">
-                            <div>
-                                <div style="font-size:50px;">⚠️</div>
-                                <h2>حدث خطأ</h2>
-                                <p style="color:#777;margin-top:10px;">
-                                    تعذر تحميل بيانات الطالب.
-                                </p>
+                            handled = true;
+
+                            unsubscribe();
+
+                            clearSession();
+
+                            await signOut(auth)
+                                .catch(() => {});
+
+                            window.location.replace(
+                                "../login.html"
+                            );
+
+                            return;
+                        }
+
+
+                        /* ===============================
+                           STUDENT ID CHECK
+                           =============================== */
+
+                        if (
+                            profile.studentId !==
+                            session.studentId
+                        ) {
+
+                            handled = true;
+
+                            unsubscribe();
+
+                            clearSession();
+
+                            await signOut(auth)
+                                .catch(() => {});
+
+                            window.location.replace(
+                                "../login.html"
+                            );
+
+                            return;
+                        }
+
+
+                        /* ===============================
+                           ACTIVE CHECK
+                           =============================== */
+
+                        if (
+                            profile.isActive === false
+                        ) {
+
+                            handled = true;
+
+                            unsubscribe();
+
+                            clearSession();
+
+                            await signOut(auth)
+                                .catch(() => {});
+
+                            window.location.replace(
+                                "../login.html"
+                            );
+
+                            return;
+                        }
+
+
+                        /* ===============================
+                           GET STUDENT
+                           =============================== */
+
+                        const student =
+                            await getStudentData();
+
+
+                        if (!student) {
+
+                            handled = true;
+
+                            unsubscribe();
+
+                            clearSession();
+
+                            await signOut(auth)
+                                .catch(() => {});
+
+                            window.location.replace(
+                                "../login.html"
+                            );
+
+                            return;
+                        }
+
+
+                        /* ===============================
+                           STUDENT ACTIVE CHECK
+                           =============================== */
+
+                        if (
+                            student.isActive === false
+                        ) {
+
+                            handled = true;
+
+                            unsubscribe();
+
+                            clearSession();
+
+                            await signOut(auth)
+                                .catch(() => {});
+
+                            window.location.replace(
+                                "../login.html"
+                            );
+
+                            return;
+                        }
+
+
+                        /* ===============================
+                           UPDATE SESSION
+                           =============================== */
+
+                        saveSession({
+
+                            uid:
+                                user.uid,
+
+                            studentId:
+                                session.studentId,
+
+                            subscriptionCode:
+                                profile.subscriptionCode ||
+                                session.subscriptionCode ||
+                                "",
+
+                            name:
+                                student.name ||
+                                profile.name ||
+                                "الطالب",
+
+                            stage:
+                                student.stage ||
+                                profile.stage ||
+                                "",
+
+                            role:
+                                "student"
+
+                        });
+
+
+                        handled = true;
+
+                        unsubscribe();
+
+
+                        /* ===============================
+                           SUCCESS
+                           =============================== */
+
+                        resolve({
+
+                            user,
+
+                            profile,
+
+                            student,
+
+                            session:
+                                getSession()
+
+                        });
+
+
+                    } catch (error) {
+
+                        console.error(
+                            "Student auth error:",
+                            error
+                        );
+
+
+                        if (handled) {
+                            return;
+                        }
+
+
+                        handled = true;
+
+                        unsubscribe();
+
+
+                        document.body.innerHTML = `
+
+                            <div style="
+                                min-height:100vh;
+                                display:flex;
+                                align-items:center;
+                                justify-content:center;
+                                padding:20px;
+                                font-family:Tahoma,Arial;
+                                text-align:center;
+                                background:#f5f7fb;
+                            ">
+
+                                <div style="
+                                    background:#fff;
+                                    padding:30px;
+                                    border-radius:20px;
+                                    max-width:420px;
+                                    width:100%;
+                                    box-shadow:0 10px 30px rgba(0,0,0,.08);
+                                ">
+
+                                    <div style="
+                                        font-size:45px;
+                                        margin-bottom:15px;
+                                    ">
+                                        ⚠️
+                                    </div>
+
+                                    <h2>
+                                        تعذر التحقق من الحساب
+                                    </h2>
+
+                                    <p style="
+                                        color:#777;
+                                        line-height:1.8;
+                                        margin-top:10px;
+                                    ">
+                                        حدث خطأ أثناء تحميل بيانات الطالب.
+                                        يرجى إعادة تحميل الصفحة.
+                                    </p>
+
+                                    <button
+                                        onclick="location.reload()"
+                                        style="
+                                            margin-top:15px;
+                                            border:0;
+                                            background:#1769aa;
+                                            color:#fff;
+                                            padding:12px 20px;
+                                            border-radius:10px;
+                                            font-weight:bold;
+                                            cursor:pointer;
+                                        "
+                                    >
+                                        إعادة المحاولة
+                                    </button>
+
+                                </div>
+
                             </div>
-                        </div>
-                    `;
+
+                        `;
+
+                    }
 
                 }
 
-            }
-        );
+            );
 
     });
+
+}
+
+
+/* =====================================================
+   LOGOUT
+   ===================================================== */
+
+export async function logoutStudent() {
+
+    clearSession();
+
+    try {
+
+        await signOut(auth);
+
+    } catch (error) {
+
+        console.error(
+            "Logout error:",
+            error
+        );
+
+    }
+
+
+    window.location.replace(
+        "../login.html"
+    );
 
 }
