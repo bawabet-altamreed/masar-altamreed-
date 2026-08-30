@@ -398,17 +398,21 @@
 
 </div>
 
-
-<script type="module">
+         
+            <script type="module">
 
 import {
     auth,
     db
 } from "./src/firebase/config.js";
 
+
 import {
-    signInAnonymously
+    signInAnonymously,
+    setPersistence,
+    browserLocalPersistence
 } from "https://www.gstatic.com/firebasejs/12.18.0/firebase-auth.js";
+
 
 import {
     doc,
@@ -418,23 +422,35 @@ import {
 } from "https://www.gstatic.com/firebasejs/12.18.0/firebase-firestore.js";
 
 
+import {
+    saveSession
+} from "./student/js/student-auth.js";
+
+
 const form =
     document.getElementById("loginForm");
+
 
 const codeInput =
     document.getElementById("code");
 
+
 const passwordInput =
     document.getElementById("password");
 
+
 const loginBtn =
     document.getElementById("loginBtn");
+
 
 const message =
     document.getElementById("message");
 
 
-function showMessage(text, type = "error") {
+function showMessage(
+    text,
+    type = "error"
+) {
 
     message.textContent = text;
 
@@ -448,358 +464,406 @@ function clearMessage() {
 
     message.textContent = "";
 
-    message.className = "message";
+    message.className =
+        "message";
 
 }
 
 
-function isExpired(endDate) {
+/* =====================================================
+   LOGIN
+   ===================================================== */
 
-    if (!endDate) {
-        return false;
-    }
+form.addEventListener(
+    "submit",
+    async (event) => {
 
-    const today = new Date();
+        event.preventDefault();
 
-    const end = new Date(
-        endDate + "T23:59:59"
-    );
-
-    return today > end;
-
-}
+        clearMessage();
 
 
-form.addEventListener("submit", async (event) => {
-
-    event.preventDefault();
-
-    clearMessage();
-
-    const code =
-        codeInput.value
-            .trim()
-            .toUpperCase();
-
-    const password =
-        passwordInput.value.trim();
+        const code =
+            codeInput.value
+                .trim()
+                .toUpperCase();
 
 
-    if (!code || !password) {
-
-        showMessage(
-            "من فضلك أدخل كود الاشتراك وكلمة المرور."
-        );
-
-        return;
-    }
+        const password =
+            passwordInput.value.trim();
 
 
-    loginBtn.disabled = true;
-
-    loginBtn.textContent =
-        "جاري التحقق...";
-
-
-    try {
-
-        /*
-         * =====================================
-         * 1 - Anonymous Authentication
-         * =====================================
-         */
-
-        if (!auth.currentUser) {
-
-            await signInAnonymously(auth);
-
-        }
-
-
-        const uid =
-            auth.currentUser.uid;
-
-
-        console.log(
-            "Student Anonymous UID:",
-            uid
-        );
-
-
-        /*
-         * =====================================
-         * 2 - قراءة الاشتراك
-         * subscriptions/{CODE}
-         * =====================================
-         */
-
-        const subscriptionRef =
-            doc(
-                db,
-                "subscriptions",
-                code
-            );
-
-
-        const subscriptionSnapshot =
-            await getDoc(subscriptionRef);
-
-
-        if (!subscriptionSnapshot.exists()) {
+        if (!code || !password) {
 
             showMessage(
-                "كود الاشتراك غير صحيح."
+                "من فضلك أدخل كود الاشتراك وكلمة المرور."
             );
 
             return;
         }
 
 
-        const subscription =
-            subscriptionSnapshot.data();
+        loginBtn.disabled = true;
+
+        loginBtn.textContent =
+            "جاري التحقق...";
 
 
-        console.log(
-            "Subscription:",
-            subscription
-        );
+        try {
 
+            /* ==========================================
+               1. Firebase Persistence
+               ========================================== */
 
-        /*
-         * =====================================
-         * 3 - كلمة المرور
-         * =====================================
-         */
-
-        if (
-            String(subscription.password || "") !==
-            password
-        ) {
-
-            showMessage(
-                "كلمة المرور غير صحيحة."
-            );
-
-            return;
-        }
-
-
-        /*
-         * =====================================
-         * 4 - حالة الاشتراك
-         * =====================================
-         */
-
-        if (
-            String(subscription.status || "")
-                .toLowerCase() !== "active"
-        ) {
-
-            showMessage(
-                "هذا الاشتراك غير فعال حاليًا."
-            );
-
-            return;
-        }
-
-
-        /*
-         * =====================================
-         * 5 - تاريخ الانتهاء
-         * =====================================
-         */
-
-        if (
-            isExpired(subscription.endDate)
-        ) {
-
-            showMessage(
-                "انتهى اشتراكك. يرجى التواصل مع الإدارة."
-            );
-
-            return;
-        }
-
-
-        /*
-         * =====================================
-         * 6 - Student ID
-         * =====================================
-         */
-
-        const studentId =
-            subscription.studentId || code;
-
-
-        /*
-         * =====================================
-         * 7 - قراءة الطالب
-         * =====================================
-         */
-
-        const studentRef =
-            doc(
-                db,
-                "students",
-                studentId
+            await setPersistence(
+                auth,
+                browserLocalPersistence
             );
 
 
-        const studentSnapshot =
-            await getDoc(studentRef);
+            /* ==========================================
+               2. Anonymous Login
+               ========================================== */
+
+            if (!auth.currentUser) {
+
+                await signInAnonymously(
+                    auth
+                );
+
+            }
 
 
-        if (!studentSnapshot.exists()) {
+            const uid =
+                auth.currentUser.uid;
 
-            showMessage(
-                "تم العثور على الاشتراك ولكن بيانات الطالب غير موجودة."
+
+            /* ==========================================
+               3. GET SUBSCRIPTION
+               ========================================== */
+
+            const subscriptionRef =
+                doc(
+                    db,
+                    "subscriptions",
+                    code
+                );
+
+
+            const subscriptionSnapshot =
+                await getDoc(
+                    subscriptionRef
+                );
+
+
+            if (
+                !subscriptionSnapshot.exists()
+            ) {
+
+                showMessage(
+                    "كود الاشتراك غير صحيح."
+                );
+
+                return;
+            }
+
+
+            const subscription =
+                subscriptionSnapshot.data();
+
+
+            /* ==========================================
+               4. PASSWORD
+               ========================================== */
+
+            if (
+                String(
+                    subscription.password ?? ""
+                ) !== password
+            ) {
+
+                showMessage(
+                    "كلمة المرور غير صحيحة."
+                );
+
+                return;
+            }
+
+
+            /* ==========================================
+               5. STATUS
+               ========================================== */
+
+            if (
+                subscription.status !==
+                "active"
+            ) {
+
+                showMessage(
+                    "هذا الاشتراك غير فعال حاليًا."
+                );
+
+                return;
+            }
+
+
+            /* ==========================================
+               6. END DATE
+               ========================================== */
+
+            if (
+                subscription.endDate
+            ) {
+
+                const today =
+                    new Date();
+
+
+                const endDate =
+                    new Date(
+                        subscription.endDate +
+                        "T23:59:59"
+                    );
+
+
+                if (
+                    today > endDate
+                ) {
+
+                    showMessage(
+                        "انتهى اشتراكك. يرجى التواصل مع الإدارة."
+                    );
+
+                    return;
+                }
+
+            }
+
+
+            /* ==========================================
+               7. STUDENT ID
+               ========================================== */
+
+            const studentId =
+                subscription.studentId ||
+                subscription.studentID ||
+                code;
+
+
+            /* ==========================================
+               8. GET STUDENT
+               ========================================== */
+
+            const studentRef =
+                doc(
+                    db,
+                    "students",
+                    studentId
+                );
+
+
+            const studentSnapshot =
+                await getDoc(
+                    studentRef
+                );
+
+
+            if (
+                !studentSnapshot.exists()
+            ) {
+
+                showMessage(
+                    "بيانات الطالب غير موجودة. يرجى التواصل مع الإدارة."
+                );
+
+                return;
+            }
+
+
+            const student =
+                studentSnapshot.data();
+
+
+            /* ==========================================
+               9. STUDENT ACTIVE
+               ========================================== */
+
+            if (
+                student.isActive === false
+            ) {
+
+                showMessage(
+                    "حساب الطالب موقوف حاليًا."
+                );
+
+                return;
+            }
+
+
+            /* ==========================================
+               10. CREATE / UPDATE USER
+               ========================================== */
+
+            const userRef =
+                doc(
+                    db,
+                    "users",
+                    uid
+                );
+
+
+            await setDoc(
+                userRef,
+                {
+
+                    uid:
+
+                        uid,
+
+                    role:
+
+                        "student",
+
+                    studentId:
+
+                        studentId,
+
+                    subscriptionCode:
+
+                        code,
+
+                    name:
+
+                        student.name ||
+                        "الطالب",
+
+                    stage:
+
+                        student.stage ||
+                        subscription.stage ||
+                        "",
+
+                    isActive:
+
+                        true,
+
+                    updatedAt:
+
+                        serverTimestamp()
+
+                },
+                {
+                    merge: true
+                }
             );
 
-            return;
-        }
 
+            /* ==========================================
+               11. SAVE LOCAL SESSION
+               ========================================== */
 
-        const student =
-            studentSnapshot.data();
+            saveSession({
 
+                uid:
 
-        console.log(
-            "Student:",
-            student
-        );
+                    uid,
 
+                studentId:
 
-        /*
-         * =====================================
-         * 8 - الطالب موقوف؟
-         * =====================================
-         */
+                    studentId,
 
-        if (
-            student.isActive === false
-        ) {
+                subscriptionCode:
 
-            showMessage(
-                "حساب الطالب موقوف حاليًا."
-            );
-
-            return;
-        }
-
-
-        /*
-         * =====================================
-         * 9 - إنشاء / تحديث users/{uid}
-         * =====================================
-         */
-
-        const userRef =
-            doc(
-                db,
-                "users",
-                uid
-            );
-
-
-        await setDoc(
-            userRef,
-            {
-
-                uid: uid,
-
-                role: "student",
-
-                studentId: studentId,
-
-                subscriptionCode: code,
+                    code,
 
                 name:
+
                     student.name ||
-                    subscription.name ||
-                    "طالب",
+                    "الطالب",
 
                 stage:
+
                     student.stage ||
                     subscription.stage ||
                     "",
 
-                isActive: true,
+                role:
 
-                updatedAt:
-                    serverTimestamp()
+                    "student"
 
-            },
-            {
-                merge: true
-            }
-        );
+            });
 
 
-        /*
-         * =====================================
-         * 10 - نجاح
-         * =====================================
-         */
+            /* ==========================================
+               12. SUCCESS
+               ========================================== */
 
-        showMessage(
-            `مرحبًا ${student.name || "بك"} 👋`,
-            "success"
-        );
-
-
-        /*
-         * =====================================
-         * 11 - الانتقال للطالب
-         * =====================================
-         */
-
-        setTimeout(() => {
-
-            window.location.replace(
-                "./student/dashboard.html"
+            showMessage(
+                `مرحبًا ${student.name || "بك"} 👋`,
+                "success"
             );
 
-        }, 600);
+
+            /* ==========================================
+               13. GO DASHBOARD
+               ========================================== */
+
+            setTimeout(() => {
+
+                window.location.replace(
+                    "./student/dashboard.html"
+                );
+
+            }, 500);
 
 
-    } catch (error) {
+        } catch (error) {
 
-        console.error(
-            "LOGIN ERROR:",
-            error
-        );
-
-
-        let errorMessage =
-            "حدث خطأ أثناء تسجيل الدخول.";
+            console.error(
+                "LOGIN ERROR:",
+                error
+            );
 
 
-        if (
-            error.code ===
-            "permission-denied"
-        ) {
+            console.error(
+                "ERROR CODE:",
+                error.code
+            );
 
-            errorMessage =
-                "ليس لديك صلاحية للوصول إلى بيانات الاشتراك.";
+
+            if (
+                error.code ===
+                "permission-denied"
+            ) {
+
+                showMessage(
+                    "تم رفض الوصول إلى بيانات الحساب. تأكد من نشر Firestore Rules."
+                );
+
+            } else {
+
+                showMessage(
+                    "حدث خطأ أثناء تسجيل الدخول. حاول مرة أخرى."
+                );
+
+            }
+
+        } finally {
+
+            loginBtn.disabled = false;
+
+            loginBtn.textContent =
+                "تسجيل الدخول";
 
         }
 
-
-        showMessage(
-            errorMessage
-        );
-
-
-    } finally {
-
-        loginBtn.disabled = false;
-
-        loginBtn.textContent =
-            "تسجيل الدخول";
-
     }
 
-});
+);
+
+</script>
+
+
 
 </script>
 
