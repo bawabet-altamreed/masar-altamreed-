@@ -1,428 +1,366 @@
-<!DOCTYPE html>
-<html lang="ar" dir="rtl">
-
-<head>
+<!DOCTYPE html><html lang="ar" dir="rtl"><head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"><title>تسجيل الدخول | مسار التمريض</title>
 
-    <title>تسجيل الدخول | مسار التمريض</title>
+<style>
+    * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+    }
 
-    <style>
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
+    body {
+        min-height: 100vh;
+        font-family: Arial, Tahoma, sans-serif;
+        background:
+            radial-gradient(circle at top right, #dff5ff 0%, transparent 35%),
+            radial-gradient(circle at bottom left, #e8e3ff 0%, transparent 35%),
+            #f6f8fc;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 20px;
+    }
 
-        body {
-            min-height: 100vh;
-            font-family: Arial, Tahoma, sans-serif;
+    .login-wrapper {
+        width: 100%;
+        max-width: 430px;
+    }
 
-            background:
-                radial-gradient(circle at top right, #dff5ff 0%, transparent 35%),
-                radial-gradient(circle at bottom left, #e8e3ff 0%, transparent 35%),
-                #f6f8fc;
+    .brand {
+        text-align: center;
+        margin-bottom: 22px;
+    }
 
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 20px;
-        }
+    .logo {
+        width: 82px;
+        height: 82px;
+        margin: 0 auto 14px;
+        border-radius: 24px;
+        background: linear-gradient(145deg, #1769aa, #0d3f68);
+        color: white;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 38px;
+        box-shadow: 0 15px 35px rgba(23, 105, 170, 0.22);
+    }
 
-        .login-wrapper {
-            width: 100%;
-            max-width: 430px;
-        }
+    .brand h1 {
+        color: #12395b;
+        font-size: 27px;
+        margin-bottom: 6px;
+    }
 
-        .brand {
-            text-align: center;
-            margin-bottom: 22px;
-        }
+    .brand p {
+        color: #7b8798;
+        font-size: 14px;
+    }
 
-        .logo {
-            width: 82px;
-            height: 82px;
-            margin: 0 auto 14px;
-            border-radius: 24px;
+    .login-card {
+        background: rgba(255, 255, 255, 0.96);
+        border: 1px solid #e6ebf2;
+        border-radius: 25px;
+        padding: 28px 22px;
+        box-shadow: 0 20px 55px rgba(20, 45, 75, 0.10);
+    }
 
-            background: linear-gradient(145deg, #1769aa, #0d3f68);
+    .welcome {
+        margin-bottom: 23px;
+    }
 
-            color: white;
+    .welcome h2 {
+        color: #172033;
+        font-size: 21px;
+        margin-bottom: 7px;
+    }
 
-            display: flex;
-            align-items: center;
-            justify-content: center;
+    .welcome p {
+        color: #7b8798;
+        font-size: 13px;
+        line-height: 1.7;
+    }
 
-            font-size: 38px;
+    .input-group {
+        margin-bottom: 16px;
+    }
 
-            box-shadow:
-                0 15px 35px rgba(23, 105, 170, 0.22);
+    .input-label {
+        display: block;
+        color: #344054;
+        font-size: 13px;
+        font-weight: bold;
+        margin-bottom: 8px;
+    }
+
+    .input-box {
+        position: relative;
+    }
+
+    .input-box .icon {
+        position: absolute;
+        right: 14px;
+        top: 50%;
+        transform: translateY(-50%);
+        font-size: 18px;
+        pointer-events: none;
+    }
+
+    .input-box input {
+        width: 100%;
+        height: 54px;
+        border: 1px solid #dce3ec;
+        border-radius: 14px;
+        background: #f9fbfd;
+        padding: 0 47px 0 14px;
+        outline: none;
+        color: #172033;
+        font-size: 15px;
+        transition: 0.2s;
+        font-family: inherit;
+    }
+
+    .input-box input:focus {
+        border-color: #1769aa;
+        background: #ffffff;
+        box-shadow: 0 0 0 4px rgba(23, 105, 170, 0.08);
+    }
+
+    .login-btn {
+        width: 100%;
+        height: 54px;
+        border: none;
+        border-radius: 14px;
+        background: linear-gradient(135deg, #1769aa, #0d4f80);
+        color: white;
+        font-size: 16px;
+        font-weight: bold;
+        cursor: pointer;
+        margin-top: 7px;
+        transition: 0.2s;
+        font-family: inherit;
+    }
+
+    .login-btn:hover {
+        transform: translateY(-1px);
+    }
+
+    .login-btn:disabled {
+        opacity: 0.65;
+        cursor: not-allowed;
+        transform: none;
+    }
+
+    .message {
+        display: none;
+        margin-top: 15px;
+        padding: 12px 14px;
+        border-radius: 12px;
+        font-size: 13px;
+        line-height: 1.7;
+        text-align: center;
+    }
+
+    .message.error {
+        display: block;
+        background: #fff1f1;
+        color: #b42318;
+        border: 1px solid #ffd4d4;
+    }
+
+    .message.success {
+        display: block;
+        background: #ecfdf3;
+        color: #087443;
+        border: 1px solid #c7f0d8;
+    }
+
+    .contact-box {
+        margin-top: 20px;
+        padding: 15px;
+        border-radius: 14px;
+        background: #f5f9fc;
+        text-align: center;
+    }
+
+    .contact-box p {
+        color: #667085;
+        font-size: 13px;
+        line-height: 1.8;
+    }
+
+    .whatsapp {
+        display: inline-block;
+        margin-top: 5px;
+        color: #128c55;
+        font-weight: bold;
+        text-decoration: none;
+    }
+
+    .footer {
+        text-align: center;
+        margin-top: 20px;
+        color: #98a2b3;
+        font-size: 12px;
+    }
+
+    @media (max-width: 480px) {
+
+        .login-card {
+            padding: 24px 18px;
         }
 
         .brand h1 {
-            color: #12395b;
-            font-size: 27px;
-            margin-bottom: 6px;
+            font-size: 24px;
         }
+    }
+</style>
 
-        .brand p {
-            color: #7b8798;
-            font-size: 14px;
-        }
+</head><body><div class="login-wrapper"><div class="brand">
 
-        .login-card {
-            background: rgba(255, 255, 255, 0.96);
-            border: 1px solid #e6ebf2;
-            border-radius: 25px;
-            padding: 28px 22px;
+    <div class="logo">
+        🩺
+    </div>
 
-            box-shadow:
-                0 20px 55px rgba(20, 45, 75, 0.10);
-        }
+    <h1>
+        مسار التمريض
+    </h1>
 
-        .welcome {
-            margin-bottom: 23px;
-        }
+    <p>
+        Masar Al-Tamreed
+    </p>
 
-        .welcome h2 {
-            color: #172033;
-            font-size: 21px;
-            margin-bottom: 7px;
-        }
+</div>
 
-        .welcome p {
-            color: #7b8798;
-            font-size: 13px;
-        }
 
-        .input-group {
-            margin-bottom: 16px;
-        }
+<div class="login-card">
 
-        .input-label {
-            display: block;
-            color: #344054;
-            font-size: 13px;
-            font-weight: bold;
-            margin-bottom: 8px;
-        }
+    <div class="welcome">
 
-        .input-box {
-            position: relative;
-        }
-
-        .input-box .icon {
-            position: absolute;
-            right: 14px;
-            top: 50%;
-            transform: translateY(-50%);
-            font-size: 18px;
-        }
-
-        .input-box input {
-            width: 100%;
-            height: 54px;
-
-            border: 1px solid #dce3ec;
-            border-radius: 14px;
-
-            background: #f9fbfd;
-
-            padding: 0 47px 0 14px;
-
-            outline: none;
-
-            color: #172033;
-            font-size: 15px;
-
-            transition: 0.2s;
-        }
-
-        .input-box input:focus {
-            border-color: #1769aa;
-            background: #ffffff;
-
-            box-shadow:
-                0 0 0 4px rgba(23, 105, 170, 0.08);
-        }
-
-        .login-btn {
-            width: 100%;
-            height: 54px;
-
-            border: none;
-            border-radius: 14px;
-
-            background:
-                linear-gradient(135deg, #1769aa, #0d4f80);
-
-            color: white;
-
-            font-size: 16px;
-            font-weight: bold;
-
-            cursor: pointer;
-            margin-top: 7px;
-
-            transition: 0.2s;
-        }
-
-        .login-btn:hover {
-            transform: translateY(-1px);
-        }
-
-        .login-btn:disabled {
-            opacity: 0.65;
-            cursor: not-allowed;
-            transform: none;
-        }
-
-        .message {
-            display: none;
-
-            margin-top: 15px;
-
-            padding: 12px 14px;
-
-            border-radius: 12px;
-
-            font-size: 13px;
-            line-height: 1.7;
-
-            text-align: center;
-        }
-
-        .message.error {
-            display: block;
-
-            background: #fff1f1;
-            color: #b42318;
-
-            border: 1px solid #ffd4d4;
-        }
-
-        .message.success {
-            display: block;
-
-            background: #ecfdf3;
-            color: #087443;
-
-            border: 1px solid #c7f0d8;
-        }
-
-        .contact-box {
-            margin-top: 20px;
-
-            padding: 15px;
-
-            border-radius: 14px;
-
-            background: #f5f9fc;
-
-            text-align: center;
-        }
-
-        .contact-box p {
-            color: #667085;
-            font-size: 13px;
-            line-height: 1.8;
-        }
-
-        .whatsapp {
-            display: inline-block;
-
-            margin-top: 5px;
-
-            color: #128c55;
-
-            font-weight: bold;
-
-            text-decoration: none;
-        }
-
-        .footer {
-            text-align: center;
-
-            margin-top: 20px;
-
-            color: #98a2b3;
-
-            font-size: 12px;
-        }
-
-        @media (max-width: 480px) {
-
-            .login-card {
-                padding: 24px 18px;
-            }
-
-            .brand h1 {
-                font-size: 24px;
-            }
-
-        }
-    </style>
-
-</head>
-
-
-<body>
-
-
-<div class="login-wrapper">
-
-
-    <div class="brand">
-
-        <div class="logo">
-            🩺
-        </div>
-
-        <h1>
-            مسار التمريض
-        </h1>
+        <h2>
+            تسجيل الدخول
+        </h2>
 
         <p>
-            Masar Al-Tamreed
+            أدخل كود الاشتراك وكلمة المرور للوصول إلى منصتك التعليمية
         </p>
 
     </div>
 
 
-    <div class="login-card">
+    <form id="loginForm">
 
+        <div class="input-group">
 
-        <div class="welcome">
+            <label
+                class="input-label"
+                for="code"
+            >
+                كود الاشتراك
+            </label>
 
-            <h2>
-                تسجيل الدخول
-            </h2>
+            <div class="input-box">
 
-            <p>
-                أدخل بيانات الاشتراك للمتابعة إلى منصتك التعليمية
-            </p>
+                <span class="icon">
+                    🔑
+                </span>
+
+                <input
+                    type="text"
+                    id="code"
+                    placeholder="مثال: ST001"
+                    autocomplete="off"
+                    autocapitalize="characters"
+                    required
+                >
+
+            </div>
 
         </div>
 
 
-        <form id="loginForm">
+        <div class="input-group">
 
+            <label
+                class="input-label"
+                for="password"
+            >
+                كلمة المرور
+            </label>
 
-            <div class="input-group">
+            <div class="input-box">
 
-                <label
-                    class="input-label"
-                    for="code"
+                <span class="icon">
+                    🔒
+                </span>
+
+                <input
+                    type="password"
+                    id="password"
+                    placeholder="أدخل كلمة المرور"
+                    autocomplete="current-password"
+                    required
                 >
-                    كود الاشتراك
-                </label>
-
-                <div class="input-box">
-
-                    <span class="icon">
-                        🔑
-                    </span>
-
-                    <input
-                        type="text"
-                        id="code"
-                        placeholder="أدخل كود الاشتراك"
-                        autocomplete="off"
-                        required
-                    >
-
-                </div>
 
             </div>
-
-
-            <div class="input-group">
-
-                <label
-                    class="input-label"
-                    for="password"
-                >
-                    كلمة المرور
-                </label>
-
-                <div class="input-box">
-
-                    <span class="icon">
-                        🔒
-                    </span>
-
-                    <input
-                        type="password"
-                        id="password"
-                        placeholder="أدخل كلمة المرور"
-                        autocomplete="current-password"
-                        required
-                    >
-
-                </div>
-
-            </div>
-
-
-            <button
-                type="submit"
-                class="login-btn"
-                id="loginBtn"
-            >
-                تسجيل الدخول
-            </button>
-
-
-            <div
-                id="message"
-                class="message"
-            ></div>
-
-
-        </form>
-
-
-        <div class="contact-box">
-
-            <p>
-                إذا لم يكن لديك كود اشتراك،
-                تواصل مع إدارة مسار التمريض.
-            </p>
-
-            <a
-                class="whatsapp"
-                href="https://wa.me/201222736904"
-                target="_blank"
-                rel="noopener"
-            >
-                واتساب الإدارة: 01222736904
-            </a>
 
         </div>
 
 
+        <button
+            type="submit"
+            class="login-btn"
+            id="loginBtn"
+        >
+            تسجيل الدخول
+        </button>
+
+
+        <div
+            id="message"
+            class="message"
+        ></div>
+
+    </form>
+
+
+    <div class="contact-box">
+
+        <p>
+            إذا لم يكن لديك كود اشتراك،
+            تواصل مع إدارة مسار التمريض.
+        </p>
+
+        <a
+            class="whatsapp"
+            href="https://wa.me/201222736904"
+            target="_blank"
+            rel="noopener"
+        >
+            واتساب الإدارة: 01222736904
+        </a>
+
     </div>
-
-
-    <div class="footer">
-
-        © 2026 مسار التمريض | Masar Al-Tamreed
-
-    </div>
-
 
 </div>
 
-<script type="module">
+
+<div class="footer">
+    © 2026 مسار التمريض | Masar Al-Tamreed
+</div>
+
+</div><script type="module">
 
 import {
     auth,
     db
 } from "./src/firebase/config.js";
 
+
 import {
     signInAnonymously
 } from "https://www.gstatic.com/firebasejs/12.18.0/firebase-auth.js";
+
 
 import {
     doc,
@@ -433,233 +371,295 @@ import {
 } from "https://www.gstatic.com/firebasejs/12.18.0/firebase-firestore.js";
 
 
-const form = document.getElementById("loginForm");
-const codeInput = document.getElementById("code");
-const passwordInput = document.getElementById("password");
-const loginBtn = document.getElementById("loginBtn");
-const message = document.getElementById("message");
+const form =
+    document.getElementById("loginForm");
+
+const codeInput =
+    document.getElementById("code");
+
+const passwordInput =
+    document.getElementById("password");
+
+const loginBtn =
+    document.getElementById("loginBtn");
+
+const message =
+    document.getElementById("message");
 
 
 function showMessage(text, type = "error") {
 
     message.textContent = text;
-    message.className = "message " + type;
 
+    message.className =
+        "message " + type;
 }
 
 
 function clearMessage() {
 
     message.textContent = "";
-    message.className = "message";
 
+    message.className =
+        "message";
 }
 
 
-form.addEventListener("submit", async (event) => {
+function isSubscriptionExpired(endDate) {
 
-    event.preventDefault();
-
-    clearMessage();
-
-    const code =
-        codeInput.value.trim().toUpperCase();
-
-    const password =
-        passwordInput.value.trim();
-
-
-    if (!code || !password) {
-
-        showMessage(
-            "من فضلك أدخل كود الاشتراك وكلمة المرور."
-        );
-
-        return;
+    if (!endDate) {
+        return false;
     }
 
+    const today =
+        new Date();
 
-    loginBtn.disabled = true;
-    loginBtn.textContent = "جاري التحقق...";
-
-
-    try {
-
-        /*
-         * 1
-         * Anonymous Authentication
-         */
-
-        if (!auth.currentUser) {
-
-            await signInAnonymously(auth);
-
-        }
+    today.setHours(23, 59, 59, 999);
 
 
-        const uid =
-            auth.currentUser.uid;
+    const expiration =
+        new Date(
+            `${endDate}T23:59:59`
+        );
 
 
-        /*
-         * 2
-         * البحث عن الاشتراك
-         */
-
-        const subscriptionRef =
-            doc(
-                db,
-                "subscriptions",
-                code
-            );
+    return today > expiration;
+}
 
 
-        const subscriptionSnapshot =
-            await getDoc(subscriptionRef);
+form.addEventListener(
+    "submit",
+    async (event) => {
+
+        event.preventDefault();
+
+        clearMessage();
 
 
-        if (!subscriptionSnapshot.exists()) {
+        const code =
+            codeInput.value
+                .trim()
+                .toUpperCase();
+
+
+        const password =
+            passwordInput.value
+                .trim();
+
+
+        if (!code || !password) {
 
             showMessage(
-                "كود الاشتراك غير صحيح."
+                "من فضلك أدخل كود الاشتراك وكلمة المرور."
             );
 
             return;
         }
 
 
-        const subscription =
-            subscriptionSnapshot.data();
+        loginBtn.disabled = true;
+
+        loginBtn.textContent =
+            "جاري التحقق...";
 
 
-        /*
-         * 3
-         * التحقق من كلمة المرور
-         */
+        try {
 
-        if (
-            subscription.password !== password
-        ) {
+            /*
+             * ========================================
+             * 1 — Firebase Authentication
+             * ========================================
+             */
 
-            showMessage(
-                "كلمة المرور غير صحيحة."
-            );
+            if (!auth.currentUser) {
 
-            return;
-        }
+                await signInAnonymously(auth);
+
+            }
 
 
-        /*
-         * 4
-         * التحقق من حالة الاشتراك
-         */
-
-        if (
-            subscription.status !== "active"
-        ) {
-
-            showMessage(
-                "هذا الاشتراك غير فعال حاليًا."
-            );
-
-            return;
-        }
+            const uid =
+                auth.currentUser.uid;
 
 
-        /*
-         * 5
-         * التحقق من تاريخ الانتهاء
-         */
+            /*
+             * ========================================
+             * 2 — قراءة الاشتراك
+             *
+             * subscriptions/{CODE}
+             * ========================================
+             */
 
-        if (subscription.endDate) {
-
-            const today =
-                new Date();
-
-            const endDate =
-                new Date(
-                    subscription.endDate + "T23:59:59"
+            const subscriptionRef =
+                doc(
+                    db,
+                    "subscriptions",
+                    code
                 );
 
 
-            if (today > endDate) {
+            const subscriptionSnapshot =
+                await getDoc(
+                    subscriptionRef
+                );
+
+
+            if (!subscriptionSnapshot.exists()) {
 
                 showMessage(
-                    "انتهى اشتراكك. يرجى التواصل مع الإدارة."
+                    "كود الاشتراك غير صحيح."
                 );
 
                 return;
             }
 
-        }
+
+            const subscription =
+                subscriptionSnapshot.data();
 
 
-        /*
-         * 6
-         * معرفة الطالب
-         */
+            /*
+             * ========================================
+             * 3 — كلمة المرور
+             * ========================================
+             */
 
-        const studentId =
-            subscription.studentId || code;
+            if (
+                String(subscription.password || "") !==
+                password
+            ) {
 
+                showMessage(
+                    "كلمة المرور غير صحيحة."
+                );
 
-        const studentRef =
-            doc(
-                db,
-                "students",
-                studentId
-            );
-
-
-        const studentSnapshot =
-            await getDoc(studentRef);
+                return;
+            }
 
 
-        if (!studentSnapshot.exists()) {
+            /*
+             * ========================================
+             * 4 — حالة الاشتراك
+             * ========================================
+             */
 
-            showMessage(
-                "بيانات الطالب غير موجودة."
-            );
+            if (
+                subscription.status !==
+                "active"
+            ) {
 
-            return;
-        }
+                showMessage(
+                    "هذا الاشتراك غير فعال حاليًا. يرجى التواصل مع الإدارة."
+                );
 
-
-        const student =
-            studentSnapshot.data();
-
-
-        /*
-         * 7
-         * التأكد من أن الطالب فعال
-         */
-
-        if (student.isActive === false) {
-
-            showMessage(
-                "حساب الطالب موقوف حاليًا."
-            );
-
-            return;
-        }
+                return;
+            }
 
 
-        /*
-         * 8
-         * إنشاء / تحديث users
-         */
+            /*
+             * ========================================
+             * 5 — تاريخ الانتهاء
+             * ========================================
+             */
 
-        const userRef =
-            doc(
-                db,
-                "users",
-                uid
-            );
+            if (
+                isSubscriptionExpired(
+                    subscription.endDate
+                )
+            ) {
+
+                showMessage(
+                    "انتهى اشتراكك. يرجى التواصل مع الإدارة لتجديد الاشتراك."
+                );
+
+                return;
+            }
 
 
-        await setDoc(
-            userRef,
-            {
+            /*
+             * ========================================
+             * 6 — تحديد Student ID
+             * ========================================
+             */
+
+            const studentId =
+                subscription.studentId ||
+                code;
+
+
+            /*
+             * ========================================
+             * 7 — قراءة students/{studentId}
+             * ========================================
+             */
+
+            const studentRef =
+                doc(
+                    db,
+                    "students",
+                    studentId
+                );
+
+
+            const studentSnapshot =
+                await getDoc(
+                    studentRef
+                );
+
+
+            if (!studentSnapshot.exists()) {
+
+                showMessage(
+                    "بيانات الطالب غير موجودة. تواصل مع الإدارة."
+                );
+
+                return;
+            }
+
+
+            const student =
+                studentSnapshot.data();
+
+
+            /*
+             * ========================================
+             * 8 — حالة الطالب
+             * ========================================
+             */
+
+            if (
+                student.isActive === false
+            ) {
+
+                showMessage(
+                    "حساب الطالب موقوف حاليًا. تواصل مع الإدارة."
+                );
+
+                return;
+            }
+
+
+            /*
+             * ========================================
+             * 9 — إنشاء / تحديث users
+             *
+             * users/{Anonymous UID}
+             * ========================================
+             */
+
+            const userRef =
+                doc(
+                    db,
+                    "users",
+                    uid
+                );
+
+
+            const existingUser =
+                await getDoc(userRef);
+
+
+            const userData = {
 
                 uid: uid,
 
@@ -670,86 +670,160 @@ form.addEventListener("submit", async (event) => {
                 subscriptionCode: code,
 
                 name:
-                    student.name || "طالب",
+                    student.name ||
+                    "طالب",
 
                 stage:
-                    student.stage || "",
+                    student.stage ||
+                    "",
 
                 isActive: true,
 
                 updatedAt:
-                    serverTimestamp(),
-
-                createdAt:
                     serverTimestamp()
 
-            },
-            {
-                merge: true
-            }
-        );
+            };
 
 
-        /*
-         * 9
-         * ربط Anonymous UID بالاشتراك
-         */
+            if (!existingUser.exists()) {
 
-        await updateDoc(
-            subscriptionRef,
-            {
-
-                uid: uid,
-
-                studentId: studentId,
-
-                updatedAt:
-                    serverTimestamp()
+                userData.createdAt =
+                    serverTimestamp();
 
             }
-        );
 
 
-        /*
-         * 10
-         * الدخول للطالب
-         */
-
-        showMessage(
-            `مرحبًا ${student.name || "بك"} 👋`,
-            "success"
-        );
+            await setDoc(
+                userRef,
+                userData,
+                {
+                    merge: true
+                }
+            );
 
 
-        setTimeout(() => {
+            /*
+             * ========================================
+             * 10 — تحديث الاشتراك
+             * ========================================
+             */
 
-            window.location.href =
-                "./student/dashboard.html";
+            await updateDoc(
+                subscriptionRef,
+                {
 
-        }, 700);
+                    uid: uid,
+
+                    studentId: studentId,
+
+                    updatedAt:
+                        serverTimestamp()
+
+                }
+            );
 
 
-    } catch (error) {
+            /*
+             * ========================================
+             * 11 — حفظ جلسة الطالب محليًا
+             *
+             * تستخدمها صفحات الطالب
+             * كحماية إضافية من فتح الصفحات
+             * مباشرة.
+             * ========================================
+             */
 
-        console.error(error);
+            sessionStorage.setItem(
+                "masar_student_login",
+                "true"
+            );
 
-        showMessage(
-            "حدث خطأ أثناء تسجيل الدخول. حاول مرة أخرى."
-        );
 
-    } finally {
+            sessionStorage.setItem(
+                "masar_student_id",
+                studentId
+            );
 
-        loginBtn.disabled = false;
-        loginBtn.textContent = "تسجيل الدخول";
+
+            sessionStorage.setItem(
+                "masar_subscription_code",
+                code
+            );
+
+
+            /*
+             * ========================================
+             * 12 — نجاح الدخول
+             * ========================================
+             */
+
+            showMessage(
+                `مرحبًا ${student.name || "بك"} 👋 جاري فتح منصتك...`,
+                "success"
+            );
+
+
+            setTimeout(
+                () => {
+
+                    window.location.href =
+                        "./student/dashboard.html";
+
+                },
+                700
+            );
+
+
+        } catch (error) {
+
+            console.error(
+                "LOGIN ERROR:",
+                error
+            );
+
+
+            /*
+             * رسائل أخطاء Firebase
+             */
+
+            if (
+                error.code ===
+                "permission-denied"
+            ) {
+
+                showMessage(
+                    "ليس لديك صلاحية للوصول إلى بيانات الاشتراك. راجع Firebase Security Rules."
+                );
+
+            } else if (
+                error.code ===
+                "auth/operation-not-allowed"
+            ) {
+
+                showMessage(
+                    "Anonymous Authentication غير مفعّل في Firebase Authentication."
+                );
+
+            } else {
+
+                showMessage(
+                    "حدث خطأ أثناء تسجيل الدخول. حاول مرة أخرى."
+                );
+
+            }
+
+        } finally {
+
+            loginBtn.disabled =
+                false;
+
+            loginBtn.textContent =
+                "تسجيل الدخول";
+
+        }
 
     }
+);
 
-});
-
-
-</script>
-
-
-</body>
-
+</script></body>
 </html>
