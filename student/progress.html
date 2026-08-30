@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport"
+content="width=device-width,initial-scale=1">
+
+<title>تقدمي الدراسي | مسار التمريض</title>
+
+<style>
+
+*{
+box-sizing:border-box;
+}
+
+body{
+margin:0;
+font-family:Tahoma,Arial;
+background:#f5f7fb;
+color:#172033;
+}
+
+header{
+background:#fff;
+border-bottom:1px solid #e5eaf0;
+padding:15px;
+}
+
+.header{
+max-width:900px;
+margin:auto;
+display:flex;
+justify-content:space-between;
+align-items:center;
+}
+
+.logo{
+font-weight:bold;
+color:#12395b;
+}
+
+.back{
+text-decoration:none;
+background:#eef6ff;
+color:#1769aa;
+padding:9px 13px;
+border-radius:10px;
+font-size:12px;
+}
+
+main{
+max-width:900px;
+margin:auto;
+padding:25px 15px;
+}
+
+.grid{
+display:grid;
+grid-template-columns:repeat(2,1fr);
+gap:15px;
+margin-top:20px;
+}
+
+.card{
+background:#fff;
+border:1px solid #e5eaf0;
+border-radius:17px;
+padding:20px;
+}
+
+.card h3{
+color:#12395b;
+margin-bottom:10px;
+}
+
+.number{
+font-size:30px;
+font-weight:bold;
+color:#1769aa;
+}
+
+.label{
+color:#7b8798;
+font-size:12px;
+}
+
+.empty{
+padding:45px;
+background:#fff;
+border-radius:15px;
+text-align:center;
+color:#98a2b3;
+}
+
+@media(max-width:600px){
+.grid{
+grid-template-columns:1fr;
+}
+}
+
+</style>
+
+</head>
+
+<body>
+
+<header>
+
+<div class="header">
+
+<div class="logo">
+مسار التمريض
+</div>
+
+<a href="dashboard.html"
+class="back">
+← لوحة الطالب
+</a>
+
+</div>
+
+</header>
+
+<main>
+
+<h1>📊 تقدمي الدراسي</h1>
+
+<p style="color:#7b8798;font-size:13px;">
+ملخص تقدمك داخل المنصة
+</p>
+
+<div id="progress"
+class="grid">
+
+<div class="empty">
+جاري تحميل التقدم...
+</div>
+
+</div>
+
+</main>
+
+<script type="module"
+src="./js/progress.js">
+</script>
+
+</body>
+</html>
